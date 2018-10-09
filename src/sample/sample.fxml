@@ -78,9 +78,17 @@
                     </font>
                 </JFXButton>
                 <JFXTextField fx:id="typeValue" layoutX="401.0" layoutY="98.0" prefHeight="25.0" prefWidth="61.0" />
-                <JFXTextField editable="false" layoutX="482.0" layoutY="98.0" prefHeight="25.0" prefWidth="32.0" promptText="\%" />
-                <JFXTextField fx:id="surfacePV" layoutX="395.0" layoutY="57.0" prefHeight="25.0" prefWidth="61.0" />
-                <JFXTextField fx:id="metrecarre" editable="false" layoutX="480.0" layoutY="57.0" prefHeight="25.0" prefWidth="35.0" promptText="m²" />
+                <JFXTextField fx:id="longPV" layoutX="247.0" layoutY="65.0" prefHeight="17.0" prefWidth="34.0" />
+                <Label layoutX="230.0" layoutY="70.0" text="X" />
+                <Label layoutX="490.0" layoutY="70.0" text="m²" />
+                <Label layoutX="470.0" layoutY="111.0" text="\%" />
+                <Label layoutX="291.0" layoutY="70.0" text="X" />
+                <JFXTextField fx:id="largPV" layoutX="311.0" layoutY="65.0" prefHeight="17.0" prefWidth="41.0" />
+                <JFXTextField fx:id="surfacePV" layoutX="419.0" layoutY="66.0" prefHeight="17.0" prefWidth="61.0" />
+                <Label layoutX="248.0" layoutY="40.0" text="Long" />
+                <Label layoutX="318.0" layoutY="40.0" text="Larg" />
+                <Label layoutX="188.0" layoutY="40.0" text="nbre" />
+                <JFXButton fx:id="resultSurface" layoutX="371.0" layoutY="66.0" onAction="#resultFire" style="-fx-background-color: #4286f4;" text="-&gt;" />
             </children>
         </AnchorPane>
         <Label layoutX="90.0" layoutY="398.0" prefHeight="21.0" prefWidth="110.0" text="Type de PV :">
@@ -118,14 +126,13 @@
                 <Font name="Arial Bold" size="18.0" />
             </font>
         </Label>
-        <JFXTextField fx:id="nbrePV" layoutX="273.0" layoutY="345.0" prefHeight="32.0" prefWidth="150.0" />
-        <JFXComboBox layoutX="439.0" layoutY="343.0" prefHeight="34.0" prefWidth="68.0" promptText="m²" />
+        <JFXTextField fx:id="nbrePV" layoutX="234.0" layoutY="358.0" prefHeight="27.0" prefWidth="34.0" />
         <JFXButton layoutX="1011.0" layoutY="681.0" onAction="#Run" prefHeight="52.0" prefWidth="96.0" style="-fx-background-color: #7bb731;" text="Run">
             <font>
                 <Font name="Arial Bold" size="28.0" />
             </font>
         </JFXButton>
-        <TableView fx:id="tableView" layoutX="581.0" layoutY="347.0" onMouseDragExited="#Run" prefHeight="322.0" prefWidth="537.0">
+        <TableView fx:id="tableView" layoutX="581.0" layoutY="347.0" prefHeight="322.0" prefWidth="537.0">
             <columns>
                 <TableColumn fx:id="numero" prefWidth="75.0" text="Numero" />
                 <TableColumn fx:id="surface" prefWidth="111.33331298828125" text="Nombre de PV m²" />

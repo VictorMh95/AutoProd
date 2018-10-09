@@ -1,6 +1,5 @@
 package sample;
 
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.opencsv.CSVReader;
@@ -65,7 +64,16 @@ public class Controller implements Initializable {
     @FXML
     private JFXTextField typeValue;
     @FXML
+    private JFXTextField longPV;
+
+    @FXML
+    private JFXTextField largPV;
+
+    @FXML
     private JFXTextField surfacePV;
+
+    @FXML
+    private JFXButton resultSurface;
 
     @FXML
     private JFXButton ajouter ;
@@ -82,9 +90,6 @@ public class Controller implements Initializable {
     private int idNumber=1;
 
     final ObservableList<Installation> listAjout = FXCollections.observableArrayList();
-    ArrayList<Production> listProduction = new ArrayList<Production>();
-
-
 
 
     @FXML
@@ -140,9 +145,7 @@ public class Controller implements Initializable {
 
         listAjout.add(installation);
         tableView.setItems(listAjout);
-
     }
-
 
     @FXML
     void setValuePV(ActionEvent event) {
@@ -156,6 +159,15 @@ public class Controller implements Initializable {
     }
 
 
+    @FXML
+    void resultFire(ActionEvent event) {
+
+        Double resultat = Double.parseDouble(nbrePV.getText())*Double.parseDouble(longPV.getText())*Double.parseDouble(largPV.getText());
+        surfacePV.setText(resultat.toString());
+
+    }
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -166,16 +178,11 @@ public class Controller implements Initializable {
         orientation.setCellValueFactory(new PropertyValueFactory<Installation,Integer>("orientation"));
         puissance.setCellValueFactory(new PropertyValueFactory<Installation,Integer>("puissance"));
         comboBox.getItems().addAll("Mono","Poly","Amorphe");
-        nbrePV.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                System.out.println(observable+", "+oldValue+", "+newValue);
-                Double sf = Integer.parseInt(newValue)*1.63;
-                surfacePV.setText(sf.toString());
-            }
-        });
 
     }
+
+
+    ArrayList<Production> listProduction = new ArrayList<Production>();
 
     public void ReadCSV(File file) throws IOException {
         CSVReader csvReader = new CSVReader(new FileReader(file), ';', '\'', 35);
@@ -206,6 +213,8 @@ public class Controller implements Initializable {
             System.out.println(nextline[0]+","+conso);
         }
     }
+
+
 
     public void Readxls (File file) throws IOException {
 
