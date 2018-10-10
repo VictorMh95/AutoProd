@@ -27,8 +27,11 @@ import java.util.*;
 
 import javafx.stage.Stage;
 import org.apache.poi.*;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.util.SystemOutLogger;
@@ -191,33 +194,82 @@ public class Controller implements Initializable {
         int lineNumber = 0;
         while ((nextline = csvReader.readNext()) != null) {
             lineNumber++;
-            System.out.println("Line # " + lineNumber);
 
-            Double conso = (Integer.parseInt(nextline[5])+0.01);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MMM-dd");
-            String dateInString=nextline[0];
+            //SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MMM-dd");
+            //String dateInString=nextline[0];
 
-            try {
-                Date date = formatter.parse(dateInString);
-                Production production= new Production(date
+                //Date date = formatter.parse(dateInString);
+                Production production= new Production(nextline[0]
                         ,Double.valueOf(nextline[5]));
                 listProduction.add(production);
 
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
             // nextLine[] is an array of values from the line
 
+            for(Production model : listProduction) {
+                System.out.println(model.getDate());
+                System.out.println(model.getProduction());
 
-            System.out.println(nextline[0]+","+conso);
+            }
         }
+
+
     }
 
 
 
     public void Readxls (File file) throws IOException {
 
+
+        try
+        {
+            FileInputStream fis = new FileInputStream(file);
+            //Create Workbook instance holding reference to .xlsx file
+            HSSFWorkbook workbook = new HSSFWorkbook(fis);
+
+            //Get first/desired sheet from the workbook
+            HSSFSheet sheet = workbook.getSheetAt(0);
+
+            ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
+            //I've Header and I'm ignoring header for that I've +1 in loop
+            for(int i=sheet.getFirstRowNum();i<=sheet.getLastRowNum();i++){
+                Consommation e= new Consommation();
+                Row ro=sheet.getRow(i);
+                for(int j=0;j<=2;j++){
+                    Cell ce = ro.getCell(j);
+                    if(j==0){
+                        System.out.println(ce.getDateCellValue());
+                    }
+                    if(j==1){
+                        //e.setConsommation(ce.getNumericCellValue());
+                    }
+                }
+                listConsommation.add(e);
+            }
+            for(Consommation emp: listConsommation){
+                System.out.println("date:"+emp.getDate()+" conso:"+emp.getConsommation());
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**
         FileInputStream fis = new FileInputStream(file);
         HSSFWorkbook workbook = new HSSFWorkbook(fis);
         HSSFSheet sheet = workbook.getSheetAt(0);
@@ -225,18 +277,17 @@ public class Controller implements Initializable {
         Iterator<Row> rowIt = sheet.iterator();
 
         while (rowIt.hasNext()){
+
             Row row = rowIt.next();
 
             Iterator<Cell> cellIterator = row.cellIterator();
+            Cell cell = cellIterator.next();
+            System.out.print(cell.+"coucu;");
 
-            while (cellIterator.hasNext()){
-                Cell cell = cellIterator.next();
 
-                System.out.print(cell.toString()+";");
-            }
             System.out.println();
         }
-
+*/
     }
 
 

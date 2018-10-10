@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class Production {
     private double production;
-    private Date date;
+    private String date;
 
-    public Production(Date date,double production) {
+    public Production(String date,double production) {
         this.date=date;
         this.production = production;
     }
@@ -15,11 +15,11 @@ public class Production {
         return production;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
