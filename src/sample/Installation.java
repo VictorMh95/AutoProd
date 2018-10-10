@@ -6,22 +6,18 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Installation {
     private SimpleIntegerProperty numero;
-    private SimpleDoubleProperty radiation ;
-    private SimpleDoubleProperty conso ;
     private SimpleDoubleProperty surface ;
-    private SimpleStringProperty type ;
+    private SimpleIntegerProperty type ;
     private SimpleDoubleProperty puissance ;
     private SimpleDoubleProperty rendement ;
     private SimpleDoubleProperty orientation ;
     private SimpleDoubleProperty inclinaison ;
 
-    public Installation (int numero, double radiation , double conso , double surface , String type , double puissance , double rendement , int orientation
+    public Installation (int numero , double surface , int type , double puissance , double rendement , int orientation
                           , int inclinaison ){
                 this.numero= new SimpleIntegerProperty(numero);
-                this.radiation = new SimpleDoubleProperty(radiation);
-                this.conso=new SimpleDoubleProperty(conso);
                 this.surface=new SimpleDoubleProperty(surface);
-                this.type=new SimpleStringProperty(type);
+                this.type=new SimpleIntegerProperty(type);
                 this.puissance=new SimpleDoubleProperty(puissance);
                 this.rendement=new SimpleDoubleProperty(rendement);
                 this.orientation=new SimpleDoubleProperty(orientation);
@@ -42,22 +38,6 @@ public class Installation {
         return numero;
     }
 
-    public double getRadiation() {
-        return radiation.get();
-    }
-
-    public SimpleDoubleProperty radiationProperty() {
-        return radiation;
-    }
-
-    public double getConso() {
-        return conso.get();
-    }
-
-    public SimpleDoubleProperty consoProperty() {
-        return conso;
-    }
-
     public double getSurface() {
         return surface.get();
     }
@@ -66,12 +46,33 @@ public class Installation {
         return surface;
     }
 
-    public String getType() {
+
+    public int getType() {
         return type.get();
     }
 
-    public SimpleStringProperty typeProperty() {
+    public SimpleIntegerProperty typeProperty() {
         return type;
+    }
+
+    public void setType(int type) {
+        this.type.set(type);
+    }
+
+    public void setPuissance(double puissance) {
+        this.puissance.set(puissance);
+    }
+
+    public void setRendement(double rendement) {
+        this.rendement.set(rendement);
+    }
+
+    public void setOrientation(double orientation) {
+        this.orientation.set(orientation);
+    }
+
+    public void setInclinaison(double inclinaison) {
+        this.inclinaison.set(inclinaison);
     }
 
     public double getPuissance() {
@@ -106,21 +107,10 @@ public class Installation {
         return inclinaison;
     }
 
-    public void setRadiation(int radiation) {
-        this.radiation.set(radiation);
-    }
-
-    public void setConso(int conso) {
-        this.conso.set(conso);
-    }
-
     public void setSurface(double surface) {
         this.surface.set(surface);
     }
 
-    public void setType(String type) {
-        this.type.set(type);
-    }
 
     public void setPuissance(int puissance) {
         this.puissance.set(puissance);

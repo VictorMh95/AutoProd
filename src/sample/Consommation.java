@@ -1,21 +1,23 @@
 package sample;
 
+import java.util.Date;
+
 public class Consommation {
-    private Double date;
+    private Date date;
     private Double consommation;
 
     public Consommation(){}
 
-    public Consommation(Double date, Double consommation) {
+    public Consommation(Date date, Double consommation) {
         this.date = date;
         this.consommation = consommation;
     }
 
-    public Double getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Double date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

@@ -142,12 +142,13 @@ public class Controller implements Initializable {
     @FXML
     void ajouter(ActionEvent event) {
 
-        Installation installation= new Installation(idNumber++,10,12,Double.parseDouble(surfacePV.getText()),comboBox.getValue()+","+typeValue.getText()+"%"
+        Installation installation= new Installation(idNumber++,Double.parseDouble(surfacePV.getText()),Integer.parseInt(typeValue.getText())
                 ,Double.parseDouble(puissancePV.getText()),Double.parseDouble(rendementTF.getText()),Integer.parseInt(orientationTF.getText())
                 ,Integer.parseInt(inclinaisonTF.getText()));
 
         listAjout.add(installation);
         tableView.setItems(listAjout);
+
     }
 
     @FXML
@@ -204,43 +205,40 @@ public class Controller implements Initializable {
                 listProduction.add(production);
 
             // nextLine[] is an array of values from the line
-
+/**
             for(Production model : listProduction) {
                 System.out.println(model.getDate());
                 System.out.println(model.getProduction());
 
             }
+ */
         }
 
 
     }
 
 
+    ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
 
     public void Readxls (File file) throws IOException {
-
 
         try
         {
             FileInputStream fis = new FileInputStream(file);
-            //Create Workbook instance holding reference to .xlsx file
             HSSFWorkbook workbook = new HSSFWorkbook(fis);
 
-            //Get first/desired sheet from the workbook
             HSSFSheet sheet = workbook.getSheetAt(0);
 
-            ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
-            //I've Header and I'm ignoring header for that I've +1 in loop
-            for(int i=sheet.getFirstRowNum();i<=sheet.getLastRowNum();i++){
+            for(int i=sheet.getFirstRowNum();i<=sheet.getPhysicalNumberOfRows()-2;i++){
                 Consommation e= new Consommation();
                 Row ro=sheet.getRow(i);
                 for(int j=0;j<=2;j++){
                     Cell ce = ro.getCell(j);
                     if(j==0){
-                        System.out.println(ce.getDateCellValue());
+                        e.setDate(ce.getDateCellValue());
                     }
                     if(j==1){
-                        //e.setConsommation(ce.getNumericCellValue());
+                       e.setConsommation(ce.getNumericCellValue());
                     }
                 }
                 listConsommation.add(e);
@@ -254,40 +252,6 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /**
-        FileInputStream fis = new FileInputStream(file);
-        HSSFWorkbook workbook = new HSSFWorkbook(fis);
-        HSSFSheet sheet = workbook.getSheetAt(0);
-
-        Iterator<Row> rowIt = sheet.iterator();
-
-        while (rowIt.hasNext()){
-
-            Row row = rowIt.next();
-
-            Iterator<Cell> cellIterator = row.cellIterator();
-            Cell cell = cellIterator.next();
-            System.out.print(cell.+"coucu;");
-
-
-            System.out.println();
-        }
-*/
     }
 
 
@@ -295,4 +259,14 @@ public class Controller implements Initializable {
         tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItem());
 
     }
+
+
+    public  void traitementProduction(){
+
+
+
+    }
+
+
+
 }
