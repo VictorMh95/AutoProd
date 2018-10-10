@@ -1,16 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Second_window">
+<AnchorPane prefHeight="803.0" prefWidth="1259.0" style="-fx-background-color: #CCCCCC;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Second_window">
    <children>
-      <Label layoutX="247.0" layoutY="14.0" prefHeight="40.0" prefWidth="106.0" text="Résultats">
+      <Label layoutX="360.0" layoutY="4.0" prefHeight="40.0" prefWidth="119.0" text="Résultats">
          <font>
-            <Font size="25.0" />
+            <Font size="28.0" />
          </font>
       </Label>
+      <AnchorPane layoutX="46.0" layoutY="46.0" prefHeight="323.0" prefWidth="759.0" style="-fx-background-color: #b2b5ba;">
+         <children>
+            <Label layoutX="36.0" layoutY="2.0" prefHeight="36.0" prefWidth="189.0" text="Taux d'autoconsommation :">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="37.0" layoutY="50.0" prefHeight="20.0" prefWidth="188.0" text="Taux d'autoproduction :">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="36.0" layoutY="140.0" prefHeight="20.0" prefWidth="240.0" text="Potentiel de production des PV :">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="283.0" layoutY="105.0" text="Mensuel ">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="377.0" layoutY="105.0" text="Annuel">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Line endX="-26.0" endY="168.0" layoutX="384.0" layoutY="53.0" startX="-26.0" startY="47.66667175292969" />
+            <Line endX="100.0" layoutX="358.0" layoutY="125.0" startX="-100.0" />
+            <Label layoutX="36.0" layoutY="180.0" prefHeight="20.0" prefWidth="240.0" text="Consommation du batiment : ">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="37.0" layoutY="252.0" prefHeight="20.0" prefWidth="119.0" text="Puissance crête : ">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="533.0" layoutY="20.0" prefHeight="20.0" prefWidth="119.0" text="Type de PV : ">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="534.0" layoutY="60.0" prefHeight="20.0" prefWidth="119.0" text="Nombre de PV : ">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <JFXTextField layoutX="235.0" layoutY="6.0" prefHeight="25.0" prefWidth="60.0" />
+            <JFXTextField layoutX="206.0" layoutY="44.0" prefHeight="25.0" prefWidth="60.0" />
+            <JFXTextField layoutX="290.0" layoutY="134.0" prefHeight="25.0" prefWidth="47.0" />
+            <JFXTextField layoutX="290.0" layoutY="174.0" prefHeight="25.0" prefWidth="47.0" />
+            <JFXTextField layoutX="377.0" layoutY="134.0" prefHeight="25.0" prefWidth="47.0" />
+            <JFXTextField layoutX="379.0" layoutY="174.0" prefHeight="25.0" prefWidth="47.0" />
+            <JFXTextField layoutX="156.0" layoutY="250.0" prefHeight="25.0" prefWidth="60.0" />
+            <JFXTextField layoutX="631.0" layoutY="14.0" prefHeight="25.0" prefWidth="60.0" />
+            <JFXTextField layoutX="651.0" layoutY="56.0" prefHeight="25.0" prefWidth="60.0" />
+         </children>
+      </AnchorPane>
+      <LineChart layoutX="127.0" layoutY="386.0" prefHeight="316.0" prefWidth="433.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <LineChart layoutX="662.0" layoutY="386.0" prefHeight="314.0" prefWidth="424.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <LineChart layoutX="815.0" layoutY="28.0" prefHeight="364.0" prefWidth="432.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
    </children>
 </AnchorPane>
