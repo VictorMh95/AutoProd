@@ -131,7 +131,7 @@ public class Controller implements Initializable {
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
         stage.setTitle("Résultats");
-        stage.setScene(new Scene(root1,1128, 735));
+        stage.setScene(new Scene(root1,1259, 750));
         stage.show();
     }
 
