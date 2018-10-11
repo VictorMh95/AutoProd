@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.event.ActionEvent;
@@ -134,7 +135,7 @@ public class Controller implements Initializable {
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
         stage.setTitle("Résultats");
-        stage.setScene(new Scene(root1,1128, 735));
+        stage.setScene(new Scene(root1,1259, 750));
         stage.show();
     }
 
@@ -182,7 +183,9 @@ public class Controller implements Initializable {
         orientation.setCellValueFactory(new PropertyValueFactory<Installation,Integer>("orientation"));
         puissance.setCellValueFactory(new PropertyValueFactory<Installation,Integer>("puissance"));
         comboBox.getItems().addAll("Mono","Poly","Amorphe");
-
+        inclinaisonTF.setTooltip(new Tooltip("Angle d'inclinaison du panneau par rapport au sol. Ex : 45°,35°"));
+        orientationTF.setTooltip(new Tooltip("Orientation du panneau par rapport à la longitude en degrès." +
+                "Ex: Sud = 180° Nord = 0° Est = 90° Ouest = 270 °  "));
     }
 
 
