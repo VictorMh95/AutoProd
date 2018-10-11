@@ -11,6 +11,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="735.0" prefWidth="1128.0" style="-fx-background-color: CCCCCC;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
@@ -72,14 +74,14 @@
                 <Font name="Arial Bold" size="36.0" />
             </font>
         </Label>
-        <AnchorPane layoutX="45.0" layoutY="295.0" prefHeight="430.0" prefWidth="523.0" style="-fx-background-color: #b2b5ba;">
+        <AnchorPane layoutX="51.0" layoutY="293.0" prefHeight="430.0" prefWidth="523.0" style="-fx-background-color: #b2b5ba;">
             <children>
                 <JFXButton fx:id="ajouter" layoutX="202.0" layoutY="370.0" onAction="#ajouter" prefHeight="42.0" prefWidth="82.0" style="-fx-background-color: #fbb900;" text="Ajouter ">
                     <font>
                         <Font name="Arial Bold" size="15.0" />
                     </font>
                 </JFXButton>
-                <JFXTextField fx:id="typeValue" layoutX="401.0" layoutY="98.0" prefHeight="25.0" prefWidth="61.0" />
+                <JFXTextField fx:id="typeValue" layoutX="401.0" layoutY="100.0" prefHeight="25.0" prefWidth="61.0" />
                 <JFXTextField fx:id="longPV" layoutX="247.0" layoutY="65.0" prefHeight="17.0" prefWidth="34.0" />
                 <Label layoutX="230.0" layoutY="70.0" text="X" />
                 <Label layoutX="490.0" layoutY="70.0" text="m²" />
@@ -87,10 +89,30 @@
                 <Label layoutX="291.0" layoutY="70.0" text="X" />
                 <JFXTextField fx:id="largPV" layoutX="311.0" layoutY="65.0" prefHeight="17.0" prefWidth="41.0" />
                 <JFXTextField fx:id="surfacePV" layoutX="419.0" layoutY="66.0" prefHeight="17.0" prefWidth="61.0" />
-                <Label layoutX="248.0" layoutY="40.0" text="Long" />
-                <Label layoutX="318.0" layoutY="40.0" text="Larg" />
-                <Label layoutX="188.0" layoutY="40.0" text="nbre" />
+                <Label layoutX="244.0" layoutY="40.0" text="Long (m)" />
+                <Label layoutX="315.0" layoutY="40.0" text="Larg (m)" />
+                <Label layoutX="187.0" layoutY="40.0" text="nbre (m)" />
                 <JFXButton fx:id="resultSurface" layoutX="371.0" layoutY="66.0" onAction="#resultFire" style="-fx-background-color: #fbb900;" text="-&gt;" />
+            <Line endX="-68.33334350585938" layoutX="527.0" layoutY="290.0" startX="-119.0" />
+            <Line endX="-95.33334350585938" endY="-44.66668701171875" layoutX="537.0" layoutY="300.0" startX="-129.5" startY="-10.5" />
+            <Label layoutX="454.0" layoutY="264.0" text="45°" />
+            <Circle fill="DODGERBLUE" layoutX="447.0" layoutY="368.0" radius="29.0" stroke="BLACK" strokeType="INSIDE" />
+            <Line endX="-25.0" endY="173.0" layoutX="472.0" layoutY="235.0" startX="-25.0" startY="86.0" />
+            <Line endX="-87.0" endY="125.0" layoutX="482.0" layoutY="245.0" startX="15.66668701171875" startY="125.0" />
+            <Line endX="-1.0" endY="188.0" layoutX="419.0" layoutY="209.0" startX="57.0" startY="130.0" />
+            <Line endX="20.66668701171875" endY="138.0" layoutX="449.0" layoutY="259.0" startX="-28.0" startY="80.0" />
+            <Label layoutX="444.0" layoutY="302.0" text="0°" />
+            <Label layoutX="481.0" layoutY="321.0" text="45°" />
+            <Label layoutX="500.0" layoutY="360.0" text="90°" />
+            <Label layoutX="471.0" layoutY="400.0" prefHeight="17.0" prefWidth="30.0" text="135°" />
+            <Label layoutX="437.0" layoutY="409.0" prefHeight="17.0" prefWidth="30.0" text="180°" />
+            <Label layoutX="393.0" layoutY="400.0" prefHeight="17.0" prefWidth="30.0" text="225°" />
+            <Label layoutX="368.0" layoutY="362.0" prefHeight="17.0" prefWidth="30.0" text="270°" />
+            <Label layoutX="402.0" layoutY="321.0" prefHeight="17.0" prefWidth="30.0" text="315°" />
+            <Label layoutX="458.0" layoutY="302.0" text="N" />
+            <Label layoutX="354.0" layoutY="362.0" text="O" />
+            <Label layoutX="462.0" layoutY="409.0" text="S" />
+            <Label layoutX="519.0" layoutY="360.0" text="E" />
             </children>
         </AnchorPane>
         <Label layoutX="90.0" layoutY="398.0" prefHeight="21.0" prefWidth="110.0" text="Type de PV :">
@@ -123,18 +145,18 @@
             </font>
         </Label>
         <JFXTextField fx:id="orientationTF" layoutX="269.0" layoutY="604.0" prefHeight="25.0" prefWidth="150.0" promptText="en degrès" />
-        <Label layoutX="91.0" layoutY="355.0" prefHeight="21.0" prefWidth="142.0" text="Nombre de PV :">
+        <Label layoutX="90.0" layoutY="355.0" prefHeight="21.0" prefWidth="142.0" text="Nombre de PV :">
             <font>
                 <Font name="Arial Bold" size="18.0" />
             </font>
         </Label>
-        <JFXTextField fx:id="nbrePV" layoutX="234.0" layoutY="358.0" prefHeight="27.0" prefWidth="34.0" />
+        <JFXTextField fx:id="nbrePV" layoutX="234.0" layoutY="356.0" prefHeight="27.0" prefWidth="34.0" />
         <JFXButton layoutX="1011.0" layoutY="681.0" onAction="#Run" prefHeight="52.0" prefWidth="96.0" style="-fx-background-color: #7bb731;" text="Run">
             <font>
                 <Font name="Arial Bold" size="28.0" />
             </font>
         </JFXButton>
-        <TableView fx:id="tableView" layoutX="581.0" layoutY="347.0" prefHeight="322.0" prefWidth="537.0">
+        <TableView fx:id="tableView" layoutX="581.0" layoutY="346.0" prefHeight="323.0" prefWidth="537.0">
             <columns>
                 <TableColumn fx:id="numero" prefWidth="75.0" text="Numero" />
                 <TableColumn fx:id="surface" prefWidth="111.33331298828125" text="Nombre de PV m²" />
