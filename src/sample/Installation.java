@@ -6,24 +6,42 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Installation {
     private SimpleIntegerProperty numero;
+    private SimpleDoubleProperty nbre;
     private SimpleDoubleProperty surface ;
-    private SimpleIntegerProperty type ;
+    private SimpleDoubleProperty type ;
     private SimpleDoubleProperty puissance ;
-    private SimpleDoubleProperty rendement ;
+    private SimpleDoubleProperty pr ;
     private SimpleDoubleProperty orientation ;
     private SimpleDoubleProperty inclinaison ;
 
-    public Installation (int numero , double surface , int type , double puissance , double rendement , int orientation
-                          , int inclinaison ){
+    public Installation (int numero ,double nbre, double surface , Double type , double puissance , double pr , double orientation
+                          , double inclinaison ){
                 this.numero= new SimpleIntegerProperty(numero);
+                this.nbre = new SimpleDoubleProperty(nbre);
                 this.surface=new SimpleDoubleProperty(surface);
-                this.type=new SimpleIntegerProperty(type);
+                this.type=new SimpleDoubleProperty(type);
                 this.puissance=new SimpleDoubleProperty(puissance);
-                this.rendement=new SimpleDoubleProperty(rendement);
+                this.pr=new SimpleDoubleProperty(pr);
                 this.orientation=new SimpleDoubleProperty(orientation);
                 this.inclinaison=new SimpleDoubleProperty(inclinaison);
 
 
+    }
+
+    public void setType(double type) {
+        this.type.set(type);
+    }
+
+    public void setNbre(double nbre) {
+        this.nbre.set(nbre);
+    }
+
+    public double getNbre() {
+        return nbre.get();
+    }
+
+    public SimpleDoubleProperty nbreProperty() {
+        return nbre;
     }
 
     public int getNumero() {
@@ -47,11 +65,11 @@ public class Installation {
     }
 
 
-    public int getType() {
+    public double getType() {
         return type.get();
     }
 
-    public SimpleIntegerProperty typeProperty() {
+    public SimpleDoubleProperty typeProperty() {
         return type;
     }
 
@@ -63,8 +81,8 @@ public class Installation {
         this.puissance.set(puissance);
     }
 
-    public void setRendement(double rendement) {
-        this.rendement.set(rendement);
+    public void setPr(double pr) {
+        this.pr.set(pr);
     }
 
     public void setOrientation(double orientation) {
@@ -83,12 +101,12 @@ public class Installation {
         return puissance;
     }
 
-    public double getRendement() {
-        return rendement.get();
+    public double getPr() {
+        return pr.get();
     }
 
-    public SimpleDoubleProperty rendementProperty() {
-        return rendement;
+    public SimpleDoubleProperty prProperty() {
+        return pr;
     }
 
     public double getOrientation() {
@@ -112,19 +130,8 @@ public class Installation {
     }
 
 
-    public void setPuissance(int puissance) {
-        this.puissance.set(puissance);
-    }
 
-    public void setRendement(int rendement) {
-        this.rendement.set(rendement);
-    }
 
-    public void setOrientation(int orientation) {
-        this.orientation.set(orientation);
-    }
 
-    public void setInclinaison(int inclinaison) {
-        this.inclinaison.set(inclinaison);
-    }
+
 }

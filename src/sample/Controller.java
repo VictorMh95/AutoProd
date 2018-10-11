@@ -3,6 +3,7 @@ package sample;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.opencsv.CSVReader;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -13,10 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.event.ActionEvent;
@@ -136,19 +134,54 @@ public class Controller implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("Résultats");
         stage.setScene(new Scene(root1,1259, 750));
-        stage.show();
+
+        if(listAjout.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur tableau");
+            alert.setHeaderText("Attention tableau !");
+            alert.setContentText("La tableau doit avoir au moins une installation");
+            alert.showAndWait();
+
+        }else if(t_conso.getText().trim().isEmpty()||t_loc.getText().trim().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur fichier");
+            alert.setHeaderText("Attention fichier !");
+            alert.setContentText("Les fichiers ne sont pas chargés");
+            alert.showAndWait();
+
+        }else{
+            stage.show();
+            traitementProduction();
+        }
+
     }
 
 
     @FXML
     void ajouter(ActionEvent event) {
 
-        Installation installation= new Installation(idNumber++,Double.parseDouble(surfacePV.getText()),Integer.parseInt(typeValue.getText())
-                ,Double.parseDouble(puissancePV.getText()),Double.parseDouble(rendementTF.getText()),Integer.parseInt(orientationTF.getText())
-                ,Integer.parseInt(inclinaisonTF.getText()));
 
-        listAjout.add(installation);
-        tableView.setItems(listAjout);
+        if (surfacePV.getText().trim().isEmpty()||typeValue.getText().trim().isEmpty()||puissancePV.getText().trim().isEmpty()
+                ||rendementTF.getText().trim().isEmpty()||orientationTF.getText().trim().isEmpty()||inclinaisonTF.getText().trim().isEmpty())
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur champ");
+                alert.setHeaderText("Attention champ !");
+                alert.setContentText("Un des champs est manquant !");
+                alert.showAndWait();
+
+            }else {
+
+            Installation installation = new Installation(idNumber++,Double.parseDouble(nbrePV.getText()), Double.parseDouble(surfacePV.getText()), Double.parseDouble(typeValue.getText())
+                    , Double.parseDouble(puissancePV.getText()), Double.parseDouble(rendementTF.getText()), Integer.parseInt(orientationTF.getText())
+                    , Integer.parseInt(inclinaisonTF.getText()));
+
+            listAjout.add(installation);
+            tableView.setItems(listAjout);
+        }
+
+        System.out.println(CalculTauxOrienIncli(Double.parseDouble(orientationTF.getText()),Double.parseDouble(inclinaisonTF.getText())));
+
 
     }
 
@@ -176,16 +209,93 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        numero.setCellValueFactory(new PropertyValueFactory<Installation,Integer>("numero"));
-        surface.setCellValueFactory(new PropertyValueFactory<Installation,Integer>("surface"));
-        type.setCellValueFactory(new PropertyValueFactory<Installation,String>("type"));
-        inclinaison.setCellValueFactory(new PropertyValueFactory<Installation,Integer>("inclinaison"));
-        orientation.setCellValueFactory(new PropertyValueFactory<Installation,Integer>("orientation"));
-        puissance.setCellValueFactory(new PropertyValueFactory<Installation,Integer>("puissance"));
-        comboBox.getItems().addAll("Mono","Poly","Amorphe");
+        numero.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("numero"));
+        surface.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("surface"));
+        type.setCellValueFactory(new PropertyValueFactory<Installation, String>("type"));
+        inclinaison.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("inclinaison"));
+        orientation.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("orientation"));
+        puissance.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("puissance"));
+        comboBox.getItems().addAll("Mono", "Poly", "Amorphe");
         inclinaisonTF.setTooltip(new Tooltip("Angle d'inclinaison du panneau par rapport au sol. Ex : 45°,35°"));
         orientationTF.setTooltip(new Tooltip("Orientation du panneau par rapport à la longitude en degrès." +
                 "Ex: Sud = 180° Nord = 0° Est = 90° Ouest = 270 °  "));
+
+        BooleanBinding bb = new BooleanBinding() {
+            {
+                super.bind(surfacePV.textProperty(),
+                        typeValue.textProperty(),
+                        puissancePV.textProperty(),
+                        rendementTF.textProperty(),
+                        inclinaisonTF.textProperty(),
+                        orientationTF.textProperty());
+            }
+
+            @Override
+            protected boolean computeValue() {
+                return (surfacePV.getText().isEmpty() ||
+                        typeValue.getText().isEmpty() ||
+                        puissancePV.getText().isEmpty() ||
+                        rendementTF.getText().isEmpty() ||
+                        inclinaisonTF.getText().isEmpty() ||
+                        orientationTF.getText().isEmpty());
+            }
+        };
+        ajouter.disableProperty().bind(bb);
+
+        BooleanBinding bb2 = new BooleanBinding() {
+            {
+                super.bind(nbrePV.textProperty(),
+                        largPV.textProperty(),
+                        longPV.textProperty()
+                );
+            }
+
+            @Override
+            protected boolean computeValue() {
+                return (nbrePV.getText().isEmpty() ||
+                        largPV.getText().isEmpty() ||
+                        longPV.getText().isEmpty());
+            }
+        };
+        resultSurface.disableProperty().bind(bb2);
+    }
+
+
+
+    public double CalculTauxOrienIncli (Double orientation ,Double inclinaison)
+    {
+        double taux = 0.95 ;
+        if (90<=orientation && orientation<=270 && 0<=inclinaison && inclinaison<=20) {
+            taux = 0.88 ;
+        }
+        if(67.5<=orientation && orientation<=112.5 && 20<=inclinaison && inclinaison<=42.5){
+            taux =  0.84;
+        }
+        if (247.5<=orientation && orientation<=292.5 && 20<=inclinaison && inclinaison<=42.5){
+            taux =  0.84;
+        }
+        if (112.5<=orientation && orientation<=157.5 && 20<=inclinaison && inclinaison<=60) {
+            taux =  0.95;
+        }
+        if (202.5<=orientation && orientation<=247.5 && 20<=inclinaison && inclinaison<=47.5){
+            taux =  1;
+        }
+        if (157.5<=orientation && orientation<=202.5 && 20<=inclinaison && inclinaison<= 47.5){
+            taux =  1;
+        }
+        if (157.5<=orientation && orientation<=202.5 && 42.5<=inclinaison && inclinaison<=60){
+            taux = 0.98;
+        }
+        if (67.5<=orientation && orientation<=112.5 && 42.5<=inclinaison && inclinaison<=60){
+            taux = 0.77;
+        }
+        if (247.5<=orientation && orientation<=292.5 && 42.5<=inclinaison && inclinaison<60){
+            taux =  0.76;
+        }
+        if (90<=orientation && orientation<=270 && 60<=inclinaison && inclinaison<=90){
+            taux =  0.66;
+        }
+        return taux ;
     }
 
 
@@ -204,7 +314,7 @@ public class Controller implements Initializable {
 
                 //Date date = formatter.parse(dateInString);
                 Production production= new Production(nextline[0]
-                        ,Double.valueOf(nextline[5]));
+                        ,(Double.valueOf(nextline[5])/1000));
                 listProduction.add(production);
 
             // nextLine[] is an array of values from the line
@@ -265,7 +375,20 @@ public class Controller implements Initializable {
 
 
     public  void traitementProduction(){
+            Double tauxGlobal;
+        for (Installation inst: listAjout){
+            Double nbre = inst.getNbre();
+            Double surface = inst.getSurface();
+            Double type =  inst.getType();
+            Double puissance = inst.getPuissance();
+            Double perf =  inst.getPr();
+            Double incl =inst.getInclinaison();
+            Double orien = inst.getOrientation();
+            Double tauxOrienIncl = CalculTauxOrienIncli(orien,incl);
+            tauxGlobal= tauxOrienIncl * ((nbre*puissance)/(surface*1000))*perf;
 
+            System.out.println(tauxGlobal+" "+tauxOrienIncl+" "+nbre+" "+puissance+" "+surface+" "+perf);
+        }
 
 
     }

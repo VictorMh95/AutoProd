@@ -24,7 +24,7 @@
                         <Font name="Arial Bold" size="20.0" />
                     </font>
                 </Label>
-                <Label layoutX="14.0" layoutY="51.0" prefHeight="32.0" prefWidth="159.0" text="Localisation :">
+                <Label layoutX="14.0" layoutY="51.0" prefHeight="32.0" prefWidth="159.0" text="Données météo :">
                     <font>
                         <Font name="Arial Bold" size="18.0" />
                     </font>
@@ -34,7 +34,7 @@
                         <Font name="Arial Bold" size="18.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="button_excel_loc" layoutX="155.0" layoutY="51.0" onAction="#bt1" prefHeight="32.0" prefWidth="102.0" style="-fx-background-color: #fbb900;" text="Chargé fichier " />
+                <JFXButton fx:id="button_excel_loc" layoutX="173.0" layoutY="51.0" onAction="#bt1" prefHeight="32.0" prefWidth="102.0" style="-fx-background-color: #fbb900;" text="Chargé fichier " />
                 <JFXTextField fx:id="t_loc" editable="false" layoutX="283.0" layoutY="54.0" />
                 <JFXButton fx:id="button_excel_conso" layoutX="257.0" layoutY="106.0" onAction="#bt2" prefHeight="32.0" prefWidth="102.0" style="-fx-background-color: #fbb900;" text="Chargé fichier " />
                 <JFXTextField fx:id="t_conso" editable="false" layoutX="374.0" layoutY="108.0" />
@@ -126,8 +126,8 @@
                 <Font name="Arial Bold" size="18.0" />
             </font>
         </Label>
-        <JFXTextField fx:id="puissancePV" layoutX="273.0" layoutY="442.0" prefHeight="32.0" prefWidth="150.0" promptText="Kwc" />
-        <Label layoutX="93.0" layoutY="501.0" prefHeight="21.0" prefWidth="134.0" text="Rendement : ">
+        <JFXTextField fx:id="puissancePV" layoutX="273.0" layoutY="442.0" prefHeight="32.0" prefWidth="150.0" promptText="Wc" />
+        <Label layoutX="93.0" layoutY="501.0" prefHeight="21.0" prefWidth="166.0" text="PR (ratio de performance) ">
             <font>
                 <Font name="Arial Bold" size="18.0" />
             </font>
