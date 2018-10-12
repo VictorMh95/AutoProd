@@ -161,7 +161,7 @@ public class Controller implements Initializable {
     void ajouter(ActionEvent event) {
 
 
-        if (surfacePV.getText().trim().isEmpty()||typeValue.getText().trim().isEmpty()||puissancePV.getText().trim().isEmpty()
+        if (surfacePV.getText().trim().isEmpty()||puissancePV.getText().trim().isEmpty()
                 ||rendementTF.getText().trim().isEmpty()||orientationTF.getText().trim().isEmpty()||inclinaisonTF.getText().trim().isEmpty())
             {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -172,9 +172,9 @@ public class Controller implements Initializable {
 
             }else {
 
-            Installation installation = new Installation(idNumber++,Double.parseDouble(nbrePV.getText()), Double.parseDouble(surfacePV.getText()), Double.parseDouble(typeValue.getText())
-                    , Double.parseDouble(puissancePV.getText()), Double.parseDouble(rendementTF.getText()), Integer.parseInt(orientationTF.getText())
-                    , Integer.parseInt(inclinaisonTF.getText()));
+            Installation installation = new Installation(idNumber++,Double.parseDouble(nbrePV.getText()), Double.parseDouble(surfacePV.getText())
+                    , Double.parseDouble(puissancePV.getText()), Double.parseDouble(rendementTF.getText()), Double.parseDouble(orientationTF.getText())
+                    , Double.parseDouble(inclinaisonTF.getText()));
 
             listAjout.add(installation);
             tableView.setItems(listAjout);
@@ -185,16 +185,6 @@ public class Controller implements Initializable {
 
     }
 
-    @FXML
-    void setValuePV(ActionEvent event) {
-        if (comboBox.getValue()=="Poly"){
-            typeValue.setText("13");
-        } else if (comboBox.getValue()=="Mono"){
-            typeValue.setText("16");
-        }else if (comboBox.getValue()=="Amorphe"){
-            typeValue.setText("6");
-        }
-    }
 
 
     @FXML
@@ -211,11 +201,9 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         numero.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("numero"));
         surface.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("surface"));
-        type.setCellValueFactory(new PropertyValueFactory<Installation, String>("type"));
         inclinaison.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("inclinaison"));
         orientation.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("orientation"));
         puissance.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("puissance"));
-        comboBox.getItems().addAll("Mono", "Poly", "Amorphe");
         inclinaisonTF.setTooltip(new Tooltip("Angle d'inclinaison du panneau par rapport au sol. Ex : 45°,35°"));
         orientationTF.setTooltip(new Tooltip("Orientation du panneau par rapport à la longitude en degrès." +
                 "Ex: Sud = 180° Nord = 0° Est = 90° Ouest = 270 °  "));
@@ -223,7 +211,6 @@ public class Controller implements Initializable {
         BooleanBinding bb = new BooleanBinding() {
             {
                 super.bind(surfacePV.textProperty(),
-                        typeValue.textProperty(),
                         puissancePV.textProperty(),
                         rendementTF.textProperty(),
                         inclinaisonTF.textProperty(),
@@ -233,7 +220,6 @@ public class Controller implements Initializable {
             @Override
             protected boolean computeValue() {
                 return (surfacePV.getText().isEmpty() ||
-                        typeValue.getText().isEmpty() ||
                         puissancePV.getText().isEmpty() ||
                         rendementTF.getText().isEmpty() ||
                         inclinaisonTF.getText().isEmpty() ||
@@ -318,14 +304,9 @@ public class Controller implements Initializable {
                 listProduction.add(production);
 
             // nextLine[] is an array of values from the line
-/**
-            for(Production model : listProduction) {
-                System.out.println(model.getDate());
-                System.out.println(model.getProduction());
 
-            }
- */
         }
+
 
 
     }
@@ -379,16 +360,19 @@ public class Controller implements Initializable {
         for (Installation inst: listAjout){
             Double nbre = inst.getNbre();
             Double surface = inst.getSurface();
-            Double type =  inst.getType();
             Double puissance = inst.getPuissance();
-            Double perf =  inst.getPr();
+            Double perf =  (inst.getPr())/100;
             Double incl =inst.getInclinaison();
             Double orien = inst.getOrientation();
             Double tauxOrienIncl = CalculTauxOrienIncli(orien,incl);
             tauxGlobal= tauxOrienIncl * ((nbre*puissance)/(surface*1000))*perf;
-
             System.out.println(tauxGlobal+" "+tauxOrienIncl+" "+nbre+" "+puissance+" "+surface+" "+perf);
+            for (Production prod : listProduction){
+             Double energieFinale = prod.getProduction()*surface*tauxGlobal;
+             System.out.println(prod.getProduction()+" "+prod.getDate()+" "+energieFinale);
+             }
         }
+
 
 
     }

@@ -8,18 +8,16 @@ public class Installation {
     private SimpleIntegerProperty numero;
     private SimpleDoubleProperty nbre;
     private SimpleDoubleProperty surface ;
-    private SimpleDoubleProperty type ;
     private SimpleDoubleProperty puissance ;
     private SimpleDoubleProperty pr ;
     private SimpleDoubleProperty orientation ;
     private SimpleDoubleProperty inclinaison ;
 
-    public Installation (int numero ,double nbre, double surface , Double type , double puissance , double pr , double orientation
+    public Installation (int numero ,double nbre, double surface , double puissance , double pr , double orientation
                           , double inclinaison ){
                 this.numero= new SimpleIntegerProperty(numero);
                 this.nbre = new SimpleDoubleProperty(nbre);
                 this.surface=new SimpleDoubleProperty(surface);
-                this.type=new SimpleDoubleProperty(type);
                 this.puissance=new SimpleDoubleProperty(puissance);
                 this.pr=new SimpleDoubleProperty(pr);
                 this.orientation=new SimpleDoubleProperty(orientation);
@@ -28,9 +26,6 @@ public class Installation {
 
     }
 
-    public void setType(double type) {
-        this.type.set(type);
-    }
 
     public void setNbre(double nbre) {
         this.nbre.set(nbre);
@@ -62,19 +57,6 @@ public class Installation {
 
     public SimpleDoubleProperty surfaceProperty() {
         return surface;
-    }
-
-
-    public double getType() {
-        return type.get();
-    }
-
-    public SimpleDoubleProperty typeProperty() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type.set(type);
     }
 
     public void setPuissance(double puissance) {
