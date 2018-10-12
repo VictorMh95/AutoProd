@@ -180,7 +180,7 @@ public class Controller implements Initializable {
             tableView.setItems(listAjout);
         }
 
-        System.out.println(CalculTauxOrienIncli(Double.parseDouble(orientationTF.getText()),Double.parseDouble(inclinaisonTF.getText())));
+       // System.out.println(CalculTauxOrienIncli(Double.parseDouble(orientationTF.getText()),Double.parseDouble(inclinaisonTF.getText())));
 
 
     }
@@ -338,7 +338,7 @@ public class Controller implements Initializable {
                 listConsommation.add(e);
             }
             for(Consommation emp: listConsommation){
-                System.out.println("date:"+emp.getDate()+" conso:"+emp.getConsommation());
+               // System.out.println("date:"+emp.getDate()+" conso:"+emp.getConsommation());
             }
         }
         catch (Exception e)
@@ -359,6 +359,8 @@ public class Controller implements Initializable {
             Double tauxGlobal;
 
         ArrayList<Production> productionTotale = new ArrayList<Production>();
+        int a=0;
+
         for (Installation inst: listAjout){
             Double nbre = inst.getNbre();
             Double surface = inst.getSurface();
@@ -366,19 +368,42 @@ public class Controller implements Initializable {
             Double perf =  (inst.getPr())/100;
             Double incl =inst.getInclinaison();
             Double orien = inst.getOrientation();
+
             Double tauxOrienIncl = CalculTauxOrienIncli(orien,incl);
+
             tauxGlobal= tauxOrienIncl * ((nbre*puissance)/(surface*1000))*perf;
+
             System.out.println(tauxGlobal+" "+tauxOrienIncl+" "+nbre+" "+puissance+" "+surface+" "+perf);
-            for (Production prod : listProduction){
-             Double energieFinale = prod.getProduction()*surface*tauxGlobal;
-             System.out.println(prod.getProduction()+" "+prod.getDate()+" "+energieFinale);
-             Production production = new Production();
-             production.setDate(prod.getDate());
-             production.setProduction(energieFinale);
-             productionTotale.add(production);
+
+            for (int i=0;i<listProduction.size();i++){
+             Double energieFinale = listProduction.get(i).getProduction()*surface*tauxGlobal;
+
+            // System.out.println(prod.getProduction()+" "+prod.getDate()+" "+energieFinale);
+                Production production = new Production();
+
+                if(a==0){
+                    production.setDate(listProduction.get(i).getDate());
+                    production.setProduction(energieFinale);
+                    productionTotale.add(i,production);
+
+
+                }else{
+                    production.setDate(listProduction.get(i).getDate());
+                    production.setProduction(energieFinale+productionTotale.get(i).getProduction());
+                    productionTotale.set(i,production);
+
+                }
+
              }
+            a++;
+
         }
-    }
+
+        for(Production emp: productionTotale){
+            System.out.println("date:"+emp.getDate()+" conso:"+emp.getProduction());
+        }
+
+        }
 
 
 
