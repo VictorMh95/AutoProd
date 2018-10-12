@@ -6,6 +6,8 @@ public class Production {
     private double production;
     private String date;
 
+    public Production (){};
+
     public Production(String date,double production) {
         this.date=date;
         this.production = production;

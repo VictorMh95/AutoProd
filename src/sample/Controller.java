@@ -357,6 +357,8 @@ public class Controller implements Initializable {
 
     public  void traitementProduction(){
             Double tauxGlobal;
+
+        ArrayList<Production> productionTotale = new ArrayList<Production>();
         for (Installation inst: listAjout){
             Double nbre = inst.getNbre();
             Double surface = inst.getSurface();
@@ -370,11 +372,12 @@ public class Controller implements Initializable {
             for (Production prod : listProduction){
              Double energieFinale = prod.getProduction()*surface*tauxGlobal;
              System.out.println(prod.getProduction()+" "+prod.getDate()+" "+energieFinale);
+             Production production = new Production();
+             production.setDate(prod.getDate());
+             production.setProduction(energieFinale);
+             productionTotale.add(production);
              }
         }
-
-
-
     }
 
 
