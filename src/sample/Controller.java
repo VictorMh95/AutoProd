@@ -130,6 +130,7 @@ public class Controller implements Initializable {
     @FXML
     void Run (ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("second_window.fxml"));
+
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
         stage.setTitle("Résultats");
@@ -151,7 +152,6 @@ public class Controller implements Initializable {
 
         }else{
             traitementProduction();
-
             stage.show();
         }
 
@@ -316,7 +316,7 @@ public class Controller implements Initializable {
     }
 
 
-    public final ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
+    public  ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
 
     public void Readxls (File file) throws IOException {
 
@@ -402,17 +402,11 @@ public class Controller implements Initializable {
              }
             a++;
 
-
-
         for(Production emp: productionTotale){
             System.out.println("date:"+emp.getDate()+" conso:"+emp.getProduction());
         }
 
         }
-
-
-
-
     }
 
 
