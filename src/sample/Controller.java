@@ -156,15 +156,7 @@ public class Controller implements Initializable {
             controller2.initData(productionTotale,listConsommation);
             stage.show();
         }
-
     }
-
-
-
-
-
-
-
 
 
     @FXML
@@ -395,30 +387,18 @@ public class Controller implements Initializable {
                     production.setDate(listProduction.get(i).getDate());
                     production.setProduction(energieFinale);
                     productionTotale.add(i,production);
-
-
                 }else{
                     production.setDate(listProduction.get(i).getDate());
                     production.setProduction(energieFinale+productionTotale.get(i).getProduction());
                     productionTotale.set(i,production);
-
                 }
-
-
              }
             a++;
-
         for(Production emp: productionTotale){
-            System.out.println("date:"+emp.getDate()+" conso:"+emp.getProduction());
+            System.out.println("date:"+emp.getDate()+" prod:"+emp.getProduction());
         }
 
         }
     }
-
-
-
-
-
-
 
 }
