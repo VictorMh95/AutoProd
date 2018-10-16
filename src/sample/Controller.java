@@ -152,10 +152,16 @@ public class Controller implements Initializable {
 
         }else{
             traitementProduction();
+            Second_window controller2 = fxmlLoader.getController();
+            controller2.initData(productionTotale,listConsommation);
             stage.show();
         }
 
     }
+
+
+
+
 
 
 
@@ -358,7 +364,7 @@ public class Controller implements Initializable {
 
     }
 
-   public final ArrayList<Production> productionTotale = new ArrayList<Production>();
+   public  ArrayList<Production> productionTotale = new ArrayList<Production>();
 
     public  void traitementProduction(){
             Double tauxGlobal;

@@ -68,10 +68,10 @@
             </Label>
             <JFXTextField editable="false" layoutX="235.0" layoutY="6.0" prefHeight="25.0" prefWidth="60.0" />
             <JFXTextField editable="false" layoutX="206.0" layoutY="44.0" prefHeight="25.0" prefWidth="60.0" />
-            <JFXTextField editable="false" layoutX="290.0" layoutY="134.0" prefHeight="25.0" prefWidth="47.0" />
-            <JFXTextField editable="false" layoutX="290.0" layoutY="174.0" prefHeight="25.0" prefWidth="47.0" />
-            <JFXTextField editable="false" layoutX="377.0" layoutY="134.0" prefHeight="25.0" prefWidth="47.0" />
-            <JFXTextField editable="false" layoutX="379.0" layoutY="174.0" prefHeight="25.0" prefWidth="47.0" />
+            <JFXTextField fx:id="potentielProductionMenseul" editable="false" layoutX="290.0" layoutY="134.0" prefHeight="25.0" prefWidth="47.0" />
+            <JFXTextField fx:id="consommationMensuellle" editable="false" layoutX="290.0" layoutY="174.0" prefHeight="25.0" prefWidth="47.0" />
+            <JFXTextField fx:id="potentielProductionAnnuel" editable="false" layoutX="377.0" layoutY="134.0" prefHeight="25.0" prefWidth="47.0" />
+            <JFXTextField fx:id="consommationAnnuelle" editable="false" layoutX="379.0" layoutY="174.0" prefHeight="25.0" prefWidth="47.0" />
             <JFXTextField editable="false" layoutX="654.0" layoutY="102.0" prefHeight="25.0" prefWidth="60.0" />
             <JFXTextField editable="false" layoutX="631.0" layoutY="14.0" prefHeight="25.0" prefWidth="60.0" />
             <JFXTextField editable="false" layoutX="651.0" layoutY="56.0" prefHeight="25.0" prefWidth="60.0" />
