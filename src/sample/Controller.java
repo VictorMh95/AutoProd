@@ -91,7 +91,7 @@ public class Controller implements Initializable {
     @FXML private ComboBox<String> comboBox;
     private int idNumber=1;
 
-    final ObservableList<Installation> listAjout = FXCollections.observableArrayList();
+     ObservableList<Installation> listAjout = FXCollections.observableArrayList();
 
 
     @FXML
@@ -150,11 +150,15 @@ public class Controller implements Initializable {
             alert.showAndWait();
 
         }else{
-            stage.show();
             traitementProduction();
+
+            stage.show();
         }
 
     }
+
+
+
 
 
     @FXML
@@ -312,7 +316,7 @@ public class Controller implements Initializable {
     }
 
 
-    ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
+    public final ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
 
     public void Readxls (File file) throws IOException {
 
@@ -354,11 +358,11 @@ public class Controller implements Initializable {
 
     }
 
+   public final ArrayList<Production> productionTotale = new ArrayList<Production>();
 
     public  void traitementProduction(){
             Double tauxGlobal;
 
-        ArrayList<Production> productionTotale = new ArrayList<Production>();
         int a=0;
 
         for (Installation inst: listAjout){
@@ -378,7 +382,6 @@ public class Controller implements Initializable {
             for (int i=0;i<listProduction.size();i++){
              Double energieFinale = listProduction.get(i).getProduction()*surface*tauxGlobal;
 
-            // System.out.println(prod.getProduction()+" "+prod.getDate()+" "+energieFinale);
                 Production production = new Production();
 
                 if(a==0){
