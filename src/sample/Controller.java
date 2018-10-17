@@ -129,7 +129,7 @@ public class Controller implements Initializable {
 
     @FXML
     void Run (ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("second_window.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("second_window1.fxml"));
 
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
@@ -153,7 +153,7 @@ public class Controller implements Initializable {
         }else{
             traitementProduction();
             Second_window controller2 = fxmlLoader.getController();
-            controller2.initData(productionTotale,listConsommation);
+            controller2.initData(productionTotale,listConsommation,listProduction);
             stage.show();
         }
     }

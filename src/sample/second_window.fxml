@@ -56,11 +56,6 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="533.0" layoutY="20.0" prefHeight="20.0" prefWidth="119.0" text="Type de PV : ">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Label>
             <Label layoutX="534.0" layoutY="60.0" prefHeight="20.0" prefWidth="119.0" text="Nombre de PV : ">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -73,12 +68,13 @@
             <JFXTextField editable="false" layoutX="377.0" layoutY="134.0" prefHeight="25.0" prefWidth="47.0" />
             <JFXTextField editable="false" layoutX="379.0" layoutY="174.0" prefHeight="25.0" prefWidth="47.0" />
             <JFXTextField editable="false" layoutX="654.0" layoutY="102.0" prefHeight="25.0" prefWidth="60.0" />
-            <JFXTextField editable="false" layoutX="631.0" layoutY="14.0" prefHeight="25.0" prefWidth="60.0" />
             <JFXTextField editable="false" layoutX="651.0" layoutY="56.0" prefHeight="25.0" prefWidth="60.0" />
-            <JFXButton layoutX="573.0" layoutY="243.0" onAction="#prout" prefHeight="40.0" prefWidth="115.0" style="-fx-background-color: #4286f4;" text="Générer PDF" />
+            <JFXButton layoutX="48.0" layoutY="260.0" onAction="#afficherConso" prefHeight="40.0" prefWidth="151.0" style="-fx-background-color: #4286f4;" text="Afficher Consommation" />
+            <JFXButton layoutX="226.0" layoutY="260.0" onAction="#afficherProd" prefHeight="40.0" prefWidth="151.0" style="-fx-background-color: #4286f4;" text="Afficher Production" />
+            <JFXButton layoutX="406.0" layoutY="260.0" onAction="#afficherProd" prefHeight="40.0" prefWidth="151.0" style="-fx-background-color: #4286f4;" text="Afficher Ensoleillement" />
          </children>
       </AnchorPane>
-      <LineChart fx:id="graphConso" layoutX="127.0" layoutY="386.0" prefHeight="316.0" prefWidth="433.0">
+      <LineChart fx:id="graphConso" layoutX="41.0" layoutY="370.0" prefHeight="407.0" prefWidth="985.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>
@@ -86,15 +82,7 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </LineChart>
-      <LineChart layoutX="662.0" layoutY="386.0" prefHeight="314.0" prefWidth="424.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </LineChart>
-      <LineChart layoutX="815.0" layoutY="28.0" prefHeight="364.0" prefWidth="432.0">
+      <LineChart fx:id="gaphEnsoleillemnt" layoutX="815.0" layoutY="28.0" prefHeight="364.0" prefWidth="432.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>
