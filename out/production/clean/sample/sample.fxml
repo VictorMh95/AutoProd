@@ -88,7 +88,7 @@
                 <JFXTextField fx:id="surfacePV" layoutX="419.0" layoutY="66.0" prefHeight="17.0" prefWidth="61.0" />
                 <Label layoutX="244.0" layoutY="40.0" text="Long (m)" />
                 <Label layoutX="315.0" layoutY="40.0" text="Larg (m)" />
-                <Label layoutX="187.0" layoutY="40.0" text="nbre (m)" />
+                <Label layoutX="187.0" layoutY="40.0" text="nbre " />
                 <JFXButton fx:id="resultSurface" layoutX="371.0" layoutY="66.0" onAction="#resultFire" style="-fx-background-color: #fbb900;" text="-&gt;" />
                 <Line endX="-68.33334350585938" layoutX="527.0" layoutY="271.0" startX="-119.0" />
                 <Line endX="-95.33334350585938" endY="-44.66668701171875" layoutX="537.0" layoutY="281.0" startX="-129.5" startY="-10.5" />
@@ -150,11 +150,10 @@
         <TableView fx:id="tableView" layoutX="581.0" layoutY="346.0" prefHeight="323.0" prefWidth="537.0">
             <columns>
                 <TableColumn fx:id="numero" prefWidth="75.0" text="Numero" />
-                <TableColumn fx:id="surface" prefWidth="111.33331298828125" text="Nombre de PV m²" />
-                <TableColumn fx:id="type" prefWidth="97.66668701171875" text="Type de PV (%)" />
-                <TableColumn fx:id="inclinaison" prefWidth="67.0" text="Inclinaison " />
-                <TableColumn fx:id="orientation" prefWidth="86.0" text="Orientation" />
-                <TableColumn fx:id="puissance" prefWidth="77.0" text="Puissance du PV" />
+                <TableColumn fx:id="surface" prefWidth="111.33331298828125" text="Surface PV m²" />
+                <TableColumn fx:id="inclinaison" prefWidth="100.0" text="Inclinaison " />
+                <TableColumn fx:id="orientation" prefWidth="90.0" text="Orientation" />
+                <TableColumn fx:id="puissance" prefWidth="101.0" text="Puissance du PV" />
             </columns>
         </TableView>
         <Accordion />

@@ -83,12 +83,10 @@ public class Controller implements Initializable {
     @FXML private TableView<Installation> tableView;
     @FXML private TableColumn<Installation,Integer> numero;
     @FXML private TableColumn<Installation, Integer> surface;
-    @FXML private TableColumn<Installation,String> type;
     @FXML private TableColumn<Installation,Integer> inclinaison;
     @FXML private TableColumn<Installation,Integer> orientation;
     @FXML private TableColumn<Installation,Integer> puissance;
 
-    @FXML private ComboBox<String> comboBox;
     private int idNumber=1;
 
      ObservableList<Installation> listAjout = FXCollections.observableArrayList();
@@ -129,7 +127,7 @@ public class Controller implements Initializable {
 
     @FXML
     void Run (ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("second_window1.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("second_window.fxml"));
 
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
@@ -153,7 +151,7 @@ public class Controller implements Initializable {
         }else{
             traitementProduction();
             Second_window controller2 = fxmlLoader.getController();
-            controller2.initData(productionTotale,listConsommation,listProduction);
+            controller2.initData(productionTotale,listConsommation,listProduction,listAjout);
             stage.show();
         }
     }
@@ -252,7 +250,7 @@ public class Controller implements Initializable {
 
     public double CalculTauxOrienIncli (Double orientation ,Double inclinaison)
     {
-        double taux = 0.95 ;
+        double taux = 0.70 ;
         if (90<=orientation && orientation<=270 && 0<=inclinaison && inclinaison<=20) {
             taux = 0.88 ;
         }
