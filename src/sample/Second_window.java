@@ -18,10 +18,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.util.ArrayList;
-
-import java.util.Date;
-import java.util.List;
-
 import java.util.ResourceBundle;
 
 public class Second_window implements Initializable {
@@ -128,11 +124,12 @@ public class Second_window implements Initializable {
         XYChart.Series<String,Number> series = new XYChart.Series<>();
         series.setName("Irradiation en kWh/m²");
         for (Production prod: list){
-            date = prod.getDate();
+            date = prod.getDate().toString();
             production = prod.getProduction();
             series.getData().add(new XYChart.Data<String,Number>(date,production));
         }
         graphEnsoleillement.getData().addAll(series);
     }
+
 
 }

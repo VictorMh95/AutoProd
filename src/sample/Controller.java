@@ -31,6 +31,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.util.SystemOutLogger;
@@ -149,6 +150,7 @@ public class Controller implements Initializable {
             alert.showAndWait();
 
         }else{
+            dateProductionToConsommation();
             traitementProduction();
             Second_window controller2 = fxmlLoader.getController();
             controller2.initData(productionTotale,listConsommation,listProduction,listAjout);
@@ -295,19 +297,27 @@ public class Controller implements Initializable {
         while ((nextline = csvReader.readNext()) != null) {
             lineNumber++;
 
-            //SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MMM-dd");
-            //String dateInString=nextline[0];
-
-                //Date date = formatter.parse(dateInString);
-                Production production= new Production(nextline[0]
+            String sDate1=nextline[0];
+            try {
+                SimpleDateFormat formatter1=new SimpleDateFormat("yyyy-MM-dd");
+                Date date1 = formatter1.parse(sDate1);
+                Production production= new Production(date1
                         ,(Double.valueOf(nextline[5])/1000));
                 listProduction.add(production);
+            }catch (Exception e){
+                e.printStackTrace();
 
-            // nextLine[] is an array of values from the line
-
+            }
         }
+    }
 
-
+    public void dateProductionToConsommation(){
+        int anneeConso=listConsommation.get(1).getDate().getYear();
+        for(int i=0;i<listProduction.size();i++){
+            Date date=listProduction.get(i).getDate();
+            date.setYear(anneeConso);
+            listProduction.get(i).setDate(date);
+        }
 
     }
 
@@ -338,7 +348,7 @@ public class Controller implements Initializable {
                 listConsommation.add(e);
             }
             for(Consommation emp: listConsommation){
-               // System.out.println("date:"+emp.getDate()+" conso:"+emp.getConsommation());
+              // System.out.println("date:"+emp.getDate()+" conso:"+emp.getConsommation());
             }
         }
         catch (Exception e)
@@ -373,7 +383,7 @@ public class Controller implements Initializable {
 
             tauxGlobal= tauxOrienIncl * ((nbre*puissance)/(surface*1000))*perf;
 
-            System.out.println(tauxGlobal+" "+tauxOrienIncl+" "+nbre+" "+puissance+" "+surface+" "+perf);
+           // System.out.println(tauxGlobal+" "+tauxOrienIncl+" "+nbre+" "+puissance+" "+surface+" "+perf);
 
 
             for (int i=0;i<listProduction.size();i++){
@@ -396,7 +406,10 @@ public class Controller implements Initializable {
             System.out.println("date:"+emp.getDate()+" prod:"+emp.getProduction());
         }
 
-        }
-    }
 
+        }
+
+
+    }
 }
+
