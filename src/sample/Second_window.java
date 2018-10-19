@@ -39,6 +39,11 @@ public class Second_window implements Initializable {
     public LineChart<String,Number> graphConso;
     @FXML
     private LineChart<String, Number> graphEnsoleillement;
+    @FXML
+    private JFXTextField puissanceTF;
+
+    @FXML
+    private JFXTextField surfaceTF;
 
     @FXML private TableView<Installation> tableView;
     @FXML private TableColumn<Installation,Integer> numero;
@@ -55,7 +60,6 @@ public class Second_window implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        consommationAffichage();
         numero.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("numero"));
         surface.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("surface"));
         inclinaison.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("inclinaison"));
@@ -70,6 +74,8 @@ public class Second_window implements Initializable {
         consommationListe = (ArrayList<Consommation>)consommation.clone();
         ensoleillement = (ArrayList<Production>)irradiation.clone();
         listInstallation = installation ;
+        puissanceTF.setText(calculpuissane(listInstallation).toString());
+        surfaceTF.setText(calculsurface(listInstallation).toString());
     }
 
     @FXML
@@ -131,5 +137,20 @@ public class Second_window implements Initializable {
         graphEnsoleillement.getData().addAll(series);
     }
 
+    public Double calculsurface(ObservableList<Installation> list) {
+        double surf=0 ;
+        for (Installation inst : list){
+            surf = surf + inst.getSurface();
+        }
+        return surf;
+    }
+
+    public Double calculpuissane(ObservableList<Installation> list){
+        double puissance = 0 ;
+        for (Installation inst : list ){
+            puissance = puissance + inst.getPuissance();
+        }
+        return puissance ;
+    }
 
 }
