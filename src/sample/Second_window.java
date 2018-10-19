@@ -37,6 +37,11 @@ public class Second_window implements Initializable {
     public LineChart<String,Number> graphConso;
     @FXML
     private LineChart<String, Number> graphEnsoleillement;
+    @FXML
+    private JFXTextField puissanceTF;
+
+    @FXML
+    private JFXTextField surfaceTF;
 
     @FXML private TableView<Installation> tableView;
     @FXML private TableColumn<Installation,Integer> numero;
@@ -68,25 +73,21 @@ public class Second_window implements Initializable {
         productionTotaleListe = (ArrayList<Production>)productionTotale;
         consommationListe = (ArrayList<Consommation>)consommation;
         ensoleillement = (ArrayList<Production>)irradiation;
-        listInstallation = installation ;
-    }
 
-    @FXML
-    void afficherEnsoleillement(ActionEvent event) {
-        displayGraphEnsoleillement(ensoleillement);
-        tableView.setItems(listInstallation);
-        consommationAffichage();
+        listInstallation = installation ;
+        puissanceTF.setText(calculpuissane(listInstallation).toString());
+        surfaceTF.setText(calculsurface(listInstallation).toString());
     }
 
     @FXML
     void afficherConso(ActionEvent event) {
         displayGraphConso(consommationListe);
+        displayGraphProduction(productionTotaleListe);
+        displayGraphEnsoleillement(ensoleillement);
+        tableView.setItems(listInstallation);
+        consommationAffichage();
     }
 
-    @FXML
-    void afficherProd(ActionEvent event) {
-        displayGraphProduction(productionTotaleListe);
-    }
 
     public void consommationAffichage(){
 //        long milliSecondDiff = consommationListe.get(consommationListe.size()).getDate().getTime()-consommationListe.get(0).getDate().getTime();
@@ -136,6 +137,22 @@ public class Second_window implements Initializable {
             series.getData().add(new XYChart.Data<String,Number>(date,production));
         }
         graphEnsoleillement.getData().addAll(series);
+    }
+
+    public Double calculsurface(ObservableList<Installation> list) {
+        double surf=0 ;
+        for (Installation inst : list){
+            surf = surf + inst.getSurface();
+        }
+        return surf;
+    }
+
+    public Double calculpuissane(ObservableList<Installation> list){
+        double puissance = 0 ;
+        for (Installation inst : list ){
+            puissance = puissance + inst.getPuissance()*inst.getNbre();
+        }
+        return puissance ;
     }
 
 }

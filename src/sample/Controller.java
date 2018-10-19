@@ -20,7 +20,9 @@ import javafx.stage.FileChooser;
 import javafx.event.ActionEvent;
 import java.io.*;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -65,8 +67,6 @@ public class Controller implements Initializable {
     @FXML
     public JFXTextField orientationTF ;
     @FXML
-    private JFXTextField typeValue;
-    @FXML
     private JFXTextField longPV;
 
     @FXML
@@ -91,112 +91,6 @@ public class Controller implements Initializable {
     private int idNumber=1;
 
      ObservableList<Installation> listAjout = FXCollections.observableArrayList();
-
-
-    @FXML
-    void bt1(ActionEvent event) throws IOException {
-        FileChooser fc = new FileChooser();
-        fc.setInitialDirectory(new File("C:"));
-        fc.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Fichier csv", "*.csv")
-        );
-        File selectedFile = fc.showOpenDialog(null);
-        if (selectedFile != null) {
-            t_loc.setText(selectedFile.getAbsolutePath().substring(selectedFile.getAbsolutePath().lastIndexOf("\\") + 1)
-            );
-            ReadCSV(selectedFile);
-        } else {
-            System.out.println("Le fichier n'est pas bon");
-        }
-    }
-
-    @FXML
-    void bt2(ActionEvent event) throws IOException {
-        FileChooser fc = new FileChooser();
-        fc.setInitialDirectory(new File("C:"));
-        fc.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Fichier xls", "*.xls")
-        );
-        File selectedFile2 = fc.showOpenDialog(null);
-        if (selectedFile2 != null) {
-            t_conso.setText(selectedFile2.getAbsolutePath().substring(selectedFile2.getAbsolutePath().lastIndexOf("\\") + 1));
-            Readxls(selectedFile2);
-        } else {
-            System.out.println("Le fichier n'est pas valide");
-        }
-    }
-
-    @FXML
-    void Run (ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("second_window.fxml"));
-
-        Parent root1 = (Parent) fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setTitle("Résultats");
-        stage.setScene(new Scene(root1,1259, 750));
-
-        if(listAjout.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur tableau");
-            alert.setHeaderText("Attention tableau !");
-            alert.setContentText("La tableau doit avoir au moins une installation");
-            alert.showAndWait();
-
-        }else if(t_conso.getText().trim().isEmpty()||t_loc.getText().trim().isEmpty()){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur fichier");
-            alert.setHeaderText("Attention fichier !");
-            alert.setContentText("Les fichiers ne sont pas chargés");
-            alert.showAndWait();
-
-        }else{
-            dateProductionToConsommation();
-            traitementProduction();
-            Second_window controller2 = fxmlLoader.getController();
-            controller2.initData(productionTotale,listConsommation,listProduction,listAjout);
-            stage.show();
-        }
-    }
-
-
-    @FXML
-    void ajouter(ActionEvent event) {
-
-
-        if (surfacePV.getText().trim().isEmpty()||puissancePV.getText().trim().isEmpty()
-                ||rendementTF.getText().trim().isEmpty()||orientationTF.getText().trim().isEmpty()||inclinaisonTF.getText().trim().isEmpty())
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur champ");
-                alert.setHeaderText("Attention champ !");
-                alert.setContentText("Un des champs est manquant !");
-                alert.showAndWait();
-
-            }else {
-
-            Installation installation = new Installation(idNumber++,Double.parseDouble(nbrePV.getText()), Double.parseDouble(surfacePV.getText())
-                    , Double.parseDouble(puissancePV.getText()), Double.parseDouble(rendementTF.getText()), Double.parseDouble(orientationTF.getText())
-                    , Double.parseDouble(inclinaisonTF.getText()));
-
-            listAjout.add(installation);
-            tableView.setItems(listAjout);
-        }
-
-       // System.out.println(CalculTauxOrienIncli(Double.parseDouble(orientationTF.getText()),Double.parseDouble(inclinaisonTF.getText())));
-
-
-    }
-
-
-
-    @FXML
-    void resultFire(ActionEvent event) {
-
-        Double resultat = Double.parseDouble(nbrePV.getText())*Double.parseDouble(longPV.getText())*Double.parseDouble(largPV.getText());
-        surfacePV.setText(resultat.toString());
-
-    }
-
 
 
     @Override
@@ -247,6 +141,153 @@ public class Controller implements Initializable {
         };
         resultSurface.disableProperty().bind(bb2);
     }
+
+
+    @FXML
+    void bt1(ActionEvent event) throws IOException {
+        FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(new File("C:"));
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Fichier csv", "*.csv")
+        );
+        File selectedFile = fc.showOpenDialog(null);
+        if (selectedFile != null) {
+            listProduction.clear();
+            t_loc.setText(selectedFile.getAbsolutePath().substring(selectedFile.getAbsolutePath().lastIndexOf("\\") + 1)
+            );
+            ReadCSV(selectedFile);
+        } else {
+            System.out.println("Le fichier n'est pas bon");
+        }
+    }
+
+    @FXML
+    void bt2(ActionEvent event) throws IOException {
+        FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(new File("C:"));
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Fichier xls", "*.xls")
+        );
+        File selectedFile2 = fc.showOpenDialog(null);
+        if (selectedFile2 != null) {
+            listConsommation.clear();
+            t_conso.setText(selectedFile2.getAbsolutePath().substring(selectedFile2.getAbsolutePath().lastIndexOf("\\") + 1));
+            Readxls(selectedFile2);
+        } else {
+            System.out.println("Le fichier n'est pas valide");
+        }
+    }
+
+    @FXML
+    void Run (ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("second_window.fxml"));
+
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setTitle("Résultats");
+        stage.setScene(new Scene(root1,1259, 750));
+
+        if(listAjout.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur tableau");
+            alert.setHeaderText("Attention tableau !");
+            alert.setContentText("La tableau doit avoir au moins une installation");
+            alert.showAndWait();
+
+        }else if(t_conso.getText().trim().isEmpty()||t_loc.getText().trim().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur fichier");
+            alert.setHeaderText("Attention fichier !");
+            alert.setContentText("Les fichiers ne sont pas chargés");
+            alert.showAndWait();
+
+        }else{
+            dateProductionToConsommation();
+            traitementProduction();
+            Second_window controller2 = fxmlLoader.getController();
+            controller2.initData(productionTotale,listConsommation,listProduction,listAjout);
+            stage.show();
+        }
+    }
+
+
+    /**
+     *
+     * @param str
+     * @return false | true
+     * Verifie que str est n'est pas un numerique
+     */
+
+    public static boolean isNotNumeric(String str)
+    {
+        try
+        {
+            double d = Double.parseDouble(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return true;
+        }
+        return false;
+
+    }
+
+    public void alert(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur champ");
+        alert.setHeaderText("Attention champ !");
+        alert.setContentText("Tous les champs doivent etre numerique !");
+        alert.showAndWait();
+    }
+
+    /**
+     *
+     * @param event
+     * Permet de verfier si tous les champs sont bien des numeriques et ajoute une installation dans la liste
+     */
+    @FXML
+    void ajouter(ActionEvent event) {
+
+
+        if (isNotNumeric(surfacePV.getText().trim())||isNotNumeric(puissancePV.getText().trim())
+                ||isNotNumeric(rendementTF.getText().trim())||isNotNumeric(orientationTF.getText().trim())||isNotNumeric(inclinaisonTF.getText().trim()))
+            {
+                alert();
+
+
+            }else {
+
+            Installation installation = new Installation(idNumber++,Double.parseDouble(nbrePV.getText()), Double.parseDouble(surfacePV.getText())
+                    , Double.parseDouble(puissancePV.getText()), Double.parseDouble(rendementTF.getText()), Double.parseDouble(orientationTF.getText())
+                    , Double.parseDouble(inclinaisonTF.getText()));
+
+            listAjout.add(installation);
+            tableView.setItems(listAjout);
+        }
+
+       // System.out.println(CalculTauxOrienIncli(Double.parseDouble(orientationTF.getText()),Double.parseDouble(inclinaisonTF.getText())));
+
+
+    }
+
+    /**
+     *
+     * @param event
+     * permet de multiplier le nombre de panneaux et leur dimension pour obtenir la surface totale
+     */
+
+    @FXML
+    void resultFire(ActionEvent event) {
+        if (isNotNumeric(nbrePV.getText().trim())||isNotNumeric(longPV.getText().trim())||isNotNumeric(largPV.getText().trim())){
+         alert();
+        }else{
+            Double resultat = Double.parseDouble(nbrePV.getText())*Double.parseDouble(longPV.getText())*Double.parseDouble(largPV.getText());
+            surfacePV.setText(resultat.toString());
+
+        }
+    }
+
+
 
 
 
@@ -312,8 +353,8 @@ public class Controller implements Initializable {
     }
 
     public void dateProductionToConsommation(){
-        int anneeConso=listConsommation.get(0).getDate().getYear();
 
+        int anneeConso=listConsommation.get(1).getDate().getYear();
         for(int i=0;i<listProduction.size();i++){
             Date date=listProduction.get(i).getDate();
             date.setYear(anneeConso);
@@ -405,7 +446,14 @@ public class Controller implements Initializable {
             }
             a++;
 
+        for(Production emp: productionTotale){
+            System.out.println("date:"+emp.getDate()+" prod:"+emp.getProduction());
         }
-    }
 
+
+        }
+
+
+    }
 }
+
