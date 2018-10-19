@@ -84,12 +84,10 @@ public class Controller implements Initializable {
     @FXML private TableView<Installation> tableView;
     @FXML private TableColumn<Installation,Integer> numero;
     @FXML private TableColumn<Installation, Integer> surface;
-    @FXML private TableColumn<Installation,String> type;
     @FXML private TableColumn<Installation,Integer> inclinaison;
     @FXML private TableColumn<Installation,Integer> orientation;
     @FXML private TableColumn<Installation,Integer> puissance;
 
-    @FXML private ComboBox<String> comboBox;
     private int idNumber=1;
 
      ObservableList<Installation> listAjout = FXCollections.observableArrayList();
@@ -131,6 +129,7 @@ public class Controller implements Initializable {
     @FXML
     void Run (ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("second_window.fxml"));
+
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
         stage.setTitle("Résultats");
@@ -154,18 +153,10 @@ public class Controller implements Initializable {
             dateProductionToConsommation();
             traitementProduction();
             Second_window controller2 = fxmlLoader.getController();
-            controller2.initData(productionTotale,listConsommation);
+            controller2.initData(productionTotale,listConsommation,listProduction,listAjout);
             stage.show();
         }
-
     }
-
-
-
-
-
-
-
 
 
     @FXML
@@ -261,7 +252,7 @@ public class Controller implements Initializable {
 
     public double CalculTauxOrienIncli (Double orientation ,Double inclinaison)
     {
-        double taux = 0.95 ;
+        double taux = 0.70 ;
         if (90<=orientation && orientation<=270 && 0<=inclinaison && inclinaison<=20) {
             taux = 0.88 ;
         }
@@ -321,7 +312,7 @@ public class Controller implements Initializable {
     }
 
     public void dateProductionToConsommation(){
-        int anneeConso=listConsommation.get(3784).getDate().getYear();
+        int anneeConso=listConsommation.get(0).getDate().getYear();
 
         for(int i=0;i<listProduction.size();i++){
             Date date=listProduction.get(i).getDate();
@@ -332,7 +323,7 @@ public class Controller implements Initializable {
     }
 
 
-    public final ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
+    public  ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
 
     public void Readxls (File file) throws IOException {
 
@@ -376,54 +367,45 @@ public class Controller implements Initializable {
 
    public  ArrayList<Production> productionTotale = new ArrayList<Production>();
 
-    public  void traitementProduction(){
-            Double tauxGlobal;
 
-        int a=0;
+    public  void traitementProduction() {
+        Double tauxGlobal;
 
-        for (Installation inst: listAjout){
+        int a = 0;
+
+        for (Installation inst : listAjout) {
             Double nbre = inst.getNbre();
             Double surface = inst.getSurface();
             Double puissance = inst.getPuissance();
-            Double perf =  (inst.getPr())/100;
-            Double incl =inst.getInclinaison();
+            Double perf = (inst.getPr()) / 100;
+            Double incl = inst.getInclinaison();
             Double orien = inst.getOrientation();
 
-            Double tauxOrienIncl = CalculTauxOrienIncli(orien,incl);
+            Double tauxOrienIncl = CalculTauxOrienIncli(orien, incl);
 
-            tauxGlobal= tauxOrienIncl * ((nbre*puissance)/(surface*1000))*perf;
+            tauxGlobal = tauxOrienIncl * ((nbre * puissance) / (surface * 1000)) * perf;
 
-           // System.out.println(tauxGlobal+" "+tauxOrienIncl+" "+nbre+" "+puissance+" "+surface+" "+perf);
+            // System.out.println(tauxGlobal+" "+tauxOrienIncl+" "+nbre+" "+puissance+" "+surface+" "+perf);
 
-            for (int i=0;i<listProduction.size();i++){
-             Double energieFinale = listProduction.get(i).getProduction()*surface*tauxGlobal;
+
+            for (int i = 0; i < listProduction.size(); i++) {
+                Double energieFinale = listProduction.get(i).getProduction() * surface * tauxGlobal;
 
                 Production production = new Production();
 
-                if(a==0){
+                if (a == 0) {
                     production.setDate(listProduction.get(i).getDate());
                     production.setProduction(energieFinale);
-                    productionTotale.add(i,production);
-
-
-                }else{
+                    productionTotale.add(i, production);
+                } else {
                     production.setDate(listProduction.get(i).getDate());
-                    production.setProduction(energieFinale+productionTotale.get(i).getProduction());
-                    productionTotale.set(i,production);
-
+                    production.setProduction(energieFinale + productionTotale.get(i).getProduction());
+                    productionTotale.set(i, production);
                 }
-
-             }
+            }
             a++;
 
         }
-
-        //for(Production emp: productionTotale){
-        //    System.out.println("date:"+emp.getDate()+" conso:"+emp.getProduction());
-       // }
-
-        }
-
-
+    }
 
 }
