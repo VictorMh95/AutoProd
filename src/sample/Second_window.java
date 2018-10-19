@@ -1,6 +1,5 @@
 package sample;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
@@ -8,9 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -70,9 +67,9 @@ public class Second_window implements Initializable {
 
     public void initData(ArrayList<Production> productionTotale,ArrayList<Consommation> consommation,ArrayList<Production> irradiation,
                          ObservableList<Installation> installation){
-        productionTotaleListe = (ArrayList<Production>)productionTotale.clone();
-        consommationListe = (ArrayList<Consommation>)consommation.clone();
-        ensoleillement = (ArrayList<Production>)irradiation.clone();
+        productionTotaleListe = (ArrayList<Production>)productionTotale;
+        consommationListe = (ArrayList<Consommation>)consommation;
+        ensoleillement = (ArrayList<Production>)irradiation;
         listInstallation = installation ;
         puissanceTF.setText(calculpuissane(listInstallation).toString());
         surfaceTF.setText(calculsurface(listInstallation).toString());
@@ -82,6 +79,7 @@ public class Second_window implements Initializable {
     void afficherEnsoleillement(ActionEvent event) {
         displayGraphEnsoleillement(ensoleillement);
         tableView.setItems(listInstallation);
+        consommationAffichage();
     }
 
     @FXML
@@ -95,6 +93,13 @@ public class Second_window implements Initializable {
     }
 
     public void consommationAffichage(){
+//        long milliSecondDiff = consommationListe.get(consommationListe.size()).getDate().getTime()-consommationListe.get(0).getDate().getTime();
+     //   long intervalle = milliSecondDiff/consommationListe.size();
+       // int increment=0;
+        //long incrementInter=0;
+        //long mois=2505600000L;
+       // while(incrementInter<mois){ }
+
     }
 
     public void displayGraphConso(ArrayList<Consommation> list){

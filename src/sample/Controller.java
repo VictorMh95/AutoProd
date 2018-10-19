@@ -312,7 +312,9 @@ public class Controller implements Initializable {
     }
 
     public void dateProductionToConsommation(){
+
         int anneeConso=listConsommation.get(1).getDate().getYear();
+
         for(int i=0;i<listProduction.size();i++){
             Date date=listProduction.get(i).getDate();
             date.setYear(anneeConso);
@@ -366,47 +368,46 @@ public class Controller implements Initializable {
 
    public  ArrayList<Production> productionTotale = new ArrayList<Production>();
 
-    public  void traitementProduction(){
-            Double tauxGlobal;
 
-        int a=0;
+    public  void traitementProduction() {
+        Double tauxGlobal;
 
-        for (Installation inst: listAjout){
+        int a = 0;
+
+        for (Installation inst : listAjout) {
             Double nbre = inst.getNbre();
             Double surface = inst.getSurface();
             Double puissance = inst.getPuissance();
-            Double perf =  (inst.getPr())/100;
-            Double incl =inst.getInclinaison();
+            Double perf = (inst.getPr()) / 100;
+            Double incl = inst.getInclinaison();
             Double orien = inst.getOrientation();
 
-            Double tauxOrienIncl = CalculTauxOrienIncli(orien,incl);
+            Double tauxOrienIncl = CalculTauxOrienIncli(orien, incl);
 
-            tauxGlobal= tauxOrienIncl * ((nbre*puissance)/(surface*1000))*perf;
+            tauxGlobal = tauxOrienIncl * ((nbre * puissance) / (surface * 1000)) * perf;
 
-           // System.out.println(tauxGlobal+" "+tauxOrienIncl+" "+nbre+" "+puissance+" "+surface+" "+perf);
+            // System.out.println(tauxGlobal+" "+tauxOrienIncl+" "+nbre+" "+puissance+" "+surface+" "+perf);
 
 
-            for (int i=0;i<listProduction.size();i++){
-             Double energieFinale = listProduction.get(i).getProduction()*surface*tauxGlobal;
+            for (int i = 0; i < listProduction.size(); i++) {
+                Double energieFinale = listProduction.get(i).getProduction() * surface * tauxGlobal;
 
                 Production production = new Production();
 
-                if(a==0){
+                if (a == 0) {
                     production.setDate(listProduction.get(i).getDate());
                     production.setProduction(energieFinale);
-                    productionTotale.add(i,production);
-                }else{
+                    productionTotale.add(i, production);
+                } else {
                     production.setDate(listProduction.get(i).getDate());
-                    production.setProduction(energieFinale+productionTotale.get(i).getProduction());
-                    productionTotale.set(i,production);
+                    production.setProduction(energieFinale + productionTotale.get(i).getProduction());
+                    productionTotale.set(i, production);
                 }
-             }
+            }
             a++;
         for(Production emp: productionTotale){
             System.out.println("date:"+emp.getDate()+" prod:"+emp.getProduction());
         }
-
-
         }
 
 
