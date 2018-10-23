@@ -81,8 +81,7 @@ public class Second_window implements Initializable {
 
     @FXML
     void afficherConso(ActionEvent event) {
-        displayGraphConso(consommationListe);
-        displayGraphProduction(productionTotaleListe);
+        displayGraphConsoProd(consommationListe,productionTotaleListe);
         displayGraphEnsoleillement(ensoleillement);
         tableView.setItems(listInstallation);
         consommationAffichage();
@@ -99,37 +98,46 @@ public class Second_window implements Initializable {
 
     }
 
-    public void displayGraphConso(ArrayList<Consommation> list){
-        String date;
-        Number conso;
-        XYChart.Series<String,Number> series = new XYChart.Series<>();
-        series.setName("Consommation en kWh");
-        for (Consommation cons: list){
-            date=cons.getDate().toString();
-            conso = cons.getConsommation();
-            series.getData().add(new XYChart.Data<String,Number>(date,conso));
+    public void displayGraphConsoProd(ArrayList<Consommation> conso,ArrayList<Production> prod){
+        String dateconso;
+        Number consommation;
+        String dateprodu;
+        Number production;
+
+        XYChart.Series<String,Number> seriesConso = new XYChart.Series<>();
+        seriesConso.setName("Consommation en kWh");
+
+        XYChart.Series<String,Number> seriesProd = new XYChart.Series<>();
+        seriesConso.setName("Production en kWh");
+
+        for (Consommation cons: conso){
+            dateconso=cons.getDate().toString();
+            consommation = cons.getConsommation();
+            seriesConso.getData().add(new XYChart.Data<String,Number>(dateconso,consommation));
         }
-        System.out.println(series.getData());
-        graphConso.getData().addAll(series);
+
+        for (Production pr: prod){
+            dateprodu = pr.getDate().toString();
+            production = pr.getProduction();
+            seriesProd.getData().add(new XYChart.Data<String,Number>(dateprodu,production));
+        }
+        graphConso.getData().addAll(seriesConso);
+        graphConso.getData().addAll(seriesProd);
+
     }
 
     public void displayGraphProduction(ArrayList<Production> list){
-        String date;
-        Number production;
+
         XYChart.Series<String,Number> series = new XYChart.Series<>();
         series.setName("Production en kWh");
-        for (Production prod: list){
-            date = prod.getDate().toString();
-            production = prod.getProduction();
-            series.getData().add(new XYChart.Data<String,Number>(date,production));
-        }
-        graphConso.getData().addAll(series);
+
     }
 
     public void displayGraphEnsoleillement(ArrayList<Production> list){
         String date;
         Number production;
         XYChart.Series<String,Number> series = new XYChart.Series<>();
+
         series.setName("Irradiation en kWh/m²");
         for (Production prod: list){
             date = prod.getDate().toString();

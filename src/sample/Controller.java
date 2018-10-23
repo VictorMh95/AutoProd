@@ -339,12 +339,14 @@ public class Controller implements Initializable {
             lineNumber++;
 
             String sDate1=nextline[0];
+            String Heure=nextline[1];
             try {
-                SimpleDateFormat formatter1=new SimpleDateFormat("yyyy-MM-dd");
-                Date date1 = formatter1.parse(sDate1);
+                SimpleDateFormat formatter1=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                Date date1 = formatter1.parse(sDate1+" "+Heure);
                 Production production= new Production(date1
                         ,(Double.valueOf(nextline[5])/1000));
                 listProduction.add(production);
+              // System.out.println(production.getDate());
             }catch (Exception e){
                 e.printStackTrace();
 
@@ -355,11 +357,19 @@ public class Controller implements Initializable {
     public void dateProductionToConsommation(){
 
         int anneeConso=listConsommation.get(1).getDate().getYear();
+        //  System.out.println("date "+anneeConso);
+
         for(int i=0;i<listProduction.size();i++){
             Date date=listProduction.get(i).getDate();
+            System.out.println("date avant :"+listProduction.get(i).getDate());
+
             date.setYear(anneeConso);
+           System.out.println("date apres "+date);
             listProduction.get(i).setDate(date);
         }
+        //for(Production emp: listProduction){
+          //  System.out.println("date1:"+emp.getDate()+" prod:"+emp.getProduction());
+        //}
 
     }
 
@@ -376,22 +386,32 @@ public class Controller implements Initializable {
             HSSFSheet sheet = workbook.getSheetAt(0);
 
             for(int i=sheet.getFirstRowNum();i<=sheet.getPhysicalNumberOfRows()-2;i++){
-                Consommation e= new Consommation();
                 Row ro=sheet.getRow(i);
-                for(int j=0;j<=2;j++){
-                    Cell ce = ro.getCell(j);
-                    if(j==0){
-                        e.setDate(ce.getDateCellValue());
-                    }
-                    if(j==1){
-                       e.setConsommation(ce.getNumericCellValue());
-                    }
+
+                if (ro.getCell(2)==null){
+                    Consommation e = new Consommation(ro.getCell(0).getDateCellValue(),ro.getCell(1).getNumericCellValue());
+                    listConsommation.add(e);
+                }else {
+                    System.out.println(ro.getCell(1).getCellStyle());
+                    Date date = new Date();
+                    Date heure = new Date();
+                    Double conso;
+
+                    date = ro.getCell(0).getDateCellValue();
+                    heure = ro.getCell(1).getDateCellValue();
+                    conso = ro.getCell(2).getNumericCellValue();
+                    date.setHours(heure.getHours());
+                    date.setMinutes(heure.getMinutes());
+
+
+                    Consommation e = new Consommation(date, conso);
+
+                    listConsommation.add(e);
                 }
-                listConsommation.add(e);
             }
-            for(Consommation emp: listConsommation){
+           // for(Consommation emp: listConsommation){
               // System.out.println("date:"+emp.getDate()+" conso:"+emp.getConsommation());
-            }
+          //  }
         }
         catch (Exception e)
         {
@@ -447,7 +467,7 @@ public class Controller implements Initializable {
             a++;
 
         for(Production emp: productionTotale){
-            System.out.println("date:"+emp.getDate()+" prod:"+emp.getProduction());
+           System.out.println("dateTratement:"+emp.getDate()+" prod:"+emp.getProduction());
         }
 
 

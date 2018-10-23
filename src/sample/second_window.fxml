@@ -17,6 +17,18 @@
    <content>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1300.0" prefWidth="1259.0" style="-fx-background-color: #CCCCCC;">
          <children>
+            <ScrollPane layoutX="712.0" layoutY="397.0" prefHeight="400.0" prefWidth="531.0">
+               <content>
+                  <LineChart fx:id="graphEnsoleillement" prefHeight="395.0" prefWidth="1419.0">
+                     <xAxis>
+                        <CategoryAxis side="BOTTOM" />
+                     </xAxis>
+                     <yAxis>
+                        <NumberAxis side="LEFT" />
+                     </yAxis>
+                  </LineChart>
+               </content>
+            </ScrollPane>
             <AnchorPane layoutX="244.0" layoutY="50.0" prefHeight="323.0" prefWidth="824.0" style="-fx-background-color: #b2b5ba;">
                <children>
                   <Label layoutX="36.0" layoutY="2.0" prefHeight="36.0" prefWidth="189.0" text="Taux d'autoconsommation :">
@@ -76,14 +88,6 @@
                </children>
             </AnchorPane>
             <LineChart fx:id="graphConso" layoutX="25.0" layoutY="801.0" prefHeight="407.0" prefWidth="1224.0">
-               <xAxis>
-                  <CategoryAxis side="BOTTOM" />
-               </xAxis>
-               <yAxis>
-                  <NumberAxis side="LEFT" />
-               </yAxis>
-            </LineChart>
-            <LineChart fx:id="graphEnsoleillement" layoutX="669.0" layoutY="387.0" prefHeight="395.0" prefWidth="551.0">
                <xAxis>
                   <CategoryAxis side="BOTTOM" />
                </xAxis>
