@@ -7,15 +7,22 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import jdk.nashorn.api.tree.NewTree;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class Second_window implements Initializable {
 
@@ -31,6 +38,9 @@ public class Second_window implements Initializable {
 
     @FXML
     private JFXTextField consommationAnnuelle;
+
+    @FXML
+    private StackPane stackpane;
 
     @FXML
     public LineChart<String,Number> graphConso;
@@ -70,7 +80,7 @@ public class Second_window implements Initializable {
         productionTotaleListe = (ArrayList<Production>)productionTotale;
         consommationListe = (ArrayList<Consommation>)consommation;
         ensoleillement = (ArrayList<Production>)irradiation;
-        listInstallation = installation ;
+        listInstallation = installation;
         puissanceTF.setText(calculpuissane(listInstallation).toString());
         surfaceTF.setText(calculsurface(listInstallation).toString());
     }
@@ -113,6 +123,7 @@ public class Second_window implements Initializable {
             series.getData().add(new XYChart.Data<String,Number>(date,conso));
         }
         System.out.println(series.getData());
+        graphConso.setCreateSymbols(false);
         graphConso.getData().addAll(series);
     }
 
@@ -127,13 +138,14 @@ public class Second_window implements Initializable {
             series.getData().add(new XYChart.Data<String,Number>(date,production));
         }
         graphConso.getData().addAll(series);
+
     }
 
     public void displayGraphEnsoleillement(ArrayList<Production> list){
         String date;
         Number production;
         XYChart.Series<String,Number> series = new XYChart.Series<>();
-        series.setName("Irradiation en kWh/m²");
+        series.setName("Production en kWh");
         for (Production prod: list){
             date = prod.getDate().toString();
             production = prod.getProduction();
@@ -152,10 +164,14 @@ public class Second_window implements Initializable {
 
     public Double calculpuissane(ObservableList<Installation> list){
         double puissance = 0 ;
+        double nbre = 0 ;
         for (Installation inst : list ){
             puissance = puissance + inst.getPuissance();
+            nbre = nbre + inst.getNbre();
         }
-        return puissance ;
+        return puissance+nbre ;
     }
+
+
 
 }

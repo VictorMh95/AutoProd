@@ -112,7 +112,7 @@
                 <Label layoutX="519.0" layoutY="360.0" text="E" />
             </children>
         </AnchorPane>
-        <Label layoutX="93.0" layoutY="421.0" text="Puissance des PV :">
+        <Label layoutX="93.0" layoutY="421.0" text="Puissance d'un PV :">
             <font>
                 <Font name="Arial Bold" size="18.0" />
             </font>
