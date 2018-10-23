@@ -16,13 +16,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import jdk.nashorn.api.tree.NewTree;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Stack;
+
 
 public class Second_window implements Initializable {
 
@@ -86,21 +84,13 @@ public class Second_window implements Initializable {
     }
 
     @FXML
-    void afficherEnsoleillement(ActionEvent event) {
+    void afficherConso(ActionEvent event) {
+        displayGraphConsoProd(consommationListe,productionTotaleListe);
         displayGraphEnsoleillement(ensoleillement);
         tableView.setItems(listInstallation);
         consommationAffichage();
     }
 
-    @FXML
-    void afficherConso(ActionEvent event) {
-        displayGraphConso(consommationListe);
-    }
-
-    @FXML
-    void afficherProd(ActionEvent event) {
-        displayGraphProduction(productionTotaleListe);
-    }
 
     public void consommationAffichage(){
 //        long milliSecondDiff = consommationListe.get(consommationListe.size()).getDate().getTime()-consommationListe.get(0).getDate().getTime();
@@ -112,40 +102,40 @@ public class Second_window implements Initializable {
 
     }
 
-    public void displayGraphConso(ArrayList<Consommation> list){
-        String date;
-        Number conso;
-        XYChart.Series<String,Number> series = new XYChart.Series<>();
-        series.setName("Consommation en kWh");
-        for (Consommation cons: list){
-            date=cons.getDate().toString();
-            conso = cons.getConsommation();
-            series.getData().add(new XYChart.Data<String,Number>(date,conso));
-        }
-        System.out.println(series.getData());
-        graphConso.setCreateSymbols(false);
-        graphConso.getData().addAll(series);
-    }
-
-    public void displayGraphProduction(ArrayList<Production> list){
-        String date;
+    public void displayGraphConsoProd(ArrayList<Consommation> conso,ArrayList<Production> prod){
+        String dateconso;
+        Number consommation;
+        String dateprodu;
         Number production;
-        XYChart.Series<String,Number> series = new XYChart.Series<>();
-        series.setName("Production en kWh");
-        for (Production prod: list){
-            date = prod.getDate().toString();
-            production = prod.getProduction();
-            series.getData().add(new XYChart.Data<String,Number>(date,production));
-        }
-        graphConso.getData().addAll(series);
 
+        XYChart.Series<String,Number> seriesConso = new XYChart.Series<>();
+        seriesConso.setName("Consommation en kWh");
+
+        XYChart.Series<String,Number> seriesProd = new XYChart.Series<>();
+        seriesConso.setName("Production en kWh");
+
+        for (Consommation cons: conso){
+            dateconso=cons.getDate().toString();
+            consommation = cons.getConsommation();
+            seriesConso.getData().add(new XYChart.Data<String,Number>(dateconso,consommation));
+        }
+
+        for (Production pr: prod){
+            dateprodu = pr.getDate().toString();
+            production = pr.getProduction();
+            seriesProd.getData().add(new XYChart.Data<String,Number>(dateprodu,production));
+        }
+        graphConso.getData().addAll(seriesConso);
+        graphConso.getData().addAll(seriesProd);
     }
+
+
 
     public void displayGraphEnsoleillement(ArrayList<Production> list){
         String date;
         Number production;
         XYChart.Series<String,Number> series = new XYChart.Series<>();
-        series.setName("Production en kWh");
+        series.setName("Irradiation en kWh/m²");
         for (Production prod: list){
             date = prod.getDate().toString();
             production = prod.getProduction();
@@ -166,8 +156,7 @@ public class Second_window implements Initializable {
         double puissance = 0 ;
         double nbre = 0 ;
         for (Installation inst : list ){
-            puissance = puissance + inst.getPuissance();
-            nbre = nbre + inst.getNbre();
+            puissance = puissance + inst.getPuissance()*inst.getNbre();
         }
         return puissance+nbre ;
     }
