@@ -170,4 +170,20 @@ public class Second_window implements Initializable {
 
     }
 
+    public void calculTauxAutoCons(){
+        Double utilisée = 0.0 ;
+        Double total=0.0;
+        for (Production prod : productionTotaleListe){
+            for (Consommation cons : consommationListe){
+                if (prod.getProduction()<cons.getConsommation())
+                utilisée=utilisée+prod.getProduction();
+            }
+        }
+        for (Installation inst: listInstallation){
+            total += inst.getProdTotale();
+        }
+        double tauxAutoCons = (utilisée/total)*100;
+        System.out.println(tauxAutoCons);
+    }
+
 }

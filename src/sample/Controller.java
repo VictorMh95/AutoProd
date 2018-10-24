@@ -118,7 +118,6 @@ public class Controller implements Initializable {
         orientationTF.setTooltip(new Tooltip("Orientation du panneau par rapport à la longitude en degrès." +
                 "Ex: Sud = 180° Nord = 0° Est = 90° Ouest = 270 °  "));
         rendementTF.setText("65");
-
         BooleanBinding bb = new BooleanBinding() {
             {
                 super.bind(surfacePV.textProperty(),

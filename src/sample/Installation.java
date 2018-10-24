@@ -26,6 +26,7 @@ public class Installation {
                 this.prodTotale=new SimpleDoubleProperty(prodTotale);
     }
 
+
     public double getProdTotale() {
         return prodTotale.get();
     }
