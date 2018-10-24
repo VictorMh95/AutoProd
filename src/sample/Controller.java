@@ -100,9 +100,24 @@ public class Controller implements Initializable {
         inclinaison.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("inclinaison"));
         orientation.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("orientation"));
         puissance.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("puissance"));
+        puissancePV.setTooltip(new Tooltip(": Indiquer la puissance crête (Wc) d’un panneau solaire. A récupérer dans les fichiers techniques de panneaux solaires disponibles online."));
+        rendementTF.setTooltip(new Tooltip("Prends en compte les pertes (hors rendement du panneau photovoltaïques). Ici, on prend par défaut PR = 0.675 (= multiplication des taux présentés ci-dessous).\n" +
+                "Liste des pertes :\n" +
+                "-\tTempérature = 8%\n" +
+                "-\tOnduleur = 10%\n" +
+                "-\tPoussière = 6%\n" +
+                "-\tCâblage = 1%\n" +
+                "-\tTransformateur = 2%\n" +
+                "-\tErreur de prévisions = 3%\n" +
+                "-\tOmbrage = 4%\n" +
+                "-\tAutre = 2%\n" +
+                "\n" +
+                "En fonction du projet, le ratio de performance reste modifiable. (Nous conseillons d’utiliser un PR compris entre 0.6 < X < 0.85).\n" +
+                "\n"));
         inclinaisonTF.setTooltip(new Tooltip("Angle d'inclinaison du panneau par rapport au sol. Ex : 45°,35°"));
         orientationTF.setTooltip(new Tooltip("Orientation du panneau par rapport à la longitude en degrès." +
                 "Ex: Sud = 180° Nord = 0° Est = 90° Ouest = 270 °  "));
+        rendementTF.setText("65");
 
         BooleanBinding bb = new BooleanBinding() {
             {
@@ -259,7 +274,7 @@ public class Controller implements Initializable {
 
             Installation installation = new Installation(idNumber++,Double.parseDouble(nbrePV.getText()), Double.parseDouble(surfacePV.getText())
                     , Double.parseDouble(puissancePV.getText()), Double.parseDouble(rendementTF.getText()), Double.parseDouble(orientationTF.getText())
-                    , Double.parseDouble(inclinaisonTF.getText()));
+                    , Double.parseDouble(inclinaisonTF.getText()),0);
 
             listAjout.add(installation);
             tableView.setItems(listAjout);
@@ -286,9 +301,6 @@ public class Controller implements Initializable {
 
         }
     }
-
-
-
 
 
     public double CalculTauxOrienIncli (Double orientation ,Double inclinaison)
@@ -423,7 +435,6 @@ public class Controller implements Initializable {
 
     public void supprimer(ActionEvent actionEvent) {
         tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItem());
-
     }
 
    public  ArrayList<Production> productionTotale = new ArrayList<Production>();
@@ -447,30 +458,35 @@ public class Controller implements Initializable {
             tauxGlobal = tauxOrienIncl * ((nbre * puissance) / (surface * 1000)) * perf;
 
             // System.out.println(tauxGlobal+" "+tauxOrienIncl+" "+nbre+" "+puissance+" "+surface+" "+perf);
-
+            Double prodInstall=0.0;
 
             for (int i = 0; i < listProduction.size(); i++) {
                 Double energieFinale = listProduction.get(i).getProduction() * surface * tauxGlobal;
 
                 Production production = new Production();
-
                 if (a == 0) {
                     production.setDate(listProduction.get(i).getDate());
                     production.setProduction(energieFinale);
                     productionTotale.add(i, production);
+                    prodInstall=prodInstall+energieFinale;
+
                 } else {
                     production.setDate(listProduction.get(i).getDate());
                     production.setProduction(energieFinale + productionTotale.get(i).getProduction());
                     productionTotale.set(i, production);
+                    prodInstall=prodInstall+energieFinale;
                 }
+
             }
+            inst.setProdTotale(prodInstall);
+            System.out.println("prodinstall"+inst.getProdTotale());
             a++;
-        for(Production emp: productionTotale){
+            for(Production emp: productionTotale){
            System.out.println("dateTratement:"+emp.getDate()+" prod:"+emp.getProduction());
+            }
         }
-        }
-
-
     }
+
+
 }
 

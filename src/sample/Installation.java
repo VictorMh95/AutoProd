@@ -12,9 +12,10 @@ public class Installation {
     private SimpleDoubleProperty pr ;
     private SimpleDoubleProperty orientation ;
     private SimpleDoubleProperty inclinaison ;
+    private SimpleDoubleProperty prodTotale ;
 
     public Installation (int numero ,double nbre, double surface , double puissance , double pr , double orientation
-                          , double inclinaison ){
+                          , double inclinaison,double prodTotale ){
                 this.numero= new SimpleIntegerProperty(numero);
                 this.nbre = new SimpleDoubleProperty(nbre);
                 this.surface=new SimpleDoubleProperty(surface);
@@ -22,10 +23,20 @@ public class Installation {
                 this.pr=new SimpleDoubleProperty(pr);
                 this.orientation=new SimpleDoubleProperty(orientation);
                 this.inclinaison=new SimpleDoubleProperty(inclinaison);
-
-
+                this.prodTotale=new SimpleDoubleProperty(prodTotale);
     }
 
+    public double getProdTotale() {
+        return prodTotale.get();
+    }
+
+    public void setProdTotale(double prodTotale) {
+        this.prodTotale.set(prodTotale);
+    }
+
+    public SimpleDoubleProperty prodTotaleProperty() {
+        return prodTotale;
+    }
 
     public void setNbre(double nbre) {
         this.nbre.set(nbre);

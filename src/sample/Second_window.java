@@ -56,6 +56,7 @@ public class Second_window implements Initializable {
     @FXML private TableColumn<Installation,Integer> inclinaison;
     @FXML private TableColumn<Installation,Integer> orientation;
     @FXML private TableColumn<Installation,Integer> puissance;
+    @FXML private TableColumn<Installation,Integer> prodTotale;
 
     public  ArrayList<Production> productionTotaleListe = new ArrayList<Production>();
     public  ArrayList<Consommation> consommationListe = new ArrayList<Consommation>();
@@ -70,6 +71,7 @@ public class Second_window implements Initializable {
         inclinaison.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("inclinaison"));
         orientation.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("orientation"));
         puissance.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("puissance"));
+        prodTotale.setCellValueFactory(new PropertyValueFactory<Installation,Integer>("prodTotale"));
     }
 
 
@@ -127,6 +129,8 @@ public class Second_window implements Initializable {
         }
         graphConso.getData().addAll(seriesConso);
         graphConso.getData().addAll(seriesProd);
+        graphConso.setCreateSymbols(false);
+        graphEnsoleillement.setCreateSymbols(false);
     }
 
 
@@ -161,6 +165,9 @@ public class Second_window implements Initializable {
         return puissance+nbre ;
     }
 
+    @FXML
+    void savePDF(ActionEvent event) {
 
+    }
 
 }
