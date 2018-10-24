@@ -121,8 +121,9 @@ public class Second_window implements Initializable {
             production = pr.getProduction();
             seriesProd.getData().add(new XYChart.Data<String,Number>(dateprodu,production));
         }
-        graphConso.getData().addAll(seriesConso);
         graphConso.getData().addAll(seriesProd);
+        graphConso.getData().addAll(seriesConso);
+
 
     }
 

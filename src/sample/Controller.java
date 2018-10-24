@@ -232,11 +232,12 @@ public class Controller implements Initializable {
 
     }
 
-    public void alert(){
+
+    public void alert(String alertTitle,String alertHeader, String alertContentText  ){
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur champ");
-        alert.setHeaderText("Attention champ !");
-        alert.setContentText("Tous les champs doivent etre numerique !");
+        alert.setTitle(alertTitle);
+        alert.setHeaderText(alertHeader);
+        alert.setContentText(alertContentText);
         alert.showAndWait();
     }
 
@@ -252,7 +253,7 @@ public class Controller implements Initializable {
         if (isNotNumeric(surfacePV.getText().trim())||isNotNumeric(puissancePV.getText().trim())
                 ||isNotNumeric(rendementTF.getText().trim())||isNotNumeric(orientationTF.getText().trim())||isNotNumeric(inclinaisonTF.getText().trim()))
             {
-                alert();
+                alert("Erreur","Erreur variable d'entrée","Attention, il ne doit y avoir que des valeurs numeriques dans les champs liés à l'installation ");
 
 
             }else {
@@ -279,7 +280,7 @@ public class Controller implements Initializable {
     @FXML
     void resultFire(ActionEvent event) {
         if (isNotNumeric(nbrePV.getText().trim())||isNotNumeric(longPV.getText().trim())||isNotNumeric(largPV.getText().trim())){
-         alert();
+         alert("erreur","Erreur variable d'entrée","Attention, il ne peut y avoir que des valeurs numeriques dans les champs de 'Nombre de PV'");
         }else{
             Double resultat = Double.parseDouble(nbrePV.getText())*Double.parseDouble(longPV.getText())*Double.parseDouble(largPV.getText());
             surfacePV.setText(resultat.toString());
@@ -384,15 +385,22 @@ public class Controller implements Initializable {
             HSSFWorkbook workbook = new HSSFWorkbook(fis);
 
             HSSFSheet sheet = workbook.getSheetAt(0);
+            System.out.println(String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date"));
 
-            for(int i=sheet.getFirstRowNum();i<=sheet.getPhysicalNumberOfRows()-2;i++){
-                Row ro=sheet.getRow(i);
 
-                if (ro.getCell(2)==null){
+
+
+            if(String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("consommation")){
+               System.out.println("date/conso");
+                for(int i=sheet.getFirstRowNum()+1;i<=sheet.getPhysicalNumberOfRows()-2;i++){
+                    Row ro=sheet.getRow(i);
                     Consommation e = new Consommation(ro.getCell(0).getDateCellValue(),ro.getCell(1).getNumericCellValue());
                     listConsommation.add(e);
-                }else {
-                    System.out.println(ro.getCell(1).getCellStyle());
+                }
+            }else if(String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("heure") && String.valueOf(sheet.getRow(0).getCell(2).getStringCellValue().trim()).equals("consommation")){
+                System.out.println("date/heure/conso");
+                for(int i=sheet.getFirstRowNum()+1;i<=sheet.getPhysicalNumberOfRows()-2;i++) {
+                    Row ro = sheet.getRow(i);
                     Date date = new Date();
                     Date heure = new Date();
                     Double conso;
@@ -403,21 +411,17 @@ public class Controller implements Initializable {
                     date.setHours(heure.getHours());
                     date.setMinutes(heure.getMinutes());
 
-
                     Consommation e = new Consommation(date, conso);
-
                     listConsommation.add(e);
                 }
+            }else {
+                alert("Erreur","Format du document","3");
             }
-           // for(Consommation emp: listConsommation){
-              // System.out.println("date:"+emp.getDate()+" conso:"+emp.getConsommation());
-          //  }
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-
     }
 
 
@@ -430,6 +434,7 @@ public class Controller implements Initializable {
 
 
     public  void traitementProduction() {
+        productionTotale.clear();
         Double tauxGlobal;
 
         int a = 0;
