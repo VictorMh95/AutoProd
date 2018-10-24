@@ -50,6 +50,12 @@ public class Second_window implements Initializable {
     @FXML
     private JFXTextField surfaceTF;
 
+    @FXML
+    private JFXTextField TFautoConso;
+
+    @FXML
+    private JFXTextField TFautoprod;
+
     @FXML private TableView<Installation> tableView;
     @FXML private TableColumn<Installation,Integer> numero;
     @FXML private TableColumn<Installation, Integer> surface;
@@ -91,6 +97,8 @@ public class Second_window implements Initializable {
         displayGraphEnsoleillement(ensoleillement);
         tableView.setItems(listInstallation);
         consommationAffichage();
+        TFautoConso.setText(String.valueOf(calculTauxAutoCons()));
+        TFautoprod.setText(String.valueOf(calculTauxAutoProd()));
     }
 
 
@@ -171,20 +179,50 @@ public class Second_window implements Initializable {
 
     }
 
-    public void calculTauxAutoCons(){
+    public double calculTauxAutoCons(){
         Double utilisée = 0.0 ;
         Double total=0.0;
-        for (Production prod : productionTotaleListe){
-            for (Consommation cons : consommationListe){
-                if (prod.getProduction()<cons.getConsommation())
-                utilisée=utilisée+prod.getProduction();
+        int taille;
+        if (productionTotaleListe.size()>consommationListe.size()){
+            taille=consommationListe.size();
+        }else {
+            taille=productionTotaleListe.size();
+        }
+        for (int i=0; i<taille ;i++ ){
+            if (productionTotaleListe.get(i).getProduction()<consommationListe.get(i).getConsommation()){
+                utilisée=utilisée+productionTotaleListe.get(i).getProduction();
+               //System.out.println("prod: "+productionTotaleListe.get(i).getProduction()+"   "+"cons: "+consommationListe.get(i).getConsommation());
             }
         }
         for (Installation inst: listInstallation){
             total += inst.getProdTotale();
+            //System.out.println(total);
         }
-        double tauxAutoCons = (utilisée/total)*100;
-        System.out.println(tauxAutoCons);
+         double tauxAutoCons = (utilisée/total)*100;
+       // System.out.println(tauxAutoCons);
+        return tauxAutoCons;
+    }
+
+
+    public double calculTauxAutoProd(){
+        int taille;
+        Double utilisée = 0.0 ;
+        Double total=0.0;
+        if (productionTotaleListe.size()>consommationListe.size()){
+            taille=consommationListe.size();
+        }else {
+            taille=productionTotaleListe.size();
+        }
+        for (int i=0; i<taille ;i++ ){
+            if (productionTotaleListe.get(i).getProduction()<consommationListe.get(i).getConsommation()){
+                utilisée=utilisée+productionTotaleListe.get(i).getProduction();
+            }
+        }
+        for (Consommation cons: consommationListe){
+            total = total+cons.getConsommation();
+        }
+        double tauxAutoProd=(utilisée/total)*100;
+        return tauxAutoProd;
     }
 
 }

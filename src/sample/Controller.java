@@ -353,7 +353,7 @@ public class Controller implements Initializable {
             String sDate1=nextline[0];
             String Heure=nextline[1];
             try {
-                SimpleDateFormat formatter1=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat formatter1=new SimpleDateFormat("yyyy/MM/dd HH:mm");
                 Date date1 = formatter1.parse(sDate1+" "+Heure);
                 Production production= new Production(date1
                         ,(Double.valueOf(nextline[5])/1000));
@@ -483,10 +483,10 @@ public class Controller implements Initializable {
 
             }
             inst.setProdTotale(prodInstall);
-            System.out.println("prodinstall"+inst.getProdTotale());
+            //System.out.println("prodinstall"+inst.getProdTotale());
             a++;
             for(Production emp: productionTotale){
-           System.out.println("dateTratement:"+emp.getDate()+" prod:"+emp.getProduction());
+           //System.out.println("dateTratement:"+emp.getDate()+" prod:"+emp.getProduction());
             }
         }
     }

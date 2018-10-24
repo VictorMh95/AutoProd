@@ -73,8 +73,8 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <JFXTextField editable="false" layoutX="230.0" layoutY="24.0" prefHeight="25.0" prefWidth="60.0" />
-                  <JFXTextField editable="false" layoutX="201.0" layoutY="62.0" prefHeight="25.0" prefWidth="60.0" />
+                  <JFXTextField fx:id="TFautoConso" editable="false" layoutX="230.0" layoutY="24.0" prefHeight="25.0" prefWidth="60.0" />
+                  <JFXTextField fx:id="TFautoprod" editable="false" layoutX="201.0" layoutY="62.0" prefHeight="25.0" prefWidth="60.0" />
                   <JFXTextField editable="false" layoutX="303.0" layoutY="152.0" prefHeight="25.0" prefWidth="47.0" />
                   <JFXTextField editable="false" layoutX="303.0" layoutY="192.0" prefHeight="25.0" prefWidth="47.0" />
                   <JFXTextField editable="false" layoutX="390.0" layoutY="152.0" prefHeight="25.0" prefWidth="47.0" />
