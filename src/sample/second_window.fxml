@@ -77,13 +77,15 @@
                   <JFXTextField fx:id="TFautoprod" editable="false" layoutX="201.0" layoutY="62.0" prefHeight="25.0" prefWidth="60.0" />
                   <JFXTextField editable="false" layoutX="303.0" layoutY="152.0" prefHeight="25.0" prefWidth="47.0" />
                   <JFXTextField editable="false" layoutX="303.0" layoutY="192.0" prefHeight="25.0" prefWidth="47.0" />
-                  <JFXTextField editable="false" layoutX="390.0" layoutY="152.0" prefHeight="25.0" prefWidth="47.0" />
-                  <JFXTextField editable="false" layoutX="392.0" layoutY="192.0" prefHeight="25.0" prefWidth="47.0" />
+                  <JFXTextField fx:id="potentienProdAnnuel" editable="false" layoutX="390.0" layoutY="152.0" prefHeight="25.0" prefWidth="47.0" />
+                  <JFXTextField fx:id="consBatAnnuel" editable="false" layoutX="392.0" layoutY="192.0" prefHeight="25.0" prefWidth="47.0" />
                   <JFXTextField fx:id="puissanceTF" editable="false" layoutX="432.0" layoutY="66.0" prefHeight="25.0" prefWidth="60.0" />
                   <JFXTextField fx:id="surfaceTF" editable="false" layoutX="429.0" layoutY="20.0" prefHeight="25.0" prefWidth="60.0" />
                   <JFXButton layoutX="194.0" layoutY="276.0" onAction="#afficherConso" prefHeight="40.0" prefWidth="151.0" style="-fx-background-color: #fbb900;" text="Afficher" />
                   <Label layoutX="501.0" layoutY="29.0" text="m²" />
                   <Label layoutX="503.0" layoutY="74.0" prefHeight="17.0" prefWidth="29.0" text="Wc" />
+                  <Label layoutX="299.0" layoutY="29.0" prefHeight="17.0" prefWidth="14.0" text="\%" />
+                  <Label layoutX="271.0" layoutY="74.0" prefHeight="17.0" prefWidth="14.0" text="\%" />
                </children>
             </AnchorPane>
             <Label layoutX="606.0" layoutY="3.0" prefHeight="40.0" prefWidth="119.0" text="Résultats">

@@ -26,21 +26,6 @@ public class Second_window implements Initializable {
 
 
     @FXML
-    private JFXTextField potentielProductionMenseul;
-
-    @FXML
-    private JFXTextField consommationMensuellle;
-
-    @FXML
-    private JFXTextField potentielProductionAnnuel;
-
-    @FXML
-    private JFXTextField consommationAnnuelle;
-
-    @FXML
-    private StackPane stackpane;
-
-    @FXML
     public LineChart<String,Number> graphConso;
     @FXML
     private LineChart<String, Number> graphEnsoleillement;
@@ -55,6 +40,12 @@ public class Second_window implements Initializable {
 
     @FXML
     private JFXTextField TFautoprod;
+
+    @FXML
+    private JFXTextField potentienProdAnnuel;
+
+    @FXML
+    private JFXTextField consBatAnnuel;
 
     @FXML private TableView<Installation> tableView;
     @FXML private TableColumn<Installation,Integer> numero;
@@ -99,6 +90,8 @@ public class Second_window implements Initializable {
         consommationAffichage();
         TFautoConso.setText(String.valueOf(calculTauxAutoCons()));
         TFautoprod.setText(String.valueOf(calculTauxAutoProd()));
+        potentienProdAnnuel.setText(String.valueOf(calculpotentielAnnuel()));
+        consBatAnnuel.setText(String.valueOf(consommationTotaleAnnuel()));
     }
 
 
@@ -195,7 +188,7 @@ public class Second_window implements Initializable {
             }
         }
         for (Installation inst: listInstallation){
-            total += inst.getProdTotale();
+            total +=inst.getProdTotale();
             //System.out.println(total);
         }
          double tauxAutoCons = (utilisée/total)*100;
@@ -224,5 +217,25 @@ public class Second_window implements Initializable {
         double tauxAutoProd=(utilisée/total)*100;
         return tauxAutoProd;
     }
+
+
+    public double calculpotentielAnnuel(){
+        double total = 0.0;
+        for (Installation inst: listInstallation){
+            total +=inst.getProdTotale();
+            //System.out.println(total);
+        }
+        return total;
+    }
+
+    public double consommationTotaleAnnuel(){
+        double total = 0.0 ;
+        for (Consommation cons: consommationListe){
+            total = total+cons.getConsommation();
+        }
+       return total;
+    }
+
+
 
 }
