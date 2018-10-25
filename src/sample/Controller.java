@@ -1,6 +1,7 @@
 package sample;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.opencsv.CSVReader;
 import javafx.beans.binding.BooleanBinding;
@@ -81,6 +82,9 @@ public class Controller implements Initializable {
     @FXML
     private JFXButton ajouter ;
 
+    @FXML
+    private JFXSpinner spinner;
+
     @FXML private TableView<Installation> tableView;
     @FXML private TableColumn<Installation,Integer> numero;
     @FXML private TableColumn<Installation, Integer> surface;
@@ -100,9 +104,24 @@ public class Controller implements Initializable {
         inclinaison.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("inclinaison"));
         orientation.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("orientation"));
         puissance.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("puissance"));
+        puissancePV.setTooltip(new Tooltip(": Indiquer la puissance crête (Wc) d’un panneau solaire. A récupérer dans les fichiers techniques de panneaux solaires disponibles online."));
+        rendementTF.setTooltip(new Tooltip("Prends en compte les pertes (hors rendement du panneau photovoltaïques). Ici, on prend par défaut PR = 0.675 (= multiplication des taux présentés ci-dessous).\n" +
+                "Liste des pertes :\n" +
+                "-\tTempérature = 8%\n" +
+                "-\tOnduleur = 10%\n" +
+                "-\tPoussière = 6%\n" +
+                "-\tCâblage = 1%\n" +
+                "-\tTransformateur = 2%\n" +
+                "-\tErreur de prévisions = 3%\n" +
+                "-\tOmbrage = 4%\n" +
+                "-\tAutre = 2%\n" +
+                "\n" +
+                "En fonction du projet, le ratio de performance reste modifiable. (Nous conseillons d’utiliser un PR compris entre 0.6 < X < 0.85).\n" +
+                "\n"));
         inclinaisonTF.setTooltip(new Tooltip("Angle d'inclinaison du panneau par rapport au sol. Ex : 45°,35°"));
         orientationTF.setTooltip(new Tooltip("Orientation du panneau par rapport à la longitude en degrès." +
                 "Ex: Sud = 180° Nord = 0° Est = 90° Ouest = 270 °  "));
+        rendementTF.setText("65");
 
         BooleanBinding bb = new BooleanBinding() {
             {
@@ -202,10 +221,12 @@ public class Controller implements Initializable {
             alert.showAndWait();
 
         }else{
+            spinner.setVisible(true);
             dateProductionToConsommation();
             traitementProduction();
             Second_window controller2 = fxmlLoader.getController();
             controller2.initData(productionTotale,listConsommation,listProduction,listAjout);
+            spinner.setVisible(false);
             stage.show();
         }
     }
@@ -260,7 +281,7 @@ public class Controller implements Initializable {
 
             Installation installation = new Installation(idNumber++,Double.parseDouble(nbrePV.getText()), Double.parseDouble(surfacePV.getText())
                     , Double.parseDouble(puissancePV.getText()), Double.parseDouble(rendementTF.getText()), Double.parseDouble(orientationTF.getText())
-                    , Double.parseDouble(inclinaisonTF.getText()));
+                    , Double.parseDouble(inclinaisonTF.getText()),0);
 
             listAjout.add(installation);
             tableView.setItems(listAjout);
@@ -287,9 +308,6 @@ public class Controller implements Initializable {
 
         }
     }
-
-
-
 
 
     public double CalculTauxOrienIncli (Double orientation ,Double inclinaison)
@@ -342,7 +360,7 @@ public class Controller implements Initializable {
             String sDate1=nextline[0];
             String Heure=nextline[1];
             try {
-                SimpleDateFormat formatter1=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat formatter1=new SimpleDateFormat("yyyy/MM/dd HH:mm");
                 Date date1 = formatter1.parse(sDate1+" "+Heure);
                 Production production= new Production(date1
                         ,(Double.valueOf(nextline[5])/1000));
@@ -358,7 +376,7 @@ public class Controller implements Initializable {
     public void dateProductionToConsommation(){
 
         int anneeConso=listConsommation.get(1).getDate().getYear();
-        //  System.out.println("date "+anneeConso);
+
 
         for(int i=0;i<listProduction.size();i++){
             Date date=listProduction.get(i).getDate();
@@ -385,10 +403,6 @@ public class Controller implements Initializable {
             HSSFWorkbook workbook = new HSSFWorkbook(fis);
 
             HSSFSheet sheet = workbook.getSheetAt(0);
-            System.out.println(String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date"));
-
-
-
 
             if(String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("consommation")){
                System.out.println("date/conso");
@@ -427,7 +441,6 @@ public class Controller implements Initializable {
 
     public void supprimer(ActionEvent actionEvent) {
         tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItem());
-
     }
 
    public  ArrayList<Production> productionTotale = new ArrayList<Production>();
@@ -452,33 +465,35 @@ public class Controller implements Initializable {
             tauxGlobal = tauxOrienIncl * ((nbre * puissance) / (surface * 1000)) * perf;
 
             // System.out.println(tauxGlobal+" "+tauxOrienIncl+" "+nbre+" "+puissance+" "+surface+" "+perf);
-
+            Double prodInstall=0.0;
 
             for (int i = 0; i < listProduction.size(); i++) {
                 Double energieFinale = listProduction.get(i).getProduction() * surface * tauxGlobal;
 
                 Production production = new Production();
-
                 if (a == 0) {
                     production.setDate(listProduction.get(i).getDate());
                     production.setProduction(energieFinale);
                     productionTotale.add(i, production);
+                    prodInstall=prodInstall+energieFinale;
+
                 } else {
                     production.setDate(listProduction.get(i).getDate());
                     production.setProduction(energieFinale + productionTotale.get(i).getProduction());
                     productionTotale.set(i, production);
+                    prodInstall=prodInstall+energieFinale;
                 }
+
             }
+            inst.setProdTotale(prodInstall);
+            System.out.println("prodinstall"+inst.getProdTotale());
             a++;
-
-        for(Production emp: productionTotale){
+            for(Production emp: productionTotale){
            System.out.println("dateTratement:"+emp.getDate()+" prod:"+emp.getProduction());
+            }
         }
-
-
-        }
-
-
     }
+
+
 }
 

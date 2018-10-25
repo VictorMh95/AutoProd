@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
@@ -112,7 +113,7 @@
                 <Label layoutX="519.0" layoutY="360.0" text="E" />
             </children>
         </AnchorPane>
-        <Label layoutX="93.0" layoutY="421.0" text="Puissance des PV :">
+        <Label layoutX="93.0" layoutY="421.0" text="Puissance d'un PV :">
             <font>
                 <Font name="Arial Bold" size="18.0" />
             </font>
@@ -168,5 +169,6 @@
                 <Image url="@images/Logo_ADICITE.png" />
             </image>
         </ImageView>
+      <JFXSpinner fx:id="spinner" layoutX="581.0" layoutY="284.0" visible="false" />
     </children>
 </AnchorPane>
