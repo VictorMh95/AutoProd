@@ -71,7 +71,13 @@ public class Second_window implements Initializable {
         prodTotale.setCellValueFactory(new PropertyValueFactory<Installation,Integer>("prodTotale"));
     }
 
-
+    /**
+     * Cette fonction permet de récupérer les différentes list qui sont nécéssaires à l'affichage des graphiques ainsi que différentes informations
+     * @param productionTotale
+     * @param consommation
+     * @param irradiation
+     * @param installation
+     */
     public void initData(ArrayList<Production> productionTotale,ArrayList<Consommation> consommation,ArrayList<Production> irradiation,
                          ObservableList<Installation> installation){
         productionTotaleListe = (ArrayList<Production>)productionTotale;
@@ -82,29 +88,31 @@ public class Second_window implements Initializable {
         surfaceTF.setText(calculsurface(listInstallation).toString());
     }
 
+    /**
+     *
+      * @param event
+     */
     @FXML
     void afficherConso(ActionEvent event) {
         displayGraphConsoProd(consommationListe,productionTotaleListe);
         displayGraphEnsoleillement(ensoleillement);
         tableView.setItems(listInstallation);
-        consommationAffichage();
         TFautoConso.setText(String.valueOf(calculTauxAutoCons()));
         TFautoprod.setText(String.valueOf(calculTauxAutoProd()));
         potentienProdAnnuel.setText(String.valueOf(calculpotentielAnnuel()));
         consBatAnnuel.setText(String.valueOf(consommationTotaleAnnuel()));
     }
 
-
-    public void consommationAffichage(){
-//        long milliSecondDiff = consommationListe.get(consommationListe.size()).getDate().getTime()-consommationListe.get(0).getDate().getTime();
-     //   long intervalle = milliSecondDiff/consommationListe.size();
-       // int increment=0;
-        //long incrementInter=0;
-        //long mois=2505600000L;
-       // while(incrementInter<mois){ }
-
-    }
-
+    /**
+     * Cette fonction permet d'afficher le graphique de la production solaire et de la consommation superposées
+     * elle prend en paramètre les différentes list pour ensuite les afficher
+     * une première serie est construite à partie de la liste consommation
+     * puis une deuxième est constituée à partir de la liste production
+     * les dates des deux liste doivent concordées pour avoir une superposition significative
+     * les séries sont ensuites ajoutées aux graphiques
+     * @param conso
+     * @param prod
+     */
     public void displayGraphConsoProd(ArrayList<Consommation> conso,ArrayList<Production> prod){
         String dateconso;
         Number consommation;
@@ -135,7 +143,10 @@ public class Second_window implements Initializable {
 
     }
 
-
+    /**
+     * Cette fonction a le même fonctionnement que la précédente mais pour le graphiquement de l'irradiation solaire
+     * @param list
+     */
 
     public void displayGraphEnsoleillement(ArrayList<Production> list){
         String date;
@@ -150,6 +161,12 @@ public class Second_window implements Initializable {
         graphEnsoleillement.getData().addAll(series);
     }
 
+    /**
+     * Calcule la surafece totale de l'installation à partir des surfaces ajoutés dans le tableau
+     * @param list
+     * @return
+     */
+
     public Double calculsurface(ObservableList<Installation> list) {
         double surf=0 ;
         for (Installation inst : list){
@@ -158,6 +175,11 @@ public class Second_window implements Initializable {
         return surf;
     }
 
+    /**
+     * Calcule la puissance totale en Wc de l'installation à partir des puissances des installations
+     * @param list
+     * @return
+     */
     public Double calculpuissane(ObservableList<Installation> list){
         double puissance = 0 ;
         double nbre = 0 ;
@@ -172,6 +194,15 @@ public class Second_window implements Initializable {
 
     }
 
+    /**
+     * Permet de calculer le taux d'autoconsommation de l'installation en prenant comme calcule :
+     *
+     * (la production utilisée) / ( la production totale) *100
+     *
+     * la production est récupérée quand elle est inférieure à la consommation du batiment
+     *
+     * @return
+     */
     public double calculTauxAutoCons(){
         Double utilisée = 0.0 ;
         Double total=0.0;
@@ -196,6 +227,14 @@ public class Second_window implements Initializable {
         return tauxAutoCons;
     }
 
+    /**
+     * Permet de calculer le taux d'autoproduction de l'installation
+     *
+     * on récupère comme pour le calcul précédent la production inférieur à la consommation
+     * diviser par la consommation totale du batiment 
+     *
+     * @return
+     */
 
     public double calculTauxAutoProd(){
         int taille;
@@ -235,7 +274,5 @@ public class Second_window implements Initializable {
         }
        return total;
     }
-
-
 
 }

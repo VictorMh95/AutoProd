@@ -92,7 +92,16 @@ public class Controller implements Initializable {
 
      ObservableList<Installation> listAjout = FXCollections.observableArrayList();
 
-
+    /**
+     *Cette fonction initialise la fenêtre
+     *Le tableau est instancié
+     *puis les tools tip
+     * ensuite les binding sont instanciés, cela lie les différents champs entre eux
+     * lorsque l'un d'eux est vide le bouton ajouter est disable
+     * pareil pour calculer la surface totale , tous les champs doivent etre renseignés pour activer le bouton
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         numero.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("numero"));
@@ -156,7 +165,15 @@ public class Controller implements Initializable {
         resultSurface.disableProperty().bind(bb2);
     }
 
-
+    /**
+     * Lorsque le bouton est cliqué un filchooser est lancé il permet de charger un fichier de l'ordinateur
+     * le filechooser ne cherchera que les fichiers en format csv
+     * ensuite le path du fichier est sauvegardé dans la variable "selected file"
+     * t_loc affiche le nom di fichier en prenant que son nom et non le chemin
+     * ensuite on applique la méthode "Readcsv" sur ce fichier
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void bt1(ActionEvent event) throws IOException {
         FileChooser fc = new FileChooser();
@@ -175,6 +192,11 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Exactement le même fonctionnement que pour le bt1
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void bt2(ActionEvent event) throws IOException {
         FileChooser fc = new FileChooser();
@@ -192,6 +214,17 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Lorsque le bouton run est cliqué il lance plusieurs choses:
+     *  - il ouvre une nouvelle fenêtre
+     *  - il vérifie qu'il y a bien les deux fichiers chargés et une installation dans le tableau
+     *  - si les conditions sont vérifiés il lance la méthode "dateProductiontoConsommation" ensuite il traite
+     *  la production solaire à partir du fichier de radiation solaire et des différentes installation ajoutés
+     *  ensuite on lance à partir du controller de la deuxième fenêtre la récupération des différentes listes utiles à la seconde fenêtre
+     *
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void Run (ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("second_window.fxml"));
@@ -246,7 +279,12 @@ public class Controller implements Initializable {
 
     }
 
-
+    /**
+     * Pop up alert
+     * @param alertTitle
+     * @param alertHeader
+     * @param alertContentText
+     */
     public void alert(String alertTitle,String alertHeader, String alertContentText  ){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(alertTitle);
@@ -258,7 +296,8 @@ public class Controller implements Initializable {
     /**
      *
      * @param event
-     * Permet de verfier si tous les champs sont bien des numeriques et ajoute une installation dans la liste
+     * Permet de verfier si tous les champs sont bien des numeriques et ajoute une installation dans la liste "listAjout"
+     * l'élément est ensuite ajouter au tableau
      */
     @FXML
     void ajouter(ActionEvent event) {
@@ -302,7 +341,13 @@ public class Controller implements Initializable {
         }
     }
 
-
+    /**
+     * Permet de calculer un taux à partir de deux entrées : l'orientation et l'inclinaison
+     * Par default la valeur de ce taux est de 70%
+     * @param orientation
+     * @param inclinaison
+     * @return
+     */
     public double CalculTauxOrienIncli (Double orientation ,Double inclinaison)
     {
         double taux = 0.70 ;
@@ -342,6 +387,18 @@ public class Controller implements Initializable {
 
     ArrayList<Production> listProduction = new ArrayList<Production>();
 
+    /**
+     * Permet de lire le ficher météorologique en format csv
+     * la lecture commence à la ligne 35
+     * la lecture se fait de ligne en ligne en prenant toujours la première colonne et la deuxième pour récupérer la date puis l'heure
+     * ensuite on lit la cinquième colonne pour lire l'irradiation solaire globale
+     * lorsque la date est lue, celle ci est lue en format string pour ensuite etre convertie en format date
+     * la radiation est divisée par 1000 pour la mettre en KW
+     * lorsque les deux valeurs "date" "production solaire" sont lues un nouvelle objet est créé
+     * puis ajouté dans la liste "listProduction"
+     * @param file
+     * @throws IOException
+     */
     public void ReadCSV(File file) throws IOException {
         CSVReader csvReader = new CSVReader(new FileReader(file), ';', '\'', 35);
 
@@ -366,6 +423,10 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Cette fonction permet de prendre l'année du fichier consomation et la remplacer dans le
+     * fichier production pour avoir une superpostion des graphs par la suite
+     */
     public void dateProductionToConsommation(){
 
         int anneeConso=listConsommation.get(1).getDate().getYear();
@@ -388,6 +449,16 @@ public class Controller implements Initializable {
 
     public  ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
 
+    /**
+     * Cette fonction lit le fichier xls qui correpond à la consommation du batiment
+     * cette fonction utilise la bibliotheque "poi-xxxx"
+     * la première condition vérifie que les intitulés des colonnes soient bien "date" et "consommation"
+     * puis un objet consmmation est ajouter dans la liste "listConsommation"
+     * la deuxième condition vérifie que les intitulées soient bien "date", "heure" et "consommation"
+     * puis un objet consommation est ajouté à la liste précédemment citée
+     * @param file
+     * @throws IOException
+     */
     public void Readxls (File file) throws IOException {
 
         try
@@ -397,9 +468,6 @@ public class Controller implements Initializable {
 
             HSSFSheet sheet = workbook.getSheetAt(0);
             System.out.println(String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date"));
-
-
-
 
             if(String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("consommation")){
                System.out.println("date/conso");
@@ -435,14 +503,19 @@ public class Controller implements Initializable {
         }
     }
 
-
+    /**
+     * Supprime un élément du tableau
+     * @param actionEvent
+     */
     public void supprimer(ActionEvent actionEvent) {
         tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItem());
     }
 
    public  ArrayList<Production> productionTotale = new ArrayList<Production>();
 
-
+    /**
+     * à Faire (vico)
+     */
     public  void traitementProduction() {
         productionTotale.clear();
         Double tauxGlobal;
