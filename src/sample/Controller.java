@@ -226,8 +226,9 @@ public class Controller implements Initializable {
             traitementProduction();
             Second_window controller2 = fxmlLoader.getController();
             controller2.initData(productionTotale,listConsommation,listProduction,listAjout);
-            spinner.setVisible(false);
             stage.show();
+            spinner.setVisible(false);
+
         }
     }
 
