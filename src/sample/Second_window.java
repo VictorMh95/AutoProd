@@ -26,21 +26,6 @@ public class Second_window implements Initializable {
 
 
     @FXML
-    private JFXTextField potentielProductionMenseul;
-
-    @FXML
-    private JFXTextField consommationMensuellle;
-
-    @FXML
-    private JFXTextField potentielProductionAnnuel;
-
-    @FXML
-    private JFXTextField consommationAnnuelle;
-
-    @FXML
-    private StackPane stackpane;
-
-    @FXML
     public LineChart<String,Number> graphConso;
     @FXML
     private LineChart<String, Number> graphEnsoleillement;
@@ -49,6 +34,18 @@ public class Second_window implements Initializable {
 
     @FXML
     private JFXTextField surfaceTF;
+
+    @FXML
+    private JFXTextField TFautoConso;
+
+    @FXML
+    private JFXTextField TFautoprod;
+
+    @FXML
+    private JFXTextField potentienProdAnnuel;
+
+    @FXML
+    private JFXTextField consBatAnnuel;
 
     @FXML private TableView<Installation> tableView;
     @FXML private TableColumn<Installation,Integer> numero;
@@ -77,9 +74,9 @@ public class Second_window implements Initializable {
 
     public void initData(ArrayList<Production> productionTotale,ArrayList<Consommation> consommation,ArrayList<Production> irradiation,
                          ObservableList<Installation> installation){
-        productionTotaleListe = (ArrayList<Production>)productionTotale;
-        consommationListe = (ArrayList<Consommation>)consommation;
-        ensoleillement = (ArrayList<Production>)irradiation;
+        productionTotaleListe = productionTotale;
+        consommationListe = consommation;
+        ensoleillement = irradiation;
         listInstallation = installation;
         puissanceTF.setText(calculpuissane(listInstallation).toString());
         surfaceTF.setText(calculsurface(listInstallation).toString());
@@ -92,6 +89,10 @@ public class Second_window implements Initializable {
         displayGraphEnsoleillement(ensoleillement);
         tableView.setItems(listInstallation);
         consommationAffichage();
+        TFautoConso.setText(String.valueOf(calculTauxAutoCons()));
+        TFautoprod.setText(String.valueOf(calculTauxAutoProd()));
+        potentienProdAnnuel.setText(String.valueOf(calculpotentielAnnuel()));
+        consBatAnnuel.setText(String.valueOf(consommationTotaleAnnuel()));
     }
 
 
@@ -108,7 +109,7 @@ public class Second_window implements Initializable {
     public void displayGraphConsoProd(ArrayList<Consommation> conso,ArrayList<Production> prod){
         String dateconso;
         Number consommation;
-        String dateprodu;
+        String dateprod;
         Number production;
 
 
@@ -119,22 +120,23 @@ public class Second_window implements Initializable {
         XYChart.Series<String,Number> seriesProd = new XYChart.Series<>();
         seriesConso.setName("Production en kWh");
 
-        for (Consommation cons: conso){
-            dateconso=cons.getDate().toString();
-            consommation = cons.getConsommation();
+        for (int i=0;i<consommationListe.size();i++){
+            dateconso=consommationListe.get(i).getDate().toString();
+            consommation = consommationListe.get(i).getConsommation();
+
+            production = productionTotaleListe.get(i).getProduction();
+            dateprod=productionTotaleListe.get(i).getDate().toString();
+
             seriesConso.getData().add(new XYChart.Data<String,Number>(dateconso,consommation));
+
+            seriesProd.getData().add(new XYChart.Data<String,Number>(dateprod,production));
         }
 
-        for (Production pr: prod){
-            dateprodu = pr.getDate().toString();
-            production = pr.getProduction();
-            seriesProd.getData().add(new XYChart.Data<String,Number>(dateprodu,production));
-        }
-        graphConso.getData().addAll(seriesConso);
-        //graphConso.getData().addAll(seriesProd);
+        graphConso.getData().addAll(seriesProd,seriesConso);
 
         graphConso.setCreateSymbols(false);
         graphEnsoleillement.setCreateSymbols(false);
+
     }
 
 
@@ -173,5 +175,71 @@ public class Second_window implements Initializable {
     void savePDF(ActionEvent event) {
 
     }
+
+    public double calculTauxAutoCons(){
+        Double utilisée = 0.0 ;
+        Double total=0.0;
+        int taille;
+        if (productionTotaleListe.size()>consommationListe.size()){
+            taille=consommationListe.size();
+        }else {
+            taille=productionTotaleListe.size();
+        }
+        for (int i=0; i<taille ;i++ ){
+            if (productionTotaleListe.get(i).getProduction()<consommationListe.get(i).getConsommation()){
+                utilisée=utilisée+productionTotaleListe.get(i).getProduction();
+               //System.out.println("prod: "+productionTotaleListe.get(i).getProduction()+"   "+"cons: "+consommationListe.get(i).getConsommation());
+            }
+        }
+        for (Installation inst: listInstallation){
+            total +=inst.getProdTotale();
+            //System.out.println(total);
+        }
+         double tauxAutoCons = (utilisée/total)*100;
+       // System.out.println(tauxAutoCons);
+        return tauxAutoCons;
+    }
+
+
+    public double calculTauxAutoProd(){
+        int taille;
+        Double utilisée = 0.0 ;
+        Double total=0.0;
+        if (productionTotaleListe.size()>consommationListe.size()){
+            taille=consommationListe.size();
+        }else {
+            taille=productionTotaleListe.size();
+        }
+        for (int i=0; i<taille ;i++ ){
+            if (productionTotaleListe.get(i).getProduction()<consommationListe.get(i).getConsommation()){
+                utilisée=utilisée+productionTotaleListe.get(i).getProduction();
+            }
+        }
+        for (Consommation cons: consommationListe){
+            total = total+cons.getConsommation();
+        }
+        double tauxAutoProd=(utilisée/total)*100;
+        return tauxAutoProd;
+    }
+
+
+    public double calculpotentielAnnuel(){
+        double total = 0.0;
+        for (Installation inst: listInstallation){
+            total +=inst.getProdTotale();
+            //System.out.println(total);
+        }
+        return total;
+    }
+
+    public double consommationTotaleAnnuel(){
+        double total = 0.0 ;
+        for (Consommation cons: consommationListe){
+            total = total+cons.getConsommation();
+        }
+       return total;
+    }
+
+
 
 }

@@ -26,6 +26,7 @@ public class Installation {
                 this.prodTotale=new SimpleDoubleProperty(prodTotale);
     }
 
+
     public double getProdTotale() {
         return prodTotale.get();
     }
@@ -121,10 +122,5 @@ public class Installation {
     public void setSurface(double surface) {
         this.surface.set(surface);
     }
-
-
-
-
-
 
 }

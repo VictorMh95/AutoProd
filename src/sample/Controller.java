@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.event.ActionEvent;
+
 import java.io.*;
 import java.net.URL;
 import java.text.NumberFormat;
@@ -58,15 +59,15 @@ public class Controller implements Initializable {
     private JFXTextField t_conso;
 
     @FXML
-    public JFXTextField nbrePV ;
+    public JFXTextField nbrePV;
     @FXML
     public JFXTextField puissancePV;
     @FXML
-    public JFXTextField rendementTF ;
+    public JFXTextField rendementTF;
     @FXML
     public JFXTextField inclinaisonTF;
     @FXML
-    public JFXTextField orientationTF ;
+    public JFXTextField orientationTF;
     @FXML
     private JFXTextField longPV;
 
@@ -80,21 +81,27 @@ public class Controller implements Initializable {
     private JFXButton resultSurface;
 
     @FXML
-    private JFXButton ajouter ;
+    private JFXButton ajouter;
 
     @FXML
     private JFXSpinner spinner;
 
-    @FXML private TableView<Installation> tableView;
-    @FXML private TableColumn<Installation,Integer> numero;
-    @FXML private TableColumn<Installation, Integer> surface;
-    @FXML private TableColumn<Installation,Integer> inclinaison;
-    @FXML private TableColumn<Installation,Integer> orientation;
-    @FXML private TableColumn<Installation,Integer> puissance;
+    @FXML
+    private TableView<Installation> tableView;
+    @FXML
+    private TableColumn<Installation, Integer> numero;
+    @FXML
+    private TableColumn<Installation, Integer> surface;
+    @FXML
+    private TableColumn<Installation, Integer> inclinaison;
+    @FXML
+    private TableColumn<Installation, Integer> orientation;
+    @FXML
+    private TableColumn<Installation, Integer> puissance;
 
-    private int idNumber=1;
+    private int idNumber = 1;
 
-     ObservableList<Installation> listAjout = FXCollections.observableArrayList();
+    ObservableList<Installation> listAjout = FXCollections.observableArrayList();
 
 
     @Override
@@ -122,7 +129,6 @@ public class Controller implements Initializable {
         orientationTF.setTooltip(new Tooltip("Orientation du panneau par rapport à la longitude en degrès." +
                 "Ex: Sud = 180° Nord = 0° Est = 90° Ouest = 270 °  "));
         rendementTF.setText("65");
-
         BooleanBinding bb = new BooleanBinding() {
             {
                 super.bind(surfacePV.textProperty(),
@@ -198,56 +204,52 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    void Run (ActionEvent event) throws IOException {
+    void Run(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("second_window.fxml"));
 
-        Parent root1 = (Parent) fxmlLoader.load();
+        Parent root1 = fxmlLoader.load();
         Stage stage = new Stage();
         stage.setTitle("Résultats");
-        stage.setScene(new Scene(root1,1259, 750));
+        stage.setScene(new Scene(root1, 1259, 750));
 
-        if(listAjout.isEmpty()) {
+        if (listAjout.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur tableau");
             alert.setHeaderText("Attention tableau !");
             alert.setContentText("La tableau doit avoir au moins une installation");
             alert.showAndWait();
 
-        }else if(t_conso.getText().trim().isEmpty()||t_loc.getText().trim().isEmpty()){
+        } else if (t_conso.getText().trim().isEmpty() || t_loc.getText().trim().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur fichier");
             alert.setHeaderText("Attention fichier !");
             alert.setContentText("Les fichiers ne sont pas chargés");
             alert.showAndWait();
 
-        }else{
-            spinner.setVisible(true);
+        } else {
             dateProductionToConsommation();
             traitementProduction();
             Second_window controller2 = fxmlLoader.getController();
-            controller2.initData(productionTotale,listConsommation,listProduction,listAjout);
+            controller2.initData(productionTotale, listConsommation, listProduction, listAjout);
+            for (Production prod:productionTotale){
+                System.out.println("prod run "+prod.getDate());
+            }
             stage.show();
-            spinner.setVisible(false);
 
         }
     }
 
 
     /**
-     *
      * @param str
      * @return false | true
      * Verifie que str est n'est pas un numerique
      */
 
-    public static boolean isNotNumeric(String str)
-    {
-        try
-        {
+    public static boolean isNotNumeric(String str) {
+        try {
             double d = Double.parseDouble(str);
-        }
-        catch(NumberFormatException nfe)
-        {
+        } catch (NumberFormatException nfe) {
             return true;
         }
         return false;
@@ -255,7 +257,7 @@ public class Controller implements Initializable {
     }
 
 
-    public void alert(String alertTitle,String alertHeader, String alertContentText  ){
+    public void alert(String alertTitle, String alertHeader, String alertContentText) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(alertTitle);
         alert.setHeaderText(alertHeader);
@@ -264,87 +266,79 @@ public class Controller implements Initializable {
     }
 
     /**
-     *
-     * @param event
-     * Permet de verfier si tous les champs sont bien des numeriques et ajoute une installation dans la liste
+     * @param event Permet de verfier si tous les champs sont bien des numeriques et ajoute une installation dans la liste
      */
     @FXML
     void ajouter(ActionEvent event) {
 
 
-        if (isNotNumeric(surfacePV.getText().trim())||isNotNumeric(puissancePV.getText().trim())
-                ||isNotNumeric(rendementTF.getText().trim())||isNotNumeric(orientationTF.getText().trim())||isNotNumeric(inclinaisonTF.getText().trim()))
-            {
-                alert("Erreur","Erreur variable d'entrée","Attention, il ne doit y avoir que des valeurs numeriques dans les champs liés à l'installation ");
+        if (isNotNumeric(surfacePV.getText().trim()) || isNotNumeric(puissancePV.getText().trim())
+                || isNotNumeric(rendementTF.getText().trim()) || isNotNumeric(orientationTF.getText().trim()) || isNotNumeric(inclinaisonTF.getText().trim())) {
+            alert("Erreur", "Erreur variable d'entrée", "Attention, il ne doit y avoir que des valeurs numeriques dans les champs liés à l'installation ");
 
 
-            }else {
+        } else {
 
-            Installation installation = new Installation(idNumber++,Double.parseDouble(nbrePV.getText()), Double.parseDouble(surfacePV.getText())
+            Installation installation = new Installation(idNumber++, Double.parseDouble(nbrePV.getText()), Double.parseDouble(surfacePV.getText())
                     , Double.parseDouble(puissancePV.getText()), Double.parseDouble(rendementTF.getText()), Double.parseDouble(orientationTF.getText())
-                    , Double.parseDouble(inclinaisonTF.getText()),0);
+                    , Double.parseDouble(inclinaisonTF.getText()), 0);
 
             listAjout.add(installation);
             tableView.setItems(listAjout);
         }
 
-       // System.out.println(CalculTauxOrienIncli(Double.parseDouble(orientationTF.getText()),Double.parseDouble(inclinaisonTF.getText())));
-
 
     }
 
     /**
-     *
-     * @param event
-     * permet de multiplier le nombre de panneaux et leur dimension pour obtenir la surface totale
+     * @param event permet de multiplier le nombre de panneaux et leur dimension pour obtenir la surface totale
      */
 
     @FXML
     void resultFire(ActionEvent event) {
-        if (isNotNumeric(nbrePV.getText().trim())||isNotNumeric(longPV.getText().trim())||isNotNumeric(largPV.getText().trim())){
-         alert("erreur","Erreur variable d'entrée","Attention, il ne peut y avoir que des valeurs numeriques dans les champs de 'Nombre de PV'");
-        }else{
-            Double resultat = Double.parseDouble(nbrePV.getText())*Double.parseDouble(longPV.getText())*Double.parseDouble(largPV.getText());
+        if (isNotNumeric(nbrePV.getText().trim()) || isNotNumeric(longPV.getText().trim()) || isNotNumeric(largPV.getText().trim())) {
+            alert("erreur", "Erreur variable d'entrée", "Attention, il ne peut y avoir que des valeurs numeriques dans les champs de 'Nombre de PV'");
+        } else {
+            Double resultat = Double.parseDouble(nbrePV.getText()) * Double.parseDouble(longPV.getText()) * Double.parseDouble(largPV.getText());
             surfacePV.setText(resultat.toString());
 
         }
     }
 
 
-    public double CalculTauxOrienIncli (Double orientation ,Double inclinaison)
-    {
-        double taux = 0.70 ;
-        if (90<=orientation && orientation<=270 && 0<=inclinaison && inclinaison<=20) {
-            taux = 0.88 ;
+    public double CalculTauxOrienIncli(Double orientation, Double inclinaison) {
+        double taux = 0.70;
+        if (90 <= orientation && orientation <= 270 && 0 <= inclinaison && inclinaison <= 20) {
+            taux = 0.88;
         }
-        if(67.5<=orientation && orientation<=112.5 && 20<=inclinaison && inclinaison<=42.5){
-            taux =  0.84;
+        if (67.5 <= orientation && orientation <= 112.5 && 20 <= inclinaison && inclinaison <= 42.5) {
+            taux = 0.84;
         }
-        if (247.5<=orientation && orientation<=292.5 && 20<=inclinaison && inclinaison<=42.5){
-            taux =  0.84;
+        if (247.5 <= orientation && orientation <= 292.5 && 20 <= inclinaison && inclinaison <= 42.5) {
+            taux = 0.84;
         }
-        if (112.5<=orientation && orientation<=157.5 && 20<=inclinaison && inclinaison<=60) {
-            taux =  0.95;
+        if (112.5 <= orientation && orientation <= 157.5 && 20 <= inclinaison && inclinaison <= 60) {
+            taux = 0.95;
         }
-        if (202.5<=orientation && orientation<=247.5 && 20<=inclinaison && inclinaison<=47.5){
-            taux =  1;
+        if (202.5 <= orientation && orientation <= 247.5 && 20 <= inclinaison && inclinaison <= 47.5) {
+            taux = 1;
         }
-        if (157.5<=orientation && orientation<=202.5 && 20<=inclinaison && inclinaison<= 47.5){
-            taux =  1;
+        if (157.5 <= orientation && orientation <= 202.5 && 20 <= inclinaison && inclinaison <= 47.5) {
+            taux = 1;
         }
-        if (157.5<=orientation && orientation<=202.5 && 42.5<=inclinaison && inclinaison<=60){
+        if (157.5 <= orientation && orientation <= 202.5 && 42.5 <= inclinaison && inclinaison <= 60) {
             taux = 0.98;
         }
-        if (67.5<=orientation && orientation<=112.5 && 42.5<=inclinaison && inclinaison<=60){
+        if (67.5 <= orientation && orientation <= 112.5 && 42.5 <= inclinaison && inclinaison <= 60) {
             taux = 0.77;
         }
-        if (247.5<=orientation && orientation<=292.5 && 42.5<=inclinaison && inclinaison<60){
-            taux =  0.76;
+        if (247.5 <= orientation && orientation <= 292.5 && 42.5 <= inclinaison && inclinaison < 60) {
+            taux = 0.76;
         }
-        if (90<=orientation && orientation<=270 && 60<=inclinaison && inclinaison<=90){
-            taux =  0.66;
+        if (90 <= orientation && orientation <= 270 && 60 <= inclinaison && inclinaison <= 90) {
+            taux = 0.66;
         }
-        return taux ;
+        return taux;
     }
 
 
@@ -358,63 +352,65 @@ public class Controller implements Initializable {
         while ((nextline = csvReader.readNext()) != null) {
             lineNumber++;
 
-            String sDate1=nextline[0];
-            String Heure=nextline[1];
+            String sDate1 = nextline[0];
+            String Heure = nextline[1];
             try {
-                SimpleDateFormat formatter1=new SimpleDateFormat("yyyy/MM/dd HH:mm");
-                Date date1 = formatter1.parse(sDate1+" "+Heure);
-                Production production= new Production(date1
-                        ,(Double.valueOf(nextline[5])/1000));
+                SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                Date date1 = formatter1.parse(sDate1 + " " + Heure);
+                Production production = new Production(date1
+                        , (Double.valueOf(nextline[5]) / 1000));
                 listProduction.add(production);
-              // System.out.println(production.getDate());
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
 
             }
         }
+        for (Production prod:listProduction){
+            System.out.println("read prod : "+prod.getDate());
+        }
     }
 
-    public void dateProductionToConsommation(){
+    public void dateProductionToConsommation() {
 
-        int anneeConso=listConsommation.get(1).getDate().getYear();
+        int anneeConso = listConsommation.get(1).getDate().getYear();
 
 
-        for(int i=0;i<listProduction.size();i++){
-            Date date=listProduction.get(i).getDate();
-            System.out.println("date avant :"+listProduction.get(i).getDate());
-
+        for (int i = 0; i < listProduction.size(); i++) {
+            Date date = listProduction.get(i).getDate();
             date.setYear(anneeConso);
-           System.out.println("date apres "+date);
             listProduction.get(i).setDate(date);
         }
-        //for(Production emp: listProduction){
-          //  System.out.println("date1:"+emp.getDate()+" prod:"+emp.getProduction());
-        //}
+
+        for(Production prod:listProduction){
+            System.out.println("prod dateptodtoconso"+prod.getDate());
+        }
+
+
+
 
     }
 
 
-    public  ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
+    public ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
 
-    public void Readxls (File file) throws IOException {
+    public void Readxls(File file) {
 
-        try
-        {
+        try {
             FileInputStream fis = new FileInputStream(file);
             HSSFWorkbook workbook = new HSSFWorkbook(fis);
 
             HSSFSheet sheet = workbook.getSheetAt(0);
 
-            if(String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("consommation")){
-               System.out.println("date/conso");
-                for(int i=sheet.getFirstRowNum()+1;i<=sheet.getPhysicalNumberOfRows()-2;i++){
-                    Row ro=sheet.getRow(i);
-                    Consommation e = new Consommation(ro.getCell(0).getDateCellValue(),ro.getCell(1).getNumericCellValue());
+            if (String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("consommation")) {
+                System.out.println("date/conso");
+                for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getPhysicalNumberOfRows() - 2; i++) {
+                    Row ro = sheet.getRow(i);
+                    Consommation e = new Consommation(ro.getCell(0).getDateCellValue(), ro.getCell(1).getNumericCellValue());
                     listConsommation.add(e);
                 }
-            }else if(String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("heure") && String.valueOf(sheet.getRow(0).getCell(2).getStringCellValue().trim()).equals("consommation")){
+            } else if (String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("heure") && String.valueOf(sheet.getRow(0).getCell(2).getStringCellValue().trim()).equals("consommation")) {
                 System.out.println("date/heure/conso");
-                for(int i=sheet.getFirstRowNum()+1;i<=sheet.getPhysicalNumberOfRows()-2;i++) {
+                for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getPhysicalNumberOfRows() - 2; i++) {
                     Row ro = sheet.getRow(i);
                     Date date = new Date();
                     Date heure = new Date();
@@ -429,12 +425,10 @@ public class Controller implements Initializable {
                     Consommation e = new Consommation(date, conso);
                     listConsommation.add(e);
                 }
-            }else {
-                alert("Erreur","Format du document","3");
+            } else {
+                alert("Erreur", "Format du document", "3");
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -444,10 +438,10 @@ public class Controller implements Initializable {
         tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItem());
     }
 
-   public  ArrayList<Production> productionTotale = new ArrayList<Production>();
+    public ArrayList<Production> productionTotale = new ArrayList<Production>();
 
 
-    public  void traitementProduction() {
+    public void traitementProduction() {
         productionTotale.clear();
         Double tauxGlobal;
 
@@ -465,8 +459,7 @@ public class Controller implements Initializable {
 
             tauxGlobal = tauxOrienIncl * ((nbre * puissance) / (surface * 1000)) * perf;
 
-            // System.out.println(tauxGlobal+" "+tauxOrienIncl+" "+nbre+" "+puissance+" "+surface+" "+perf);
-            Double prodInstall=0.0;
+            Double prodInstall = 0.0;
 
             for (int i = 0; i < listProduction.size(); i++) {
                 Double energieFinale = listProduction.get(i).getProduction() * surface * tauxGlobal;
@@ -476,22 +469,23 @@ public class Controller implements Initializable {
                     production.setDate(listProduction.get(i).getDate());
                     production.setProduction(energieFinale);
                     productionTotale.add(i, production);
-                    prodInstall=prodInstall+energieFinale;
+                    prodInstall = prodInstall + energieFinale;
 
                 } else {
                     production.setDate(listProduction.get(i).getDate());
                     production.setProduction(energieFinale + productionTotale.get(i).getProduction());
                     productionTotale.set(i, production);
-                    prodInstall=prodInstall+energieFinale;
+                    prodInstall = prodInstall + energieFinale;
                 }
 
             }
             inst.setProdTotale(prodInstall);
-            System.out.println("prodinstall"+inst.getProdTotale());
             a++;
-            for(Production emp: productionTotale){
-           System.out.println("dateTratement:"+emp.getDate()+" prod:"+emp.getProduction());
-            }
+
+        }
+
+        for (Production prod:productionTotale){
+            System.out.println(" prod totale traitement : "+prod.getDate());
         }
     }
 
