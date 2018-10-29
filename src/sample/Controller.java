@@ -27,6 +27,8 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.stage.Stage;
 import org.apache.poi.*;
@@ -177,7 +179,7 @@ public class Controller implements Initializable {
         );
         File selectedFile = fc.showOpenDialog(null);
         if (selectedFile != null) {
-            listProduction.clear();
+            listRadiation.clear();
             t_loc.setText(selectedFile.getAbsolutePath().substring(selectedFile.getAbsolutePath().lastIndexOf("\\") + 1)
             );
             ReadCSV(selectedFile);
@@ -230,10 +232,7 @@ public class Controller implements Initializable {
             dateProductionToConsommation();
             traitementProduction();
             Second_window controller2 = fxmlLoader.getController();
-            controller2.initData(productionTotale, listConsommation, listProduction, listAjout);
-            for (Production prod:productionTotale){
-                System.out.println("prod run "+prod.getDate());
-            }
+            controller2.initData(productionTotale, listConsommation, listRadiation, listAjout);
             stage.show();
 
         }
@@ -342,32 +341,53 @@ public class Controller implements Initializable {
     }
 
 
-    ArrayList<Production> listProduction = new ArrayList<Production>();
+
+    public boolean formatDate(String date){
+        String regex = "^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(date);
+
+        return matcher.matches();
+    }
+
+    ArrayList<Production> listRadiation = new ArrayList<Production>();
 
     public void ReadCSV(File file) throws IOException {
         CSVReader csvReader = new CSVReader(new FileReader(file), ';', '\'', 35);
 
         String[] nextline;
-        int lineNumber = 0;
         while ((nextline = csvReader.readNext()) != null) {
-            lineNumber++;
-
             String sDate1 = nextline[0];
             String Heure = nextline[1];
-            try {
-                SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-                Date date1 = formatter1.parse(sDate1 + " " + Heure);
-                Production production = new Production(date1
-                        , (Double.valueOf(nextline[5]) / 1000));
-                listProduction.add(production);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (formatDate(nextline[0])){
+                try {
+                    SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    Date date1 = formatter2.parse(sDate1 + " " + Heure);
+                    Production production = new Production(date1
+                            , (Double.valueOf(nextline[5]) / 1000));
+                    listRadiation.add(production);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }else{
+                try {
+                    SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    Date date1 = formatter1.parse(sDate1 + " " + Heure);
+                    Production production = new Production(date1
+                            , (Double.valueOf(nextline[5]) / 1000));
+                    listRadiation.add(production);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         }
-        for (Production prod:listProduction){
-            System.out.println("read prod : "+prod.getDate());
+
+        for (Production emp :listRadiation){
+            System.out.println("listeRadiation : "+emp.getDate());
         }
+
     }
 
     public void dateProductionToConsommation() {
@@ -375,13 +395,18 @@ public class Controller implements Initializable {
         int anneeConso = listConsommation.get(1).getDate().getYear();
 
 
-        for (int i = 0; i < listProduction.size(); i++) {
-            Date date = listProduction.get(i).getDate();
-            date.setYear(anneeConso);
-            listProduction.get(i).setDate(date);
+        for (int i = 0; i < listRadiation.size(); i++) {
+
+                Date date = listRadiation.get(i).getDate();
+                date.setYear(anneeConso);
+                System.out.println("date same"+date);
+                listRadiation.get(i).setDate(date);
+
+            System.out.println("list radiation date  :  " +listRadiation.get(i).getDate());
+
         }
 
-        for(Production prod:listProduction){
+        for(Production prod:listRadiation){
             System.out.println("prod dateptodtoconso"+prod.getDate());
         }
 
@@ -402,14 +427,12 @@ public class Controller implements Initializable {
             HSSFSheet sheet = workbook.getSheetAt(0);
 
             if (String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("consommation")) {
-                System.out.println("date/conso");
                 for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getPhysicalNumberOfRows() - 2; i++) {
                     Row ro = sheet.getRow(i);
                     Consommation e = new Consommation(ro.getCell(0).getDateCellValue(), ro.getCell(1).getNumericCellValue());
                     listConsommation.add(e);
                 }
             } else if (String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("heure") && String.valueOf(sheet.getRow(0).getCell(2).getStringCellValue().trim()).equals("consommation")) {
-                System.out.println("date/heure/conso");
                 for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getPhysicalNumberOfRows() - 2; i++) {
                     Row ro = sheet.getRow(i);
                     Date date = new Date();
@@ -461,22 +484,23 @@ public class Controller implements Initializable {
 
             Double prodInstall = 0.0;
 
-            for (int i = 0; i < listProduction.size(); i++) {
-                Double energieFinale = listProduction.get(i).getProduction() * surface * tauxGlobal;
+            for (int i = 0; i < listRadiation.size(); i++) {
+                Double energieFinale = listRadiation.get(i).getProduction() * surface * tauxGlobal;
 
                 Production production = new Production();
                 if (a == 0) {
-                    production.setDate(listProduction.get(i).getDate());
+                    production.setDate(listRadiation.get(i).getDate());
                     production.setProduction(energieFinale);
                     productionTotale.add(i, production);
                     prodInstall = prodInstall + energieFinale;
 
                 } else {
-                    production.setDate(listProduction.get(i).getDate());
+                    production.setDate(listRadiation.get(i).getDate());
                     production.setProduction(energieFinale + productionTotale.get(i).getProduction());
                     productionTotale.set(i, production);
                     prodInstall = prodInstall + energieFinale;
                 }
+                System.out.println("traitement :"+productionTotale.get(i).getDate());
 
             }
             inst.setProdTotale(prodInstall);
@@ -484,9 +508,7 @@ public class Controller implements Initializable {
 
         }
 
-        for (Production prod:productionTotale){
-            System.out.println(" prod totale traitement : "+prod.getDate());
-        }
+
     }
 
 
