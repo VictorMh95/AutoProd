@@ -1,22 +1,33 @@
 package sample;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -189,10 +200,6 @@ public class Second_window implements Initializable {
         return puissance+nbre ;
     }
 
-    @FXML
-    void savePDF(ActionEvent event) {
-
-    }
 
     /**
      * Permet de calculer le taux d'autoconsommation de l'installation en prenant comme calcule :
@@ -231,7 +238,7 @@ public class Second_window implements Initializable {
      * Permet de calculer le taux d'autoproduction de l'installation
      *
      * on récupère comme pour le calcul précédent la production inférieur à la consommation
-     * diviser par la consommation totale du batiment 
+     * diviser par la consommation totale du batiment
      *
      * @return
      */
@@ -274,5 +281,39 @@ public class Second_window implements Initializable {
         }
        return total;
     }
+
+    public static final String RESULT
+            = "C:\\Users\\thomas\\Desktop\\Projet Co-elab\\test.pdf";
+
+    @FXML
+    void savePDF(ActionEvent event) throws IOException, DocumentException {
+        //createPdf(RESULT);
+    }
+    @FXML
+    private ScrollPane scrollpane;
+
+    /**public void createPdf(String filename)
+            throws DocumentException, IOException {
+        BufferedImage bufImage = SwingFXUtils.fromFXImage(scrollpane.snapshot(new SnapshotParameters(), null), null);
+        FileOutputStream out = new FileOutputStream(filename);
+        javax.imageio.ImageIO.write(bufImage, "jpg", out);
+        out.flush();
+        out.close();
+
+        com.itextpdf.text.Image image =com.itextpdf.text.Image.getInstance(filename);
+
+        Document doc = new Document(new com.itextpdf.text.Rectangle(image.getScaledWidth(), image.getScaledHeight()));
+        FileOutputStream fos = new FileOutputStream(filename);
+        PdfWriter.getInstance(doc, fos);
+        doc.open();
+        doc.newPage();
+        image.setAbsolutePosition(0, 0);
+        doc.add(image);
+        fos.flush();
+        doc.close();
+        fos.close();
+
+    }**/
+
 
 }

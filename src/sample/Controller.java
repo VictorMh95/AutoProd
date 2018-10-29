@@ -81,6 +81,8 @@ public class Controller implements Initializable {
     @FXML
     private JFXButton ajouter ;
 
+
+
     @FXML private TableView<Installation> tableView;
     @FXML private TableColumn<Installation,Integer> numero;
     @FXML private TableColumn<Installation, Integer> surface;
