@@ -85,8 +85,6 @@ public class Controller implements Initializable {
     @FXML
     private JFXButton ajouter;
 
-    @FXML
-    private JFXSpinner spinner;
 
     @FXML
     private TableView<Installation> tableView;
@@ -101,11 +99,26 @@ public class Controller implements Initializable {
     @FXML
     private TableColumn<Installation, Integer> puissance;
 
+
     private int idNumber = 1;
 
-    ObservableList<Installation> listAjout = FXCollections.observableArrayList();
+    private ObservableList<Installation> listAjout = FXCollections.observableArrayList();
+    private ArrayList<Production> listRadiation = new ArrayList<Production>();
+    private  ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
 
 
+
+    /**
+     * Cette fonction initialise la fenêtre
+     * Le tableau est instancié
+     * puis les tools tip
+     * ensuite les binding sont instanciés, cela lie les différents champs entre eux
+     * lorsque l'un d'eux est vide le bouton ajouter est disable
+     * pareil pour calculer la surface totale , tous les champs doivent etre renseignés pour activer le bouton
+     *
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         numero.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("numero"));
@@ -169,7 +182,16 @@ public class Controller implements Initializable {
         resultSurface.disableProperty().bind(bb2);
     }
 
-
+    /**
+     * Lorsque le bouton est cliqué un filchooser est lancé il permet de charger un fichier de l'ordinateur
+     * le filechooser ne cherchera que les fichiers en format csv
+     * ensuite le path du fichier est sauvegardé dans la variable "selected file"
+     * t_loc affiche le nom di fichier en prenant que son nom et non le chemin
+     * ensuite on applique la méthode "Readcsv" sur ce fichier
+     *
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void bt1(ActionEvent event) throws IOException {
         FileChooser fc = new FileChooser();
@@ -188,8 +210,13 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Exactement le même fonctionnement que pour le bt1
+     *
+     * @param event
+     */
     @FXML
-    void bt2(ActionEvent event) throws IOException {
+    void bt2(ActionEvent event) {
         FileChooser fc = new FileChooser();
         fc.setInitialDirectory(new File("C:"));
         fc.getExtensionFilters().addAll(
@@ -205,6 +232,17 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Lorsque le bouton run est cliqué il lance plusieurs choses:
+     * - il ouvre une nouvelle fenêtre
+     * - il vérifie qu'il y a bien les deux fichiers chargés et une installation dans le tableau
+     * - si les conditions sont vérifiés il lance la méthode "dateProductiontoConsommation" ensuite il traite
+     * la production solaire à partir du fichier de radiation solaire et des différentes installation ajoutés
+     * ensuite on lance à partir du controller de la deuxième fenêtre la récupération des différentes listes utiles à la seconde fenêtre
+     *
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void Run(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("second_window.fxml"));
@@ -256,6 +294,13 @@ public class Controller implements Initializable {
     }
 
 
+    /**
+     * Pop up alert
+     *
+     * @param alertTitle
+     * @param alertHeader
+     * @param alertContentText
+     */
     public void alert(String alertTitle, String alertHeader, String alertContentText) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(alertTitle);
@@ -265,7 +310,8 @@ public class Controller implements Initializable {
     }
 
     /**
-     * @param event Permet de verfier si tous les champs sont bien des numeriques et ajoute une installation dans la liste
+     * @param event Permet de verfier si tous les champs sont bien des numeriques et ajoute une installation dans la liste "listAjout"
+     *              l'élément est ensuite ajouter au tableau
      */
     @FXML
     void ajouter(ActionEvent event) {
@@ -305,6 +351,14 @@ public class Controller implements Initializable {
     }
 
 
+    /**
+     * Permet de calculer un taux à partir de deux entrées : l'orientation et l'inclinaison
+     * Par default la valeur de ce taux est de 70%
+     *
+     * @param orientation
+     * @param inclinaison
+     * @return
+     */
     public double CalculTauxOrienIncli(Double orientation, Double inclinaison) {
         double taux = 0.70;
         if (90 <= orientation && orientation <= 270 && 0 <= inclinaison && inclinaison <= 20) {
@@ -341,8 +395,7 @@ public class Controller implements Initializable {
     }
 
 
-
-    public boolean formatDate(String date){
+    public boolean formatDate(String date) {
         String regex = "^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(date);
@@ -350,8 +403,20 @@ public class Controller implements Initializable {
         return matcher.matches();
     }
 
-    ArrayList<Production> listRadiation = new ArrayList<Production>();
 
+    /**
+     * Permet de lire le ficher météorologique en format csv
+     * la lecture commence à la ligne 35
+     * la lecture se fait de ligne en ligne en prenant toujours la première colonne et la deuxième pour récupérer la date puis l'heure
+     * ensuite on lit la cinquième colonne pour lire l'irradiation solaire globale
+     * lorsque la date est lue, celle ci est lue en format string pour ensuite etre convertie en format date
+     * la radiation est divisée par 1000 pour la mettre en KW
+     * lorsque les deux valeurs "date" "production solaire" sont lues un nouvelle objet est créé
+     * puis ajouté dans la liste "listProduction"
+     *
+     * @param file
+     * @throws IOException
+     */
     public void ReadCSV(File file) throws IOException {
         CSVReader csvReader = new CSVReader(new FileReader(file), ';', '\'', 35);
 
@@ -359,7 +424,7 @@ public class Controller implements Initializable {
         while ((nextline = csvReader.readNext()) != null) {
             String sDate1 = nextline[0];
             String Heure = nextline[1];
-            if (formatDate(nextline[0])){
+            if (formatDate(nextline[0])) {
                 try {
                     SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                     Date date1 = formatter2.parse(sDate1 + " " + Heure);
@@ -370,7 +435,7 @@ public class Controller implements Initializable {
                     e.printStackTrace();
                 }
 
-            }else{
+            } else {
                 try {
                     SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     Date date1 = formatter1.parse(sDate1 + " " + Heure);
@@ -384,40 +449,53 @@ public class Controller implements Initializable {
             }
         }
 
-        for (Production emp :listRadiation){
-            System.out.println("listeRadiation : "+emp.getDate());
+        for (Production emp : listRadiation) {
+            System.out.println("listeRadiation : " + emp.getDate().getMonth());
         }
 
     }
 
-    public void dateProductionToConsommation() {
 
+    /**
+     * Cette fonction permet de prendre l'année du fichier consomation et la remplacer dans le
+     * fichier production pour avoir une superpostion des graphs par la suite
+     */
+    public void dateProductionToConsommation() {
         int anneeConso = listConsommation.get(1).getDate().getYear();
 
 
         for (int i = 0; i < listRadiation.size(); i++) {
 
-                Date date = listRadiation.get(i).getDate();
-                date.setYear(anneeConso);
-                System.out.println("date same"+date);
-                listRadiation.get(i).setDate(date);
+            Date date = listRadiation.get(i).getDate();
+            date.setYear(anneeConso);
+           // System.out.println("date same" + date);
+            listRadiation.get(i).setDate(date);
 
-            System.out.println("list radiation date  :  " +listRadiation.get(i).getDate());
+           // System.out.println("list radiation date  :  " + listRadiation.get(i).getDate());
 
         }
 
-        for(Production prod:listRadiation){
-            System.out.println("prod dateptodtoconso"+prod.getDate());
+        for (Production prod : listRadiation) {
+            System.out.println("prod dateptodtoconso" + prod.getDate());
         }
-
-
 
 
     }
 
 
-    public ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
 
+
+    /**
+     * Cette fonction lit le fichier xls qui correpond à la consommation du batiment
+     * cette fonction utilise la bibliotheque "poi-xxxx"
+     * la première condition vérifie que les intitulés des colonnes soient bien "date" et "consommation"
+     * puis un objet consmmation est ajouter dans la liste "listConsommation"
+     * la deuxième condition vérifie que les intitulées soient bien "date", "heure" et "consommation"
+     * puis un objet consommation est ajouté à la liste précédemment citée
+     *
+     * @param file
+     * @throws IOException
+     */
     public void Readxls(File file) {
 
         try {
@@ -426,14 +504,16 @@ public class Controller implements Initializable {
 
             HSSFSheet sheet = workbook.getSheetAt(0);
 
+
             if (String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("consommation")) {
-                for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getPhysicalNumberOfRows() - 2; i++) {
-                    Row ro = sheet.getRow(i);
+                for (int i = 1; i < sheet.getPhysicalNumberOfRows()-1; i++) {
+                        Row ro = sheet.getRow(i);
                     Consommation e = new Consommation(ro.getCell(0).getDateCellValue(), ro.getCell(1).getNumericCellValue());
                     listConsommation.add(e);
                 }
+
             } else if (String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("heure") && String.valueOf(sheet.getRow(0).getCell(2).getStringCellValue().trim()).equals("consommation")) {
-                for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getPhysicalNumberOfRows() - 2; i++) {
+                for (int i =1; i < sheet.getPhysicalNumberOfRows()-1; i++) {
                     Row ro = sheet.getRow(i);
                     Date date = new Date();
                     Date heure = new Date();
@@ -454,9 +534,18 @@ public class Controller implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        for(Consommation con:listConsommation){
+            System.out.println("conso date mensuelle :"+con.getDate().getMonth());
+        }
     }
 
-
+    /**
+     * Supprime un élément du tableau
+     *
+     * @param actionEvent
+     */
     public void supprimer(ActionEvent actionEvent) {
         tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItem());
     }
@@ -464,6 +553,9 @@ public class Controller implements Initializable {
     public ArrayList<Production> productionTotale = new ArrayList<Production>();
 
 
+    /**
+     * à Faire (vico)
+     */
     public void traitementProduction() {
         productionTotale.clear();
         Double tauxGlobal;
@@ -500,17 +592,12 @@ public class Controller implements Initializable {
                     productionTotale.set(i, production);
                     prodInstall = prodInstall + energieFinale;
                 }
-                System.out.println("traitement :"+productionTotale.get(i).getDate());
-
+               // System.out.println("traitement :" + productionTotale.get(i).getDate());
             }
             inst.setProdTotale(prodInstall);
             a++;
 
         }
-
-
     }
-
-
 }
 
