@@ -19,6 +19,7 @@
             <ScrollPane layoutX="69.0" layoutY="362.0" prefHeight="374.0" prefWidth="1174.0">
                <content>
                   <LineChart fx:id="graphEnsoleillement" prefHeight="400.0" prefWidth="15000.0">
+
                      <xAxis>
                         <CategoryAxis side="BOTTOM" />
                      </xAxis>

@@ -326,7 +326,7 @@ public class Controller implements Initializable {
 
             Installation installation = new Installation(idNumber++, Double.parseDouble(nbrePV.getText()), Double.parseDouble(surfacePV.getText())
                     , Double.parseDouble(puissancePV.getText()), Double.parseDouble(rendementTF.getText()), Double.parseDouble(orientationTF.getText())
-                    , Double.parseDouble(inclinaisonTF.getText()), 0);
+                    , Double.parseDouble(inclinaisonTF.getText()), 0.0);
 
             listAjout.add(installation);
             tableView.setItems(listAjout);
@@ -450,7 +450,11 @@ public class Controller implements Initializable {
         }
 
         for (Production emp : listRadiation) {
-            System.out.println("listeRadiation : " + emp.getDate().getMonth());
+
+           // System.out.println("listeRadiation : " + emp.getDate());
+
+            //System.out.println("listeRadiation : " + emp.getDate().getMonth());
+
         }
 
     }
@@ -468,7 +472,6 @@ public class Controller implements Initializable {
 
             Date date = listRadiation.get(i).getDate();
             date.setYear(anneeConso);
-           // System.out.println("date same" + date);
             listRadiation.get(i).setDate(date);
 
            // System.out.println("list radiation date  :  " + listRadiation.get(i).getDate());
@@ -503,7 +506,6 @@ public class Controller implements Initializable {
             HSSFWorkbook workbook = new HSSFWorkbook(fis);
 
             HSSFSheet sheet = workbook.getSheetAt(0);
-
 
             if (String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("consommation")) {
                 for (int i = 1; i < sheet.getPhysicalNumberOfRows()-1; i++) {
@@ -592,7 +594,9 @@ public class Controller implements Initializable {
                     productionTotale.set(i, production);
                     prodInstall = prodInstall + energieFinale;
                 }
+
                // System.out.println("traitement :" + productionTotale.get(i).getDate());
+
             }
             inst.setProdTotale(prodInstall);
             a++;

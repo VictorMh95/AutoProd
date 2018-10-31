@@ -5,17 +5,33 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.*;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -118,6 +134,7 @@ public class Second_window implements Initializable {
     /**
      * @param
      */
+
     @FXML
     public void afficherConso() {
         displayGraphConsoProd(consommationListe, productionTotaleListe);
@@ -383,6 +400,16 @@ public class Second_window implements Initializable {
             series.getData().add(new XYChart.Data<String, Number>(date, production));
         }
         graphEnsoleillement.getData().addAll(series);
+        Node line = series.getNode().lookup(".chart-series-line");
+
+        Color color = Color.BLUE; // or any other color
+
+        String rgb = String.format("%d, %d, %d",
+                (int) (color.getRed() * 255),
+                (int) (color.getGreen() * 255),
+                (int) (color.getBlue() * 255));
+        line.setStyle("-fx-stroke: rgba(" + rgb + ", 1.0);");
+
     }
 
 
@@ -393,12 +420,13 @@ public class Second_window implements Initializable {
      * @return
      */
 
-    public Double calculsurface(ObservableList<Installation> list) {
+    public String calculsurface(ObservableList<Installation> list) {
         double surf = 0;
         for (Installation inst : list) {
             surf = surf + inst.getSurface();
         }
-        return surf;
+        DecimalFormat df = new DecimalFormat("###.##");
+        return df.format(surf);
     }
 
     /**
@@ -407,13 +435,14 @@ public class Second_window implements Initializable {
      * @param list
      * @return
      */
-    public Double calculpuissane(ObservableList<Installation> list) {
+    public String calculpuissane(ObservableList<Installation> list) {
         double puissance = 0;
         double nbre = 0;
         for (Installation inst : list) {
             puissance = puissance + inst.getPuissance() * inst.getNbre();
         }
-        return puissance + nbre;
+        DecimalFormat df = new DecimalFormat("###.##");
+        return df.format(puissance + nbre);
     }
 
 
@@ -426,7 +455,7 @@ public class Second_window implements Initializable {
      *
      * @return
      */
-    public double calculTauxAutoCons() {
+    public String calculTauxAutoCons() {
         Double utilisée = 0.0;
         Double total = 0.0;
         int taille;
@@ -447,7 +476,8 @@ public class Second_window implements Initializable {
         }
         double tauxAutoCons = (utilisée / total) * 100;
         // System.out.println(tauxAutoCons);
-        return tauxAutoCons;
+        DecimalFormat df = new DecimalFormat("###.##");
+        return df.format(tauxAutoCons);
     }
 
     /**
@@ -459,7 +489,7 @@ public class Second_window implements Initializable {
      * @return
      */
 
-    public double calculTauxAutoProd() {
+    public String calculTauxAutoProd() {
         int taille;
         Double utilisée = 0.0;
         Double total = 0.0;
@@ -477,29 +507,56 @@ public class Second_window implements Initializable {
             total = total + cons.getConsommation();
         }
         double tauxAutoProd = (utilisée / total) * 100;
-        return tauxAutoProd;
+        DecimalFormat df = new DecimalFormat("###.##");
+        return df.format(tauxAutoProd);
     }
 
 
-    public double calculpotentielAnnuel() {
+    public String calculpotentielAnnuel() {
         double total = 0.0;
         for (Installation inst : listInstallation) {
             total += inst.getProdTotale();
             //System.out.println(total);
         }
-        return total;
+        DecimalFormat df = new DecimalFormat("###.##");
+        return df.format(total);
     }
 
-    public double consommationTotaleAnnuel() {
+    public String  consommationTotaleAnnuel() {
         double total = 0.0;
         for (Consommation cons : consommationListe) {
             total = total + cons.getConsommation();
         }
-        return total;
+        DecimalFormat df = new DecimalFormat("###.##");
+        return df.format(total);
+    }
+
+    public static final String RESULT
+            = "C:\\Users\\thomas\\Desktop\\Projet Co-elab\\test.png";
+
+/**    @FXML
+    void savePDF(ActionEvent event) throws IOException, DocumentException {
+        createPdf(RESULT);
     }
 
 
+    public void createPdf(String filename)
+            throws DocumentException, IOException {
+        WritableImage image = tableView.snapshot(new SnapshotParameters(), null);
+        File file = new File(filename);
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+        return total;
+    }
+**/
+
 }
+
 
 
 /**
