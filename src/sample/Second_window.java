@@ -90,6 +90,8 @@ public class Second_window implements Initializable {
     public ArrayList<Production> ensoleillement = new ArrayList<Production>();
     public ObservableList<Installation> listInstallation = FXCollections.observableArrayList();
 
+    public DateFormat dateFormat = new SimpleDateFormat("dd-MM HH:mm");
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -144,8 +146,8 @@ public class Second_window implements Initializable {
         TFautoprod.setText(String.valueOf(calculTauxAutoProd()));
         potentienProdAnnuel.setText(String.valueOf(calculpotentielAnnuel()));
         consBatAnnuel.setText(String.valueOf(consommationTotaleAnnuel()));
-        date1.setText(String.valueOf(productionTotaleListe.get(0).getDate()));
-        date2.setText(String.valueOf(productionTotaleListe.get(productionTotaleListe.size() - 1).getDate()));
+        date1.setText(dateFormat.format(productionTotaleListe.get(0).getDate()));
+        date2.setText(dateFormat.format(productionTotaleListe.get(productionTotaleListe.size() - 1).getDate()));
 
     }
 
@@ -165,8 +167,6 @@ public class Second_window implements Initializable {
         Number consommation;
         String dateprod;
         Number production;
-
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM HH:mm");
 
 
         XYChart.Series<String, Number> seriesConso = new XYChart.Series<>();
