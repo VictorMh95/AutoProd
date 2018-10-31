@@ -10,9 +10,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -80,6 +83,8 @@ public class Second_window implements Initializable {
         orientation.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("orientation"));
         puissance.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("puissance"));
         prodTotale.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("prodTotale"));
+
+
     }
 
     /**
@@ -98,8 +103,17 @@ public class Second_window implements Initializable {
         listInstallation = installation;
         puissanceTF.setText(calculpuissane(listInstallation).toString());
         surfaceTF.setText(calculsurface(listInstallation).toString());
+        sizeChartInit();
         afficherConso();
     }
+
+
+    public void sizeChartInit() {
+        graphEnsoleillement.setPrefWidth(ensoleillement.size() * 2.5);
+        graphConso.setPrefWidth(ensoleillement.size() * 2.5);
+
+    }
+
 
     /**
      * @param
@@ -135,11 +149,14 @@ public class Second_window implements Initializable {
         String dateprod;
         Number production;
 
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM HH:mm");
+
+
         XYChart.Series<String, Number> seriesConso = new XYChart.Series<>();
         seriesConso.setName("Consommation en kWh");
 
         XYChart.Series<String, Number> seriesProd = new XYChart.Series<>();
-        seriesConso.setName("Production en kWh");
+        seriesProd.setName("Production en kWh");
 
 
         //barchart
@@ -185,14 +202,16 @@ public class Second_window implements Initializable {
                 new XYChart.Series<String, Number>();
         seriesConsoB.setName("Consommation en KWh");
 
+
         final XYChart.Series<String, Number> seriesProdB =
                 new XYChart.Series<String, Number>();
         seriesProdB.setName("Production en KWh");
 
 
         for (int i = 0; i < conso.size(); i++) {
-            dateconso = conso.get(i).getDate().toString();
+            dateconso = dateFormat.format(conso.get(i).getDate());
             consommation = conso.get(i).getConsommation();
+
             seriesConso.getData().add(new XYChart.Data<String, Number>(dateconso, consommation));
 
 
@@ -248,10 +267,13 @@ public class Second_window implements Initializable {
         }
 
         for (int i = 0; i < prod.size(); i++) {
+            //Line
             production = prod.get(i).getProduction();
-            dateprod = prod.get(i).getDate().toString();
+            dateprod = dateFormat.format(prod.get(i).getDate());
 
             seriesProd.getData().add(new XYChart.Data<String, Number>(dateprod, production));
+
+            //Bar
 
             switch (prod.get(i).getDate().getMonth()) {
                 case 0:
@@ -353,8 +375,10 @@ public class Second_window implements Initializable {
         Number production;
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Irradiation en kWh/m²");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM HH:mm");
+
         for (int i = 0; i < list.size(); i++) {
-            date = list.get(i).getDate().toString();
+            date = dateFormat.format(list.get(i).getDate());
             production = list.get(i).getProduction();
             series.getData().add(new XYChart.Data<String, Number>(date, production));
         }
