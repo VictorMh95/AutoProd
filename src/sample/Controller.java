@@ -102,7 +102,11 @@ public class Controller implements Initializable {
 
     private int idNumber = 1;
 
-    ObservableList<Installation> listAjout = FXCollections.observableArrayList();
+    private ObservableList<Installation> listAjout = FXCollections.observableArrayList();
+    private ArrayList<Production> listRadiation = new ArrayList<Production>();
+    private  ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
+
+
 
     /**
      * Cette fonction initialise la fenêtre
@@ -399,7 +403,6 @@ public class Controller implements Initializable {
         return matcher.matches();
     }
 
-    ArrayList<Production> listRadiation = new ArrayList<Production>();
 
     /**
      * Permet de lire le ficher météorologique en format csv
@@ -447,7 +450,11 @@ public class Controller implements Initializable {
         }
 
         for (Production emp : listRadiation) {
-            System.out.println("listeRadiation : " + emp.getDate());
+
+           // System.out.println("listeRadiation : " + emp.getDate());
+
+            //System.out.println("listeRadiation : " + emp.getDate().getMonth());
+
         }
 
     }
@@ -465,10 +472,9 @@ public class Controller implements Initializable {
 
             Date date = listRadiation.get(i).getDate();
             date.setYear(anneeConso);
-            System.out.println("date same" + date);
             listRadiation.get(i).setDate(date);
 
-            System.out.println("list radiation date  :  " + listRadiation.get(i).getDate());
+           // System.out.println("list radiation date  :  " + listRadiation.get(i).getDate());
 
         }
 
@@ -480,7 +486,6 @@ public class Controller implements Initializable {
     }
 
 
-    public ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
 
 
     /**
@@ -503,13 +508,14 @@ public class Controller implements Initializable {
             HSSFSheet sheet = workbook.getSheetAt(0);
 
             if (String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("consommation")) {
-                for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getPhysicalNumberOfRows() - 2; i++) {
-                    Row ro = sheet.getRow(i);
+                for (int i = 1; i < sheet.getPhysicalNumberOfRows()-1; i++) {
+                        Row ro = sheet.getRow(i);
                     Consommation e = new Consommation(ro.getCell(0).getDateCellValue(), ro.getCell(1).getNumericCellValue());
                     listConsommation.add(e);
                 }
+
             } else if (String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("heure") && String.valueOf(sheet.getRow(0).getCell(2).getStringCellValue().trim()).equals("consommation")) {
-                for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getPhysicalNumberOfRows() - 2; i++) {
+                for (int i =1; i < sheet.getPhysicalNumberOfRows()-1; i++) {
                     Row ro = sheet.getRow(i);
                     Date date = new Date();
                     Date heure = new Date();
@@ -529,6 +535,11 @@ public class Controller implements Initializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+
+        for(Consommation con:listConsommation){
+            System.out.println("conso date mensuelle :"+con.getDate().getMonth());
         }
     }
 
@@ -583,17 +594,14 @@ public class Controller implements Initializable {
                     productionTotale.set(i, production);
                     prodInstall = prodInstall + energieFinale;
                 }
-                System.out.println("traitement :" + productionTotale.get(i).getDate());
+
+               // System.out.println("traitement :" + productionTotale.get(i).getDate());
 
             }
             inst.setProdTotale(prodInstall);
             a++;
 
         }
-
-
     }
-
-
 }
 
