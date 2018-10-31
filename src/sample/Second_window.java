@@ -23,9 +23,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.StackPane;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -91,20 +94,18 @@ public class Second_window implements Initializable {
      */
     public void initData(ArrayList<Production> productionTotale,ArrayList<Consommation> consommation,ArrayList<Production> irradiation,
                          ObservableList<Installation> installation){
-        productionTotaleListe = (ArrayList<Production>)productionTotale;
-        consommationListe = (ArrayList<Consommation>)consommation;
-        ensoleillement = (ArrayList<Production>)irradiation;
+        productionTotaleListe = productionTotale;
+        consommationListe = consommation;
+        ensoleillement = irradiation;
         listInstallation = installation;
         puissanceTF.setText(calculpuissane(listInstallation).toString());
         surfaceTF.setText(calculsurface(listInstallation).toString());
+        afficherConso();
     }
 
-    /**
-     *
-      * @param event
-     */
+
     @FXML
-    void afficherConso(ActionEvent event) {
+   public void afficherConso() {
         displayGraphConsoProd(consommationListe,productionTotaleListe);
         displayGraphEnsoleillement(ensoleillement);
         tableView.setItems(listInstallation);
@@ -127,8 +128,10 @@ public class Second_window implements Initializable {
     public void displayGraphConsoProd(ArrayList<Consommation> conso,ArrayList<Production> prod){
         String dateconso;
         Number consommation;
-        String dateprodu;
+        String dateprod;
         Number production;
+
+
 
         XYChart.Series<String,Number> seriesConso = new XYChart.Series<>();
         seriesConso.setName("Consommation en kWh");
@@ -136,21 +139,22 @@ public class Second_window implements Initializable {
         XYChart.Series<String,Number> seriesProd = new XYChart.Series<>();
         seriesConso.setName("Production en kWh");
 
-        for (Consommation cons: conso){
-            dateconso=cons.getDate().toString();
-            consommation = cons.getConsommation();
+        for (int i=0;i<consommationListe.size();i++){
+            dateconso=consommationListe.get(i).getDate().toString();
+            consommation = consommationListe.get(i).getConsommation();
+
+            production = productionTotaleListe.get(i).getProduction();
+            dateprod=productionTotaleListe.get(i).getDate().toString();
+
             seriesConso.getData().add(new XYChart.Data<String,Number>(dateconso,consommation));
+
+            seriesProd.getData().add(new XYChart.Data<String,Number>(dateprod,production));
         }
 
-        for (Production pr: prod){
-            dateprodu = pr.getDate().toString();
-            production = pr.getProduction();
-            seriesProd.getData().add(new XYChart.Data<String,Number>(dateprodu,production));
-        }
+        graphConso.getData().addAll(seriesProd,seriesConso);
+
         graphConso.setCreateSymbols(false);
         graphEnsoleillement.setCreateSymbols(false);
-        graphConso.getData().addAll(seriesProd);
-        graphConso.getData().addAll(seriesConso);
 
     }
 
@@ -170,6 +174,7 @@ public class Second_window implements Initializable {
             series.getData().add(new XYChart.Data<String,Number>(date,production));
         }
         graphEnsoleillement.getData().addAll(series);
+
     }
 
     /**
@@ -283,37 +288,24 @@ public class Second_window implements Initializable {
     }
 
     public static final String RESULT
-            = "C:\\Users\\thomas\\Desktop\\Projet Co-elab\\test.pdf";
+            = "C:\\Users\\thomas\\Desktop\\Projet Co-elab\\test.png";
 
     @FXML
     void savePDF(ActionEvent event) throws IOException, DocumentException {
-        //createPdf(RESULT);
+        createPdf(RESULT);
     }
-    @FXML
-    private ScrollPane scrollpane;
 
-    /**public void createPdf(String filename)
+
+    public void createPdf(String filename)
             throws DocumentException, IOException {
-        BufferedImage bufImage = SwingFXUtils.fromFXImage(scrollpane.snapshot(new SnapshotParameters(), null), null);
-        FileOutputStream out = new FileOutputStream(filename);
-        javax.imageio.ImageIO.write(bufImage, "jpg", out);
-        out.flush();
-        out.close();
-
-        com.itextpdf.text.Image image =com.itextpdf.text.Image.getInstance(filename);
-
-        Document doc = new Document(new com.itextpdf.text.Rectangle(image.getScaledWidth(), image.getScaledHeight()));
-        FileOutputStream fos = new FileOutputStream(filename);
-        PdfWriter.getInstance(doc, fos);
-        doc.open();
-        doc.newPage();
-        image.setAbsolutePosition(0, 0);
-        doc.add(image);
-        fos.flush();
-        doc.close();
-        fos.close();
-
-    }**/
+        WritableImage image = tableView.snapshot(new SnapshotParameters(), null);
+        File file = new File(filename);
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

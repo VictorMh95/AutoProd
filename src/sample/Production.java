@@ -6,7 +6,7 @@ public class Production {
     private double production;
     private Date date;
 
-    public Production (){};
+    public Production (){}
 
     public Production(Date date,double production) {
         this.date=date;
