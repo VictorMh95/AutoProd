@@ -22,29 +22,19 @@ import javafx.event.ActionEvent;
 
 import java.io.*;
 import java.net.URL;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.ParsePosition;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javafx.stage.Stage;
-import org.apache.poi.*;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
+
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.formula.functions.T;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.util.SystemOutLogger;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import javax.swing.*;
+import org.apache.poi.ss.usermodel.Row;
+
 
 public class Controller implements Initializable {
 
@@ -84,6 +74,8 @@ public class Controller implements Initializable {
 
     @FXML
     private JFXButton ajouter;
+
+
 
 
     @FXML
@@ -451,9 +443,8 @@ public class Controller implements Initializable {
 
         for (Production emp : listRadiation) {
 
-           // System.out.println("listeRadiation : " + emp.getDate());
-
-            //System.out.println("listeRadiation : " + emp.getDate().getMonth());
+            System.out.println("listeRadiation : " + emp.getDate());
+            System.out.println("listeRadiation : " + emp.getDate().getMonth());
 
         }
 
@@ -537,9 +528,10 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
 
-
+System.out.println(listConsommation.size());
         for(Consommation con:listConsommation){
-            System.out.println("conso date mensuelle :"+con.getDate().getMonth());
+            System.out.println("conso date mensuelle :"+con.getConsommation());
+
         }
     }
 
