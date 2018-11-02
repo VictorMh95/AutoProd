@@ -18,8 +18,7 @@
          <children>
             <ScrollPane layoutX="68.0" layoutY="405.0" prefHeight="374.0" prefWidth="1174.0">
                <content>
-                  <LineChart fx:id="graphEnsoleillement" prefHeight="400.0" prefWidth="15000.0">
-
+                  <LineChart fx:id="graphEnsoleillement" prefHeight="395.0" prefWidth="15000.0">
                      <xAxis>
                         <CategoryAxis side="BOTTOM" />
                      </xAxis>
@@ -111,7 +110,7 @@
                   </LineChart>
                </content>
             </ScrollPane>
-            <BarChart fx:id="ConsoProdGraph" layoutX="62.0" layoutY="1168.0" prefHeight="325.0" prefWidth="1174.0" title="Production et consommation mensuelle en kWh">
+            <BarChart fx:id="ConsoProdGraph" layoutX="63.0" layoutY="1146.0" prefHeight="325.0" prefWidth="1174.0" title="Production et consommation mensuelle (kWh)">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>

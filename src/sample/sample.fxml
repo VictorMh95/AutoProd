@@ -86,8 +86,6 @@
                   <Font name="Arial Bold" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="381.0" layoutY="136.0" text="Wc" />
-            <Label layoutX="382.0" layoutY="181.0" text="\%" />
             </children>
         </AnchorPane>
         <Label layoutX="93.0" layoutY="421.0" text="Puissance d'un PV :">

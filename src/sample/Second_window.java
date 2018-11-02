@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 
@@ -92,8 +93,6 @@ public class Second_window implements Initializable {
         orientation.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("orientation"));
         puissance.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("puissance"));
         prodTotale.setCellValueFactory(new PropertyValueFactory<Installation, Integer>("prodTotale"));
-
-
     }
 
     /**
@@ -338,7 +337,6 @@ public class Second_window implements Initializable {
         }
 
         graphConso.getData().addAll(seriesProd, seriesConso);
-
         graphConso.setCreateSymbols(false);
         graphEnsoleillement.setCreateSymbols(false);
 
@@ -371,7 +369,11 @@ public class Second_window implements Initializable {
 
         ConsoProdGraph.getData().addAll(seriesProdB, seriesConsoB);
 
-
+        for (XYChart.Series<String,Number> s : ConsoProdGraph.getData()){
+            for (XYChart.Data<String,Number> d : s.getData()){
+                Tooltip.install(d.getNode(),new Tooltip("Total: "+d.getYValue().toString()));
+            }
+        }
     }
 
     /**
