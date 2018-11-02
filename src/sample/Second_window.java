@@ -369,7 +369,7 @@ public class Second_window implements Initializable {
         seriesProdB.getData().add(new XYChart.Data<String, Number>(novembre, novembreP));
         seriesProdB.getData().add(new XYChart.Data<String, Number>(decembre, decembreP));
 
-        ConsoProdGraph.getData().addAll(seriesConsoB, seriesProdB);
+        ConsoProdGraph.getData().addAll(seriesProdB, seriesConsoB);
 
 
     }

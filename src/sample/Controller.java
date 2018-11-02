@@ -441,12 +441,12 @@ public class Controller implements Initializable {
             }
         }
 
-        for (Production emp : listRadiation) {
+       // for (Production emp : listRadiation) {
 
-            System.out.println("listeRadiation : " + emp.getDate());
-            System.out.println("listeRadiation : " + emp.getDate().getMonth());
+         //   System.out.println("listeRadiation : " + emp.getDate());
+           // System.out.println("listeRadiation : " + emp.getDate().getMonth());
 
-        }
+        //}
 
     }
 

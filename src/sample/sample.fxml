@@ -146,6 +146,6 @@
                 <Image url="@images/Logo_ADICITE.png" />
             </image>
         </ImageView>
-      <JFXSpinner fx:id="spinner" layoutX="581.0" layoutY="284.0" visible="false" />
+       <JFXSpinner fx:id="spinner" layoutX="581.0" layoutY="284.0" visible="false" />
     </children>
 </AnchorPane>

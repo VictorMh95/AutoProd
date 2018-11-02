@@ -2,6 +2,9 @@ package sample;
 
 import java.util.Date;
 
+/**
+ * 
+ */
 public class Consommation {
     private Date date;
     private Double consommation;
