@@ -16,10 +16,9 @@
    <content>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1486.0" prefWidth="1299.0" style="-fx-background-color: #CCCCCC;">
          <children>
-            <ScrollPane layoutX="69.0" layoutY="362.0" prefHeight="374.0" prefWidth="1174.0">
+            <ScrollPane layoutX="69.0" layoutY="336.0" prefHeight="400.0" prefWidth="1173.0">
                <content>
-                  <LineChart fx:id="graphEnsoleillement" prefHeight="400.0" prefWidth="15000.0">
-
+                  <LineChart fx:id="graphEnsoleillement" prefHeight="395.0" prefWidth="15000.0">
                      <xAxis>
                         <CategoryAxis side="BOTTOM" />
                      </xAxis>
@@ -74,7 +73,6 @@
                   <JFXTextField fx:id="date1" editable="false" layoutX="255.0" layoutY="123.0" prefHeight="26.0" prefWidth="107.0" />
                   <JFXTextField fx:id="date2" editable="false" layoutX="429.0" layoutY="123.0" prefHeight="26.0" prefWidth="96.0" />
                   <Label layoutX="389.0" layoutY="136.0" text="à" />
-                  <Label layoutX="479.0" layoutY="195.0" prefHeight="18.0" prefWidth="48.0" text="en kWh" />
                </children>
             </AnchorPane>
             <Label layoutX="606.0" layoutY="3.0" prefHeight="40.0" prefWidth="119.0" text="Résultats">
@@ -92,7 +90,7 @@
                   <TableColumn fx:id="prodTotale" prefWidth="137.0" text="Production en kWh" />
                </columns>
             </TableView>
-            <ScrollPane layoutX="70.0" layoutY="783.0" prefHeight="350.0" prefWidth="1172.0">
+            <ScrollPane layoutX="70.0" layoutY="751.0" prefHeight="381.0" prefWidth="1172.0">
                <content>
                   <LineChart fx:id="graphConso" prefHeight="407.0" prefWidth="15000.0">
                      <xAxis>
@@ -104,7 +102,7 @@
                   </LineChart>
                </content>
             </ScrollPane>
-            <BarChart fx:id="ConsoProdGraph" layoutX="63.0" layoutY="1146.0" prefHeight="325.0" prefWidth="1174.0" title="Production et consommation mensuelle en kWh">
+            <BarChart fx:id="ConsoProdGraph" layoutX="63.0" layoutY="1146.0" prefHeight="325.0" prefWidth="1174.0" title="Production et consommation mensuelle (kWh)">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -112,16 +110,6 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </BarChart>
-            <Label layoutX="548.0" layoutY="334.0" prefHeight="18.0" text="Irradiation Solaire en kWh/m²">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="513.0" layoutY="755.0" prefHeight="18.0" text="Production et consommation en kWh">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
          </children></AnchorPane>
    </content>
 </ScrollPane>
