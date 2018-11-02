@@ -5,27 +5,15 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.*;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.URL;
 
 import java.text.DateFormat;
@@ -71,6 +59,9 @@ public class Second_window implements Initializable {
     private JFXTextField date2;
 
     @FXML
+    private JFXTextField co2;
+
+    @FXML
     private TableView<Installation> tableView;
     @FXML
     private TableColumn<Installation, Integer> numero;
@@ -89,6 +80,8 @@ public class Second_window implements Initializable {
     public ArrayList<Consommation> consommationListe = new ArrayList<Consommation>();
     public ArrayList<Production> ensoleillement = new ArrayList<Production>();
     public ObservableList<Installation> listInstallation = FXCollections.observableArrayList();
+
+    public DateFormat dateFormat = new SimpleDateFormat("dd-MM HH:mm");
 
 
     @Override
@@ -117,8 +110,8 @@ public class Second_window implements Initializable {
         consommationListe = consommation;
         ensoleillement = irradiation;
         listInstallation = installation;
-        puissanceTF.setText(calculpuissane(listInstallation).toString());
-        surfaceTF.setText(calculsurface(listInstallation).toString());
+        puissanceTF.setText(doubleToStringFormatted(calculpuissane(listInstallation)));
+        surfaceTF.setText(doubleToStringFormatted(calculsurface(listInstallation)));
         sizeChartInit();
         afficherConso();
     }
@@ -137,15 +130,17 @@ public class Second_window implements Initializable {
 
     @FXML
     public void afficherConso() {
+        Double prodTotale =calculpotentielAnnuel();
         displayGraphConsoProd(consommationListe, productionTotaleListe);
         displayGraphEnsoleillement(ensoleillement);
         tableView.setItems(listInstallation);
-        TFautoConso.setText(String.valueOf(calculTauxAutoCons()));
-        TFautoprod.setText(String.valueOf(calculTauxAutoProd()));
-        potentienProdAnnuel.setText(String.valueOf(calculpotentielAnnuel()));
-        consBatAnnuel.setText(String.valueOf(consommationTotaleAnnuel()));
-        date1.setText(String.valueOf(productionTotaleListe.get(0).getDate()));
-        date2.setText(String.valueOf(productionTotaleListe.get(productionTotaleListe.size() - 1).getDate()));
+        TFautoConso.setText(doubleToStringFormatted(calculTauxAutoCons()));
+        TFautoprod.setText(doubleToStringFormatted(calculTauxAutoProd()));
+        potentienProdAnnuel.setText(doubleToStringFormatted(prodTotale));
+        co2.setText(doubleToStringFormatted(emissionCo2(prodTotale)));
+        consBatAnnuel.setText(doubleToStringFormatted(consommationTotaleAnnuel()));
+        date1.setText(dateFormat.format(productionTotaleListe.get(0).getDate()));
+        date2.setText(dateFormat.format(productionTotaleListe.get(productionTotaleListe.size() - 1).getDate()));
 
     }
 
@@ -165,8 +160,6 @@ public class Second_window implements Initializable {
         Number consommation;
         String dateprod;
         Number production;
-
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM HH:mm");
 
 
         XYChart.Series<String, Number> seriesConso = new XYChart.Series<>();
@@ -420,13 +413,12 @@ public class Second_window implements Initializable {
      * @return
      */
 
-    public String calculsurface(ObservableList<Installation> list) {
+    public Double calculsurface(ObservableList<Installation> list) {
         double surf = 0;
         for (Installation inst : list) {
             surf = surf + inst.getSurface();
         }
-        DecimalFormat df = new DecimalFormat("###.##");
-        return df.format(surf);
+        return surf;
     }
 
     /**
@@ -435,14 +427,13 @@ public class Second_window implements Initializable {
      * @param list
      * @return
      */
-    public String calculpuissane(ObservableList<Installation> list) {
+    public Double calculpuissane(ObservableList<Installation> list) {
         double puissance = 0;
         double nbre = 0;
         for (Installation inst : list) {
             puissance = puissance + inst.getPuissance() * inst.getNbre();
         }
-        DecimalFormat df = new DecimalFormat("###.##");
-        return df.format(puissance + nbre);
+        return (puissance + nbre);
     }
 
 
@@ -455,7 +446,7 @@ public class Second_window implements Initializable {
      *
      * @return
      */
-    public String calculTauxAutoCons() {
+    public Double calculTauxAutoCons() {
         Double utilisée = 0.0;
         Double total = 0.0;
         int taille;
@@ -476,8 +467,7 @@ public class Second_window implements Initializable {
         }
         double tauxAutoCons = (utilisée / total) * 100;
         // System.out.println(tauxAutoCons);
-        DecimalFormat df = new DecimalFormat("###.##");
-        return df.format(tauxAutoCons);
+        return tauxAutoCons;
     }
 
     /**
@@ -489,7 +479,7 @@ public class Second_window implements Initializable {
      * @return
      */
 
-    public String calculTauxAutoProd() {
+    public Double calculTauxAutoProd() {
         int taille;
         Double utilisée = 0.0;
         Double total = 0.0;
@@ -507,56 +497,62 @@ public class Second_window implements Initializable {
             total = total + cons.getConsommation();
         }
         double tauxAutoProd = (utilisée / total) * 100;
-        DecimalFormat df = new DecimalFormat("###.##");
-        return df.format(tauxAutoProd);
+        return tauxAutoProd;
     }
 
 
-    public String calculpotentielAnnuel() {
+    public Double calculpotentielAnnuel() {
         double total = 0.0;
         for (Installation inst : listInstallation) {
             total += inst.getProdTotale();
-            //System.out.println(total);
         }
-        DecimalFormat df = new DecimalFormat("###.##");
-        return df.format(total);
+        return total;
     }
 
-    public String  consommationTotaleAnnuel() {
+    public String doubleToStringFormatted(Double number){
+        DecimalFormat df = new DecimalFormat("###.##");
+        return df.format(number);
+    }
+
+    public Double consommationTotaleAnnuel() {
         double total = 0.0;
         for (Consommation cons : consommationListe) {
             total = total + cons.getConsommation();
         }
-        DecimalFormat df = new DecimalFormat("###.##");
-        return df.format(total);
+        return total;
     }
+
+    public Double emissionCo2(Double production){
+        double emission=production*0.027;
+        return emission;
+    }
+
+
 
     public static final String RESULT
             = "C:\\Users\\thomas\\Desktop\\Projet Co-elab\\test.png";
 
-/**    @FXML
-    void savePDF(ActionEvent event) throws IOException, DocumentException {
-        createPdf(RESULT);
-    }
-
-
-    public void createPdf(String filename)
-            throws DocumentException, IOException {
-        WritableImage image = tableView.snapshot(new SnapshotParameters(), null);
-        File file = new File(filename);
-        try {
-            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-        return total;
-    }
-**/
-
+/**    @FXML void savePDF(ActionEvent event) throws IOException, DocumentException {
+createPdf(RESULT);
 }
 
+
+public void createPdf(String filename)
+throws DocumentException, IOException {
+WritableImage image = tableView.snapshot(new SnapshotParameters(), null);
+File file = new File(filename);
+try {
+ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+} catch (IOException e) {
+e.printStackTrace();
+}
+}
+
+return total;
+}
+ **/
+
+}
 
 
 /**
