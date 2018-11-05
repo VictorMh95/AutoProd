@@ -4,26 +4,35 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+
+/**
+ * Installation represente la classe d'une installation photovoltaique
+ * <p>
+ * nbre : nombre de panneau solaire
+ * surface : surface total des cellules de l'ensemble des panneaux solaire de l'installation
+ * puissance : puissance crete de l'emsemble de l'installation
+ * prodTotale : production totale de l'installation en kWh
+ */
 public class Installation {
     private SimpleIntegerProperty numero;
     private SimpleDoubleProperty nbre;
-    private SimpleDoubleProperty surface ;
-    private SimpleDoubleProperty puissance ;
-    private SimpleDoubleProperty pr ;
-    private SimpleDoubleProperty orientation ;
-    private SimpleDoubleProperty inclinaison ;
-    private SimpleDoubleProperty prodTotale ;
+    private SimpleDoubleProperty surface;
+    private SimpleDoubleProperty puissance;
+    private SimpleDoubleProperty pr;
+    private SimpleDoubleProperty orientation;
+    private SimpleDoubleProperty inclinaison;
+    private SimpleDoubleProperty prodTotale;
 
-    public Installation (int numero ,double nbre, double surface , double puissance , double pr , double orientation
-                          , double inclinaison,double prodTotale ){
-                this.numero= new SimpleIntegerProperty(numero);
-                this.nbre = new SimpleDoubleProperty(nbre);
-                this.surface=new SimpleDoubleProperty(surface);
-                this.puissance=new SimpleDoubleProperty(puissance);
-                this.pr=new SimpleDoubleProperty(pr);
-                this.orientation=new SimpleDoubleProperty(orientation);
-                this.inclinaison=new SimpleDoubleProperty(inclinaison);
-                this.prodTotale=new SimpleDoubleProperty(prodTotale);
+    public Installation(int numero, double nbre, double surface, double puissance, double pr, double orientation
+            , double inclinaison, double prodTotale) {
+        this.numero = new SimpleIntegerProperty(numero);
+        this.nbre = new SimpleDoubleProperty(nbre);
+        this.surface = new SimpleDoubleProperty(surface);
+        this.puissance = new SimpleDoubleProperty(puissance);
+        this.pr = new SimpleDoubleProperty(pr);
+        this.orientation = new SimpleDoubleProperty(orientation);
+        this.inclinaison = new SimpleDoubleProperty(inclinaison);
+        this.prodTotale = new SimpleDoubleProperty(prodTotale);
     }
 
 

@@ -1,15 +1,13 @@
 package sample;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
+
 import com.opencsv.CSVReader;
+
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,21 +17,24 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javafx.stage.Stage;
-
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
 import org.apache.poi.ss.usermodel.Row;
+
+
+/**
+ * Controller attaché au sample.fxml
+ * Toute la gestion de l'ecran "Caractéristiques du projet" ( sample.fxml) ce deroule ici
+ */
 
 
 public class Controller implements Initializable {
@@ -76,8 +77,6 @@ public class Controller implements Initializable {
     private JFXButton ajouter;
 
 
-
-
     @FXML
     private TableView<Installation> tableView;
     @FXML
@@ -92,16 +91,16 @@ public class Controller implements Initializable {
     private TableColumn<Installation, Integer> puissance;
 
 
+    //permet de numeroter les installation voir Methode Ajouter
     private int idNumber = 1;
 
     private ObservableList<Installation> listAjout = FXCollections.observableArrayList();
     private ArrayList<Production> listRadiation = new ArrayList<Production>();
-    private  ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
-
+    private ArrayList<Consommation> listConsommation = new ArrayList<Consommation>();
 
 
     /**
-     * Cette fonction initialise la fenêtre
+     * Cette fonction est la premiere appelé et elle initialise la fenêtre
      * Le tableau est instancié
      * puis les tools tip
      * ensuite les binding sont instanciés, cela lie les différents champs entre eux
@@ -178,8 +177,9 @@ public class Controller implements Initializable {
      * Lorsque le bouton est cliqué un filchooser est lancé il permet de charger un fichier de l'ordinateur
      * le filechooser ne cherchera que les fichiers en format csv
      * ensuite le path du fichier est sauvegardé dans la variable "selected file"
-     * t_loc affiche le nom di fichier en prenant que son nom et non le chemin
-     * ensuite on applique la méthode "Readcsv" sur ce fichier
+     * t_loc affiche le nom du fichier en prenant que son nom et non le chemin
+     * <p>
+     * Finalement la methode readCSV et lancé avec comme parametre le fichier selectionné
      *
      * @param event
      * @throws IOException
@@ -196,14 +196,14 @@ public class Controller implements Initializable {
             listRadiation.clear();
             t_loc.setText(selectedFile.getAbsolutePath().substring(selectedFile.getAbsolutePath().lastIndexOf("\\") + 1)
             );
-            ReadCSV(selectedFile);
+            readCSV(selectedFile);
         } else {
             System.out.println("Le fichier n'est pas bon");
         }
     }
 
     /**
-     * Exactement le même fonctionnement que pour le bt1
+     * Exactement le même fonctionnement que pour le bt1, cependant uniquement fichier xls et methode readXls
      *
      * @param event
      */
@@ -218,16 +218,19 @@ public class Controller implements Initializable {
         if (selectedFile2 != null) {
             listConsommation.clear();
             t_conso.setText(selectedFile2.getAbsolutePath().substring(selectedFile2.getAbsolutePath().lastIndexOf("\\") + 1));
-            Readxls(selectedFile2);
+            readxls(selectedFile2);
         } else {
             System.out.println("Le fichier n'est pas valide");
         }
     }
 
     /**
-     * Lorsque le bouton run est cliqué il lance plusieurs choses:
-     * - il ouvre une nouvelle fenêtre
-     * - il vérifie qu'il y a bien les deux fichiers chargés et une installation dans le tableau
+     * Lorsque le bouton run est cliqué il lance plusieurs fonction:
+     * <p>
+     * Il y a d'abord verification que les fichiers meteo et consommation existe et qu'une installation a été rentrée
+     * Ensuite :
+     * <p>
+     * <p>
      * - si les conditions sont vérifiés il lance la méthode "dateProductiontoConsommation" ensuite il traite
      * la production solaire à partir du fichier de radiation solaire et des différentes installation ajoutés
      * ensuite on lance à partir du controller de la deuxième fenêtre la récupération des différentes listes utiles à la seconde fenêtre
@@ -409,7 +412,7 @@ public class Controller implements Initializable {
      * @param file
      * @throws IOException
      */
-    public void ReadCSV(File file) throws IOException {
+    public void readCSV(File file) throws IOException {
         CSVReader csvReader = new CSVReader(new FileReader(file), ';', '\'', 35);
 
         String[] nextline;
@@ -441,13 +444,6 @@ public class Controller implements Initializable {
             }
         }
 
-       // for (Production emp : listRadiation) {
-
-         //   System.out.println("listeRadiation : " + emp.getDate());
-           // System.out.println("listeRadiation : " + emp.getDate().getMonth());
-
-        //}
-
     }
 
 
@@ -465,18 +461,9 @@ public class Controller implements Initializable {
             date.setYear(anneeConso);
             listRadiation.get(i).setDate(date);
 
-           // System.out.println("list radiation date  :  " + listRadiation.get(i).getDate());
-
         }
-
-        for (Production prod : listRadiation) {
-            System.out.println("prod dateptodtoconso" + prod.getDate());
-        }
-
 
     }
-
-
 
 
     /**
@@ -490,7 +477,7 @@ public class Controller implements Initializable {
      * @param file
      * @throws IOException
      */
-    public void Readxls(File file) {
+    public void readxls(File file) {
 
         try {
             FileInputStream fis = new FileInputStream(file);
@@ -499,14 +486,14 @@ public class Controller implements Initializable {
             HSSFSheet sheet = workbook.getSheetAt(0);
 
             if (String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("consommation")) {
-                for (int i = 1; i < sheet.getPhysicalNumberOfRows()-1; i++) {
-                        Row ro = sheet.getRow(i);
+                for (int i = 1; i < sheet.getPhysicalNumberOfRows() - 1; i++) {
+                    Row ro = sheet.getRow(i);
                     Consommation e = new Consommation(ro.getCell(0).getDateCellValue(), ro.getCell(1).getNumericCellValue());
                     listConsommation.add(e);
                 }
 
             } else if (String.valueOf(sheet.getRow(0).getCell(0).getStringCellValue().trim()).equals("date") && String.valueOf(sheet.getRow(0).getCell(1).getStringCellValue().trim()).equals("heure") && String.valueOf(sheet.getRow(0).getCell(2).getStringCellValue().trim()).equals("consommation")) {
-                for (int i =1; i < sheet.getPhysicalNumberOfRows()-1; i++) {
+                for (int i = 1; i < sheet.getPhysicalNumberOfRows() - 1; i++) {
                     Row ro = sheet.getRow(i);
                     Date date = new Date();
                     Date heure = new Date();
@@ -527,12 +514,6 @@ public class Controller implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-System.out.println(listConsommation.size());
-        for(Consommation con:listConsommation){
-            System.out.println("conso date mensuelle :"+con.getConsommation());
-
-        }
     }
 
     /**
@@ -548,7 +529,8 @@ System.out.println(listConsommation.size());
 
 
     /**
-     * à Faire (vico)
+     * Cette fonction a pour but de remplir la liste "productionTotale". Cette liste represente la liste radiation avec les differents calcul necessaire pour calculer
+     * la production electrique
      */
     public void traitementProduction() {
         productionTotale.clear();
@@ -586,8 +568,6 @@ System.out.println(listConsommation.size());
                     productionTotale.set(i, production);
                     prodInstall = prodInstall + energieFinale;
                 }
-
-               // System.out.println("traitement :" + productionTotale.get(i).getDate());
 
             }
             inst.setProdTotale(prodInstall);

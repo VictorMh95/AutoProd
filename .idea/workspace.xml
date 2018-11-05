@@ -2,10 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/libraryProjetCoelab.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clean.iml" beforeDir="false" afterPath="$PROJECT_DIR$/clean.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/clean/sample/Consommation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/clean/sample/Consommation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/clean/sample/Controller$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/clean/sample/Controller$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/clean/sample/Controller$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/clean/sample/Controller$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/clean/sample/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/clean/sample/Controller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/clean/sample/Installation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/clean/sample/Installation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/clean/sample/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/clean/sample/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/clean/sample/Production.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/clean/sample/Production.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/clean/sample/Second_window.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/clean/sample/Second_window.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/clean/sample/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/clean/sample/sample.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/clean/sample/second_window.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/clean/sample/second_window.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Consommation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Consommation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Installation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Installation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Production.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Production.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Second_window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Second_window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/sample.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/second_window.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/second_window.fxml" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -15,6 +33,11 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/AutoProd$Main.ic" NAME="Main Coverage Results" MODIFIED="1540908674834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>sample.*</FILTER>
+    </SUITE>
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -116,41 +139,49 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="5552319">
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="java" value="1610" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="1610" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="fxml" value="3" />
+          <entry key="java" value="11" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="JAVA" value="11" />
+          <entry key="XML" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="2" />
+          <entry key="project.open.time.13" value="2" />
+          <entry key="project.open.time.14" value="1" />
+          <entry key="project.opened" value="3" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FavoritesManager">
     <favorites_list name="JavaFxApplication" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Consommation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Production.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="24" selection-start-line="24" selection-end-line="24" />
-              <folding>
-                <element signature="e#346#347#0" expanded="true" />
-                <element signature="e#373#374#0" expanded="true" />
-                <element signature="e#413#414#0" expanded="true" />
-                <element signature="e#445#446#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
+        <entry file="file://$PROJECT_DIR$/src/sample/Second_window.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="453">
-              <caret line="265" lean-forward="true" selection-start-line="265" selection-end-line="265" />
+            <state relative-caret-position="-5576">
+              <caret line="160" column="26" lean-forward="true" selection-start-line="160" selection-start-column="26" selection-end-line="160" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -159,25 +190,12 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Installation.java">
+        <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+            <state relative-caret-position="230">
+              <caret line="345" column="5" lean-forward="true" selection-start-line="345" selection-start-column="5" selection-end-line="345" selection-end-column="5" />
               <folding>
-                <element signature="e#1568#1569#0" expanded="true" />
-                <element signature="e#1601#1602#0" expanded="true" />
-                <element signature="e#1652#1653#0" expanded="true" />
-                <element signature="e#1679#1680#0" expanded="true" />
-                <element signature="e#1716#1717#0" expanded="true" />
-                <element signature="e#1751#1752#0" expanded="true" />
-                <element signature="e#1801#1802#0" expanded="true" />
-                <element signature="e#1846#1847#0" expanded="true" />
-                <element signature="e#1896#1897#0" expanded="true" />
-                <element signature="e#1941#1942#0" expanded="true" />
-                <element signature="e#1995#1996#0" expanded="true" />
-                <element signature="e#2044#2045#0" expanded="true" />
-                <element signature="e#2098#2099#0" expanded="true" />
-                <element signature="e#2147#2148#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -191,6 +209,16 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>idNumber</find>
+      <find>ajouter</find>
+      <find>read</find>
+      <find>Read</find>
+      <find>Sy</find>
+      <find>result</find>
+    </findStrings>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -208,13 +236,15 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/sample/Main.java" />
-        <option value="$PROJECT_DIR$/src/sample/sample.fxml" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/sample/Production.java" />
         <option value="$PROJECT_DIR$/src/sample/Consommation.java" />
         <option value="$PROJECT_DIR$/src/sample/Installation.java" />
+        <option value="$PROJECT_DIR$/src/sample/Production.java" />
+        <option value="$PROJECT_DIR$/src/sample/sample.fxml" />
+        <option value="$PROJECT_DIR$/src/sample/second_window.fxml" />
+        <option value="$PROJECT_DIR$/src/sample/Main.java" />
         <option value="$PROJECT_DIR$/src/sample/Controller.java" />
+        <option value="$PROJECT_DIR$/src/sample/Second_window.java" />
       </list>
     </option>
   </component>
@@ -226,8 +256,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="160" />
-    <option name="y" value="-30" />
+    <option name="x" value="-10" />
+    <option name="y" value="-10" />
     <option name="width" value="1615" />
     <option name="height" value="880" />
   </component>
@@ -240,14 +270,23 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="AutoProd" type="b2602c69:ProjectViewProjectNode" />
               <item name="AutoProd" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AutoProd" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AutoProd" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AutoProd" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AutoProd" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AutoProd" type="b2602c69:ProjectViewProjectNode" />
@@ -260,19 +299,12 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="sample" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="AutoProd" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-            <path>
-              <item name="AutoProd" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="libraryProjetCoelab" type="70bed36:NamedLibraryElementNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -285,10 +317,10 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539097532099" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541413941336" />
     <property name="dynamic.classpath" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Projet Co-elab/poi-ooxml-schemas-4.0.0.jar!/" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Projet Co-elab/commons-collections4-4.2.jar!/" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
@@ -391,17 +423,20 @@
       <workItem from="1539092481262" duration="4843000" />
       <workItem from="1539159605773" duration="7355000" />
       <workItem from="1539179053124" duration="4860000" />
+      <workItem from="1541274616528" duration="941000" />
+      <workItem from="1541341597566" duration="934000" />
+      <workItem from="1541412645090" duration="1309000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19137000" />
+    <option name="totallyTimeSpent" value="25625000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.22080536" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.20201342" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -409,8 +444,8 @@
       <window_info id="UI Designer" order="5" />
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32907802" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32907802" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32907802" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -451,13 +486,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -472,61 +500,69 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="148" selection-start-line="148" selection-end-line="148" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Production.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
-          <folding>
-            <element signature="e#346#347#0" expanded="true" />
-            <element signature="e#373#374#0" expanded="true" />
-            <element signature="e#413#414#0" expanded="true" />
-            <element signature="e#445#446#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Consommation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+        <state relative-caret-position="255">
+          <caret line="15" column="46" lean-forward="true" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Installation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+        <state relative-caret-position="731">
+          <caret line="51" column="28" lean-forward="true" selection-start-line="51" selection-start-column="28" selection-end-line="51" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Consommation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="40" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/second_window.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="935">
+          <caret line="55" column="39" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="85" selection-start-line="23" selection-start-column="59" selection-end-line="23" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="43" lean-forward="true" selection-start-line="9" selection-start-column="43" selection-end-line="9" selection-end-column="43" />
           <folding>
-            <element signature="e#1568#1569#0" expanded="true" />
-            <element signature="e#1601#1602#0" expanded="true" />
-            <element signature="e#1652#1653#0" expanded="true" />
-            <element signature="e#1679#1680#0" expanded="true" />
-            <element signature="e#1716#1717#0" expanded="true" />
-            <element signature="e#1751#1752#0" expanded="true" />
-            <element signature="e#1801#1802#0" expanded="true" />
-            <element signature="e#1846#1847#0" expanded="true" />
-            <element signature="e#1896#1897#0" expanded="true" />
-            <element signature="e#1941#1942#0" expanded="true" />
-            <element signature="e#1995#1996#0" expanded="true" />
-            <element signature="e#2044#2045#0" expanded="true" />
-            <element signature="e#2098#2099#0" expanded="true" />
-            <element signature="e#2147#2148#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#687#688#0" expanded="true" />
+            <element signature="e#715#716#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="453">
-          <caret line="265" lean-forward="true" selection-start-line="265" selection-end-line="265" />
+        <state relative-caret-position="230">
+          <caret line="345" column="5" lean-forward="true" selection-start-line="345" selection-start-column="5" selection-end-line="345" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Second_window.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5576">
+          <caret line="160" column="26" lean-forward="true" selection-start-line="160" selection-start-column="26" selection-end-line="160" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -539,11 +575,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
-          <last-edited>JavaFXApp</last-edited>
+          <last-edited>clean:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -598,7 +635,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>libraryProjetCoelab</last-edited>
+          <last-edited>poi-4.0.0</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

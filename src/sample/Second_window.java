@@ -124,12 +124,12 @@ public class Second_window implements Initializable {
 
 
     /**
-     * @param
+     * Cette fonction est appelé a la fin de initData pour remplir les differents champs
      */
 
     @FXML
     public void afficherConso() {
-        Double prodTotale =calculpotentielAnnuel();
+        Double prodTotale = calculpotentielAnnuel();
         displayGraphConsoProd(consommationListe, productionTotaleListe);
         displayGraphEnsoleillement(ensoleillement);
         tableView.setItems(listInstallation);
@@ -369,9 +369,9 @@ public class Second_window implements Initializable {
 
         ConsoProdGraph.getData().addAll(seriesProdB, seriesConsoB);
 
-        for (XYChart.Series<String,Number> s : ConsoProdGraph.getData()){
-            for (XYChart.Data<String,Number> d : s.getData()){
-                Tooltip.install(d.getNode(),new Tooltip("Total: "+d.getYValue().toString()));
+        for (XYChart.Series<String, Number> s : ConsoProdGraph.getData()) {
+            for (XYChart.Data<String, Number> d : s.getData()) {
+                Tooltip.install(d.getNode(), new Tooltip("Total: " + d.getYValue().toString()));
             }
         }
     }
@@ -449,7 +449,7 @@ public class Second_window implements Initializable {
      * @return
      */
     public Double calculTauxAutoCons() {
-        Double utilisée = 0.0;
+        Double utilisee = 0.0;
         Double total = 0.0;
         int taille;
         if (productionTotaleListe.size() > consommationListe.size()) {
@@ -459,7 +459,7 @@ public class Second_window implements Initializable {
         }
         for (int i = 0; i < taille; i++) {
             if (productionTotaleListe.get(i).getProduction() < consommationListe.get(i).getConsommation()) {
-                utilisée = utilisée + productionTotaleListe.get(i).getProduction();
+                utilisee = utilisee + productionTotaleListe.get(i).getProduction();
                 //System.out.println("prod: "+productionTotaleListe.get(i).getProduction()+"   "+"cons: "+consommationListe.get(i).getConsommation());
             }
         }
@@ -467,7 +467,7 @@ public class Second_window implements Initializable {
             total += inst.getProdTotale();
             //System.out.println(total);
         }
-        double tauxAutoCons = (utilisée / total) * 100;
+        double tauxAutoCons = (utilisee / total) * 100;
         // System.out.println(tauxAutoCons);
         return tauxAutoCons;
     }
@@ -483,7 +483,7 @@ public class Second_window implements Initializable {
 
     public Double calculTauxAutoProd() {
         int taille;
-        Double utilisée = 0.0;
+        Double utilisee = 0.0;
         Double total = 0.0;
         if (productionTotaleListe.size() > consommationListe.size()) {
             taille = consommationListe.size();
@@ -492,13 +492,13 @@ public class Second_window implements Initializable {
         }
         for (int i = 0; i < taille; i++) {
             if (productionTotaleListe.get(i).getProduction() < consommationListe.get(i).getConsommation()) {
-                utilisée = utilisée + productionTotaleListe.get(i).getProduction();
+                utilisee = utilisee + productionTotaleListe.get(i).getProduction();
             }
         }
         for (Consommation cons : consommationListe) {
             total = total + cons.getConsommation();
         }
-        double tauxAutoProd = (utilisée / total) * 100;
+        double tauxAutoProd = (utilisee / total) * 100;
         return tauxAutoProd;
     }
 
@@ -511,7 +511,7 @@ public class Second_window implements Initializable {
         return total;
     }
 
-    public String doubleToStringFormatted(Double number){
+    public String doubleToStringFormatted(Double number) {
         DecimalFormat df = new DecimalFormat("###.##");
         return df.format(number);
     }
@@ -524,63 +524,11 @@ public class Second_window implements Initializable {
         return total;
     }
 
-    public Double emissionCo2(Double production){
-        double emission=production*0.027;
+    public Double emissionCo2(Double production) {
+        double emission = production * 0.027;
         return emission;
     }
 
-
-
-    public static final String RESULT
-            = "C:\\Users\\thomas\\Desktop\\Projet Co-elab\\test.png";
-
-/**    @FXML void savePDF(ActionEvent event) throws IOException, DocumentException {
-createPdf(RESULT);
 }
 
 
-public void createPdf(String filename)
-throws DocumentException, IOException {
-WritableImage image = tableView.snapshot(new SnapshotParameters(), null);
-File file = new File(filename);
-try {
-ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-} catch (IOException e) {
-e.printStackTrace();
-}
-}
-
-return total;
-}
- **/
-
-}
-
-
-/**
- * if (consommationListe.get(i).getDate().getMonth() == 0) {
- * janvierN += consommationListe.get(i).getConsommation();
- * } else if (consommationListe.get(i).getDate().getMonth() == 1) {
- * fevrierN += consommationListe.get(i).getConsommation();
- * } else if (consommationListe.get(i).getDate().getMonth() == 2) {
- * marsN += consommationListe.get(i).getConsommation();
- * } else if (consommationListe.get(i).getDate().getMonth() == 3) {
- * avrilN += consommationListe.get(i).getConsommation();
- * } else if (consommationListe.get(i).getDate().getMonth() == 4) {
- * maiN += consommationListe.get(i).getConsommation();
- * } else if (consommationListe.get(i).getDate().getMonth() == 5) {
- * juilletN += consommationListe.get(i).getConsommation();
- * } else if (consommationListe.get(i).getDate().getMonth() == 6) {
- * juilletN += consommationListe.get(i).getConsommation();
- * } else if (consommationListe.get(i).getDate().getMonth() == 7) {
- * aoutN += consommationListe.get(i).getConsommation();
- * } else if (consommationListe.get(i).getDate().getMonth() == 8) {
- * septembreN += consommationListe.get(i).getConsommation();
- * } else if (consommationListe.get(i).getDate().getMonth() == 9) {
- * octobreN += consommationListe.get(i).getConsommation();
- * } else if (consommationListe.get(i).getDate().getMonth() == 10) {
- * novembreN += consommationListe.get(i).getConsommation();
- * } else if (consommationListe.get(i).getDate().getMonth() == 11) {
- * decembreN += consommationListe.get(i).getConsommation();
- * }
- **/
