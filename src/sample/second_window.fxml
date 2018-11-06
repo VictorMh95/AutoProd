@@ -74,7 +74,7 @@
                   <JFXTextField fx:id="date2" editable="false" layoutX="429.0" layoutY="123.0" prefHeight="26.0" prefWidth="96.0" />
                   <Label layoutX="389.0" layoutY="136.0" text="à" />
                   <Label layoutX="479.0" layoutY="195.0" prefHeight="18.0" prefWidth="48.0" text="en kWh" />
-                  <Label layoutX="49.0" layoutY="249.0" prefHeight="20.0" prefWidth="240.0" text="Emission de Co2 évitée :">
+                  <Label fx:id="emissionCO2" layoutX="49.0" layoutY="249.0" prefHeight="20.0" prefWidth="289.0" text="Emissions de Co2 évitées à titre indicatif :">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>

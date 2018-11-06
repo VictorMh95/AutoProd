@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.chart.*;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
@@ -61,6 +62,9 @@ public class Second_window implements Initializable {
 
     @FXML
     private JFXTextField co2;
+    @FXML
+    private Label emissionCO2;
+
 
     @FXML
     private TableView<Installation> tableView;
@@ -137,6 +141,10 @@ public class Second_window implements Initializable {
         TFautoprod.setText(doubleToStringFormatted(calculTauxAutoProd()));
         potentienProdAnnuel.setText(doubleToStringFormatted(prodTotale));
         co2.setText(doubleToStringFormatted(emissionCo2(prodTotale)));
+        co2.setTooltip(new Tooltip("L’estimation du rejet de CO2 évité est aussi à prendre en compte. Selon l’ADEME (Agence de l’environnement et de la maîtrise) en 2015 un panneau photovoltaïque rejette en moyenne 55 grammes de CO2eq par kWh dans son cycle de vie contre 82 grammes de CO2eq par kWh pour le réseau électrique classique français. Une estimation de quantité de CO2eq par kWh est donc possible en ayant " +
+                "la production en kWh des panneaux photovoltaïques de l’installation"));
+        emissionCO2.setTooltip(new Tooltip("L’estimation du rejet de CO2 évité est aussi à prendre en compte. Selon l’ADEME (Agence de l’environnement et de la maîtrise) en 2015 un panneau photovoltaïque rejette en moyenne 55 grammes de CO2eq par kWh dans son cycle de vie contre 82 grammes de CO2eq par kWh pour le réseau électrique classique français. Une estimation de quantité de CO2eq par kWh est donc possible " +
+                "en ayant la production en kWh des panneaux photovoltaïques de l’installation"));
         consBatAnnuel.setText(doubleToStringFormatted(consommationTotaleAnnuel()));
         date1.setText(dateFormat.format(productionTotaleListe.get(0).getDate()));
         date2.setText(dateFormat.format(productionTotaleListe.get(productionTotaleListe.size() - 1).getDate()));
